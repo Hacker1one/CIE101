@@ -77,3 +77,16 @@ void grid::setActiveShape(shape* actShape)
 }
 
 
+shape* grid::getActiveShape() const
+{
+	return activeShape;
+}
+
+void grid::editShapeCount()
+{
+	shapeCount--;
+	if (shapeCount > 0)
+		activeShape = shapeList[shapeCount - 1];
+	else
+		activeShape = nullptr;
+}

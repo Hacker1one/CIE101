@@ -13,9 +13,10 @@ class game
 	/// Add more members if needed
 
 	toolbar* gameToolbar;
-	
+	keytype kt;
 	window* pWind;	//Pointer to the CMU graphics window
 	grid* shapesGrid;
+	char pressedkey;
 
 public:
 	game();
@@ -33,7 +34,7 @@ public:
 
 	//creates an operation according to the toolbar item clicked
 	operation* createRequiredOperation(toolbarItem clickedItem);
-
+	
 
 
 	void run();	//start the game

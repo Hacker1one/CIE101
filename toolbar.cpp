@@ -18,14 +18,22 @@ toolbar::toolbar(game* pG)
 
 	//First prepare List of images for each toolbar item
 	toolbarItemImages[ITM_SIGN] = "images\\toolbarItems\\toolbar_sign.jpg";
-	toolbarItemImages[ITM_CAR] = "images\\toolbarItems\\car.jpg";
+	toolbarItemImages[ITM_PTR] = "images\\toolbarItems\\arrow.jpg";
 	toolbarItemImages[ITM_EXIT] = "images\\toolbarItems\\toolbar_Exit.jpg";
 	toolbarItemImages[ITM_HOUSE] = "images\\toolbarItems\\house.jpg";
-	toolbarItemImages[ITM_ICE] = "images\\toolbarItems\\ice.jpg";
-	toolbarItemImages[ITM_TREE] = "images\\toolbarItems\\tree.jpg";
+	toolbarItemImages[ITM_GUN] = "images\\toolbarItems\\gun.jpg";
+	toolbarItemImages[ITM_MAN] = "images\\toolbarItems\\man.jpg";
 	toolbarItemImages[ITM_HINT] = "images\\toolbarItems\\hint.jpg";
 	toolbarItemImages[ITM_DEL] = "images\\toolbarItems\\del.jpg";
 	toolbarItemImages[ITM_ROT] = "images\\toolbarItems\\rot.jpg";
+	toolbarItemImages[ITM_BALL] = "images\\toolbarItems\\ball.jpg";
+	toolbarItemImages[ITM_BAL] = "images\\toolbarItems\\bal.jpg";
+	toolbarItemImages[ITM_SAVE] = "images\\toolbarItems\\save.jpg";
+	toolbarItemImages[ITM_REF] = "images\\toolbarItems\\ref.jpg";
+	toolbarItemImages[ITM_LOAD] = "images\\toolbarItems\\load.jpg";
+	toolbarItemImages[ITM_INC] = "images\\toolbarItems\\inc.jpg";
+	toolbarItemImages[ITM_DEC] = "images\\toolbarItems\\dec.jpg";
+
 	
 	
 
@@ -84,6 +92,3 @@ toolbarItem toolbar::getItemClicked(int x)
 
 }
 
-void FlipCircle(window* wind, circle* c) {
-	
-}

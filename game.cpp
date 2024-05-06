@@ -65,12 +65,62 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 	operation* op=nullptr;
 	switch (clickedItem)
 	{
+
 	case ITM_SIGN:
 		op = new operAddSign(this);
+		printMessage("you clicked on sign");
 		break;
+	case ITM_BALL:
+		op = new operAddstandingball(this);
+		printMessage("you clicked on Standing ball");
+		break;
+	case ITM_MAN:
+		op = new operAddstrawman(this);
+		printMessage("you clicked on Straw Man");
+		break;
+	case ITM_PTR:
+		op = new operAddpointer(this);
+		printMessage("you clicked on Pointer Towards a Ball");
+		break;
+	case ITM_GUN:
+		op = new operAddgun(this);
+		printMessage("you clicked on Gun");
+		break;
+	case ITM_HOUSE:
+		op = new operAddhouse(this);
+		printMessage("you clicked on House");
+		break;
+	case ITM_BAL:
+		op = new operAddbalance(this);
+		printMessage("you clicked on Balance");
+		break;
+	case ITM_INC:
+		op = new operResizeUp(this);
+		printMessage("you clicked on Resize Up");
+		break;
+	case ITM_DEC:
+		op = new operResizeDown(this);
+		printMessage("you clicked on Resize Down");
+		break;
+	case ITM_DEL:
+		op = new operDelete(this);
+		printMessage("you clicked on Delete");
+		break;
+	case ITM_ROT:
+		op = new operRotate(this);
+		printMessage("you clicked on Rotate");
+		break;
+	case ITM_HINT:
+		op = new operFlip(this);
+		printMessage("you clicked on Flip");
+		break;
+
+
 	}
 	return op;
 }
+
+
 
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -139,13 +189,13 @@ void game::run()
 	{
 		//printMessage("Ready...");
 		//1- Get user click
-		pWind->WaitMouseClick(x, y);	//Get the coordinates of the user click
+		pWind->GetMouseClick(x, y);	//Get the coordinates of the user click
 
 		//2-Explain the user click
 		//If user clicks on the Toolbar, ask toolbar which item is clicked
 		if (y >= 0 && y < config.toolBarHeight)
 		{
-			clickedItem=gameToolbar->getItemClicked(x);
+			clickedItem = gameToolbar->getItemClicked(x);
 
 			//3-create the approp operation accordin to item clicked by the user
 			operation* op = createRequiredOperation(clickedItem);
@@ -155,7 +205,20 @@ void game::run()
 			//4-Redraw the grid after each action
 			shapesGrid->draw();
 
-		}	
+		}
+		kt = pWind->GetKeyPress(pressedkey);
 
-	} while (clickedItem!=ITM_EXIT);
+		if (kt == ARROW) {
+			operation* op2 = nullptr;
+			op2 = new operMove(pressedkey, this);
+			if (op2) {
+				op2->Act();
+				shapesGrid->draw();
+				
+
+			}
+			
+			
+		}
+	} while (clickedItem != ITM_EXIT);
 }

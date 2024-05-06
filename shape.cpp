@@ -8,9 +8,22 @@ shape::shape(game* r_pGame, point ref)
 	pGame = r_pGame;
 	fillColor = config.fillColor;
 	borderColor = config.penColor;
+	flipped = false;
+	rotated = 0;
 }
 
 void shape::setRefPoint(point p)
 {
 	RefPoint = p;
 }
+point shape::getRefPoint() {
+	return RefPoint;
+}
+
+
+
+
+bool shape::GetFlipStatus() {
+	return flipped;
+}
+

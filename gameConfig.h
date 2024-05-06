@@ -7,16 +7,16 @@
 __declspec(selectany) //This line to prevent "redefinition error"
 struct 		
 {
-	int	windWidth = 1200, windHeight = 600,	//Window width and height
+	int	windWidth = 1400, windHeight = 600,	//Window width and height
 		wx = 5, wy = 5,			//Window starting coordinates
 
 		//The window is divded into 3 areas: toolbar, Working area, and statusbar
 		toolBarHeight = 60,		//Tool Bar Height (distance from top of window to bottom line of toolbar)
-		toolbarItemWidth = 70,			//Width of each icon in toolbar
+		toolbarItemWidth = 60,			//Width of each icon in toolbar
 		statusBarHeight = 50,	//Status Bar Height
-		hearts_beg_pos_factor = 28, hearts_width = 35, hearts_height = 35,
-		XscorePosition = 850, YscorePosition = 5,
-		XlevelPosition = 850, YlevelPosition = 35,
+		hearts_beg_pos_factor = 32, hearts_width = 35, hearts_height = 35,
+		XscorePosition = 1000, YscorePosition = 5,
+		XlevelPosition = 1000, YlevelPosition = 35,
 		ScoreLength = 80,LevelLength=80;
 	
 	int remainingHeight = windHeight - toolBarHeight - statusBarHeight;
@@ -46,6 +46,55 @@ struct
 		int baseWdth = 20, baseHeight = 80;
 		int topWdth = 100, topHeight = 50;
 	}sighShape;
+	struct {
+		int sidelength = 50;
+	}blocks;
+	struct {
+		int standlength = 80; int standwidth = 10;
+	}stand;
+	struct {
+		int ballradius = 25;
+	}ball;
+
+	struct {
+		int tipheight = 44;
+		int tipwidth = 50;
+	}tip;
+	struct {
+		int bdylength = 80;
+		int bdywidth = 15;
+	}bdy;
+	struct {
+		int bodyheight = 100;
+		int bodywidth = 100;
+		int legheight = 35;
+		int legwidth = 20;
+		int handwidth = 20;
+		int handlength = 60;
+		int faceradius = 35;
+	}strawman;
+	struct{
+		int BodyLength = 100;
+		int BodyWidth = 25;
+		int BulletRadius = 10;
+		int GetBase = 40;
+		int GetHeight = 50;
+	}Gun;
+	struct {
+		int bodyheight = 100;
+		int bodyLength = 80;
+		int roofheight = 45;
+		int roofwidth = 100;
+	}house;
+
+	struct {
+		int getradius = 25;
+		int getTRIBase = 50;
+		int getTRIheight = 50;
+		int	GetRectHeight = 100;
+		int getRectWidth = 10;
+	}balance;
+
 
 }config;
 
@@ -55,14 +104,20 @@ enum toolbarItem //The items of the  toolbar (you should add more items)
 	//Note: Items are ordered here as they appear in the toolbar
 	//If you want to change the toolbar items order, just change the order here
 	ITM_SIGN,		//Sign shape item
-	ITM_CAR,
+	ITM_PTR,
 	ITM_HOUSE,
-	
-	ITM_TREE,
-	ITM_ICE,
+	ITM_MAN,
+	ITM_GUN,
+	ITM_BALL,
+	ITM_BAL,
 	ITM_HINT,
 	ITM_ROT,
+	ITM_INC,
+	ITM_DEC,
 	ITM_DEL,
+	ITM_SAVE,
+	ITM_LOAD,
+	ITM_REF,
 	
 	
 	ITM_EXIT,
@@ -74,6 +129,7 @@ enum toolbarItem //The items of the  toolbar (you should add more items)
 	ITM_CNT		//no. of toolbar items ==> This should be the last line in this enum
 
 };
+
 
 
 
