@@ -293,12 +293,24 @@ void Triangle::resizeUp()
 {
 	base = base * 2;
 	height = height * 2;
+	vertix1.x = RefPoint.x - 0.5 * height;
+	vertix1.y = RefPoint.y - 0.5 * base;
+	vertix2.x = RefPoint.x - 0.5 * height;
+	vertix2.y = RefPoint.y + 0.5 * base;
+	vertix3.x = RefPoint.x + 0.5 * height;
+	vertix3.y = RefPoint.y;
 
 }
 void Triangle::resizeDown()
 {
 	base = base * 0.5;
 	height = height * 0.5;
+	vertix1.x = RefPoint.x - 0.5 * height;
+	vertix1.y = RefPoint.y - 0.5 * base;
+	vertix2.x = RefPoint.x - 0.5 * height;
+	vertix2.y = RefPoint.y + 0.5 * base;
+	vertix3.x = RefPoint.x + 0.5 * height;
+	vertix3.y = RefPoint.y;
 }
 void Triangle::setnrefr(point newref) {
 	nrefr = newref;
