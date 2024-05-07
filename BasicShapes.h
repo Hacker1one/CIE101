@@ -3,6 +3,7 @@
 #include "shape.h"
 
 
+
 class Rect:public shape
 {
 	int hght, wdth;	//height and width of the recangle

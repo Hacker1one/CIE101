@@ -268,23 +268,34 @@ void Triangle::move(char key) {
 	switch (key) {
 	case 2:                      //Down arrow
 		newRef = { this->getRefPoint().x,this->getRefPoint().y + config.gridSpacing };
-		if (newRef.y + height/ 2 < (config.windHeight - config.statusBarHeight))
 			this->setRefPoint(newRef);
+			vertix1.y += config.gridSpacing;
+			vertix2.y += config.gridSpacing;
+			vertix3.y += config.gridSpacing;
 		break;
 	case 4:                      //Left arrow
 		newRef = { this->getRefPoint().x - config.gridSpacing,this->getRefPoint().y };
-		if (newRef.x -base / 2 > 0)
 			this->setRefPoint(newRef);
+			vertix1.x -= config.gridSpacing;
+			vertix2.x -= config.gridSpacing;
+			vertix3.x -= config.gridSpacing;
+		
+
 		break;
 	case 6:                       //right arrow
 		newRef = { this->getRefPoint().x + config.gridSpacing,this->getRefPoint().y };
-		if (newRef.x + base / 2 < config.windWidth)
 			this->setRefPoint(newRef);
+			vertix1.x += config.gridSpacing;
+			vertix2.x += config.gridSpacing;
+			vertix3.x += config.gridSpacing;
 		break;
 	case 8:                      //Up arrow
 		newRef = { this->getRefPoint().x ,this->getRefPoint().y - config.gridSpacing };
-		if (newRef.y - height > config.toolBarHeight)
 			this->setRefPoint(newRef);
+			vertix1.y -= config.gridSpacing;
+			vertix2.y -= config.gridSpacing;
+			vertix3.y -= config.gridSpacing;
+		
 		break;
 
 	}
@@ -307,14 +318,14 @@ void Triangle::resizeUp()
 	x3 = vertix3.x - RefPoint.x;
 	y3 = vertix3.y - RefPoint.y;
 
-	nx1 = 2 * x1;
-	ny1 = 2 * y1;
+	nx1 = 2*x1;
+	ny1 = 2*y1;
 
-	nx2 = 2 * x2;
-	ny2 = 2 * y2;
+	nx2 = 2*x2;
+	ny2 = 2*y2;
 
-	nx3 = 2 * x3;
-	ny3 = 2 * y3;
+	nx3 = 2*x3;
+	ny3 = 2*y3;
 
 	vertix1.x = RefPoint.x + nx1;
 	vertix1.y = RefPoint.y + ny1;
@@ -324,7 +335,7 @@ void Triangle::resizeUp()
 
 	vertix3.x = RefPoint.x + nx3;
 	vertix3.y = RefPoint.y + ny3;
-
+	
 }
 void Triangle::resizeDown()
 {

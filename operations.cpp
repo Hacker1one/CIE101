@@ -61,11 +61,11 @@ void operAddgun::Act()
 	point signShapeRef = { xGrid,yGrid };
 
 	//create a sign shape
-	/*shape* psh = new Gun(pGame, signShapeRef);*/
+	shape* psh = new Gun(pGame, signShapeRef);
 
 	//Add the shape to the grid
 	grid* pGrid = pGame->getGrid();
-	/*pGrid->setActiveShape(psh);*/
+	pGrid->setActiveShape(psh);
 
 
 
@@ -127,12 +127,12 @@ void operAddstrawman::Act()
 	//take the aligned point as the sign shape ref point
 	point blusblock = { xGrid,yGrid };
 
-	//create a sign shape
-	//shape* psh = new strawman(pGame, blusblock);
 
-	////Add the shape to the grid
-	//grid* pGrid = pGame->getGrid();
-	//pGrid->setActiveShape(psh);
+	shape* psh = new strawman(pGame, blusblock);
+
+	//Add the shape to the grid
+	grid* pGrid = pGame->getGrid();
+	pGrid->setActiveShape(psh);
 
 
 
@@ -279,8 +279,10 @@ operDelete::operDelete(game* r_pGame) :operation(r_pGame)
 void operDelete::Act()
 {
 	window* pw = pGame->getWind();
+
 	grid* pgrid = pGame->getGrid();
-	delete pgrid->getActiveShape();
+	shape* shp = pgrid->getActiveShape();
+	delete shp;
 	pgrid->editShapeCount();
 }
 
