@@ -145,10 +145,10 @@ void Sign::Rotate() {
 		base->Rotate();
 		top->Rotate();
 		rotated = 0;
-
-		
-
 	}
+
+	base->draw();
+	top->draw();
 }
 
 
@@ -208,10 +208,13 @@ void pointerToAball::Rotate() {
 		ptrbdyref = { RefPoint.x, RefPoint.y - (ptrtip->getheight() + Ptrbdy->getwidth()) / 2 };
 		ballref = { RefPoint.x , RefPoint.y + (ptrtip->getheight()) / 2 + ball->getradius() };
 		ptrtipref = RefPoint;
+		
+		ptrtip->setnrefr(ptrtipref);
+
 		Ptrbdy->Rotate();
 		ball->Rotate();
-		
 		ptrtip->Rotate();
+
 		Ptrbdy->setRefPoint(ptrbdyref);
 		ptrtip->setRefPoint(ptrtipref);
 		ball->setRefPoint(ballref);
@@ -225,10 +228,14 @@ void pointerToAball::Rotate() {
 		ptrbdyref = { RefPoint.x + (ptrtip->getheight() + Ptrbdy->getheight()) / 2 , RefPoint.y };
 		ballref = { RefPoint.x - (ptrtip->getheight()) / 2 - ball->getradius(), RefPoint.y };
 		ptrtipref = RefPoint;
+
+		ptrtip->setnrefr(ptrtipref);
+
 		Ptrbdy->Rotate();
 		ball->Rotate();
-		ptrtip->setnrefr(ptrtipref);
 		ptrtip->Rotate();
+
+
 		Ptrbdy->setRefPoint(ptrbdyref);
 		ptrtip->setRefPoint(ptrtipref);
 		ball->setRefPoint(ballref);
@@ -243,10 +250,13 @@ void pointerToAball::Rotate() {
 		ptrbdyref = { RefPoint.x, RefPoint.y + (ptrtip->getheight() + Ptrbdy->getwidth()) / 2 };
 		ballref = { RefPoint.x , RefPoint.y - (ptrtip->getheight()) / 2 - ball->getradius() };
 		ptrtipref = RefPoint;
+
+		ptrtip->setnrefr(ptrtipref);
+
 		Ptrbdy->Rotate();
 		ball->Rotate();
-		ptrtip->setnrefr(ptrtipref);
 		ptrtip->Rotate();
+
 		Ptrbdy->setRefPoint(ptrbdyref);
 		ptrtip->setRefPoint(ptrtipref);
 		ball->setRefPoint(ballref);
@@ -259,10 +269,13 @@ void pointerToAball::Rotate() {
 		ptrbdyref = { RefPoint.x - (ptrtip->getheight()+ Ptrbdy->getheight() )/2,RefPoint.y };
 		ballref = { RefPoint.x + (ptrtip->getheight()) / 2 + ball->getradius() , RefPoint.y };
 		ptrtipref = RefPoint;
+	
+		ptrtip->setnrefr(ptrtipref);
+
 		Ptrbdy->Rotate();
 		ball->Rotate();
-		ptrtip->setnrefr(ptrtipref);
 		ptrtip->Rotate();
+
 		Ptrbdy->setRefPoint(ptrbdyref);
 		ptrtip->setRefPoint(ptrtipref);
 		ball->setRefPoint(ballref);
@@ -270,7 +283,9 @@ void pointerToAball::Rotate() {
 		rotated = 0;
 		
 	}
-
+	Ptrbdy->draw();
+	ball->draw();
+	ptrtip->draw();
 
 }
 ShapeType pointerToAball::getShapeType() const
@@ -454,10 +469,11 @@ void standingball::Rotate() {
 
 		stand->setRefPoint(standref);
 		ball->setRefPoint(ballref);
+		
 		stand->Rotate();
-
+		
 		rotated += 1;
-
+		
 
 
 	}
@@ -501,7 +517,8 @@ void standingball::Rotate() {
 		rotated = 0;
 
 	}
-
+	stand->draw();
+	ball->draw();
 }
 ShapeType standingball::getShapeType() const
 {
@@ -647,22 +664,25 @@ void strawman::Rotate() {
 
 		hand1->setRefPoint(hand1ref);
 		hand2->setRefPoint(hand2ref);
-		Leg1->setRefPoint(leg1ref);
-		Leg2->setRefPoint(leg2ref);
+
+		Leg1->setnrefr(leg1ref);
+		Leg2->setnrefr(leg2ref);
+		body->setnrefr(bodyref);
+
 		Face->setRefPoint(faceref);
-		body->setRefPoint(bodyref);
+		
 		body->Rotate();
 		hand1->Rotate();
 		hand2->Rotate();
 		Leg1->Rotate();
 		Leg2->Rotate();
-		Face->Rotate();
 
+		Leg1->setRefPoint(leg1ref);
+		Leg2->setRefPoint(leg2ref);
+		body->setRefPoint(bodyref);
 
 		rotated += 1;
 
-
-	
 
 	}
 	else if (rotated == 1)
@@ -677,22 +697,25 @@ void strawman::Rotate() {
 
 		hand1->setRefPoint(hand1ref);
 		hand2->setRefPoint(hand2ref);
-		Leg1->setRefPoint(leg1ref);
-		Leg2->setRefPoint(leg2ref);
+
+		Leg1->setnrefr(leg1ref);
+		Leg2->setnrefr(leg2ref);
+		body->setnrefr(bodyref);
+
 		Face->setRefPoint(faceref);
-		body->setRefPoint(bodyref);
+
 		body->Rotate();
 		hand1->Rotate();
 		hand2->Rotate();
 		Leg1->Rotate();
 		Leg2->Rotate();
-		Face->Rotate();;
 
+		Leg1->setRefPoint(leg1ref);
+		Leg2->setRefPoint(leg2ref);
+		body->setRefPoint(bodyref);
 
 		rotated += 1;
 
-
-	
 
 
 	}
@@ -706,22 +729,26 @@ void strawman::Rotate() {
 		leg2ref = { RefPoint.x + (body->getheight()) / 2, RefPoint.y + hand1->getwidth() / 4 };
 		faceref = { RefPoint.x - (Face->getradius() + body->getheight()) / 2 ,RefPoint.y };
 
-		rotated += 1;
-
 		hand1->setRefPoint(hand1ref);
 		hand2->setRefPoint(hand2ref);
-		Leg1->setRefPoint(leg1ref);
-		Leg2->setRefPoint(leg2ref);
+
+		Leg1->setnrefr(leg1ref);
+		Leg2->setnrefr(leg2ref);
+		body->setnrefr(bodyref);
+
 		Face->setRefPoint(faceref);
-		body->setRefPoint(bodyref);
+
 		body->Rotate();
 		hand1->Rotate();
 		hand2->Rotate();
 		Leg1->Rotate();
 		Leg2->Rotate();
-		Face->Rotate();
-		
 
+		Leg1->setRefPoint(leg1ref);
+		Leg2->setRefPoint(leg2ref);
+		body->setRefPoint(bodyref);
+
+		rotated += 1;
 
 	}
 	else if (rotated == 3)
@@ -738,18 +765,30 @@ void strawman::Rotate() {
 
 		hand1->setRefPoint(hand1ref);
 		hand2->setRefPoint(hand2ref);
-		Leg1->setRefPoint(leg1ref);
-		Leg2->setRefPoint(leg2ref);
+
+		Leg1->setnrefr(leg1ref);
+		Leg2->setnrefr(leg2ref);
+		body->setnrefr(bodyref);
+
 		Face->setRefPoint(faceref);
-		body->setRefPoint(bodyref);
+
 		body->Rotate();
 		hand1->Rotate();
 		hand2->Rotate();
 		Leg1->Rotate();
 		Leg2->Rotate();
-		Face->Rotate();
-	}
 
+		Leg1->setRefPoint(leg1ref);
+		Leg2->setRefPoint(leg2ref);
+		body->setRefPoint(bodyref);
+
+	}
+	body->draw();
+	hand1->draw();
+	hand2->draw();
+	Leg1->draw();
+	Leg2->draw();
+	Face->draw();
 }
 ShapeType strawman::getShapeType() const
 {
@@ -920,14 +959,15 @@ void Gun::Rotate() {
 		body->setRefPoint(bodyref);
 		bullet1->setRefPoint(bullet1ref);
 		bullet2->setRefPoint(bullet2ref);
-		hand->setRefPoint(handref);
+		hand->setnrefr(handref);
+		
+		
 		body->Rotate();
 		hand->Rotate();
 
 		rotated += 1;
 
-		
-
+		hand->setRefPoint(handref);
 
 	}
 	else if (rotated == 1)
@@ -938,16 +978,19 @@ void Gun::Rotate() {
 		bullet2ref = { RefPoint.x - 3 * body->getwidth() / 2, RefPoint.y };
 		handref = { RefPoint.x + (body->getwidth() / 2 - config.Gun.GetHeight / 2), RefPoint.y - (config.Gun.GetBase / 2 + config.Gun.BodyWidth / 2) };
 
+
 		body->setRefPoint(bodyref);
 		bullet1->setRefPoint(bullet1ref);
 		bullet2->setRefPoint(bullet2ref);
-		hand->setRefPoint(handref);
+		hand->setnrefr(handref);
+		
+		
 		body->Rotate();
 		hand->Rotate();
 
 		rotated += 1;
 
-
+		hand->setRefPoint(handref);
 
 
 	}
@@ -963,15 +1006,16 @@ void Gun::Rotate() {
 		body->setRefPoint(bodyref);
 		bullet1->setRefPoint(bullet1ref);
 		bullet2->setRefPoint(bullet2ref);
-		hand->setRefPoint(handref);
+		hand->setnrefr(handref);
+
+		
 		body->Rotate();
 		hand->Rotate();
 
 
 		rotated += 1;
 
-
-
+		hand->setRefPoint(handref);
 
 	}
 	else if (rotated == 3)
@@ -984,15 +1028,21 @@ void Gun::Rotate() {
 		body->setRefPoint(bodyref);
 		bullet1->setRefPoint(bullet1ref);
 		bullet2->setRefPoint(bullet2ref);
-		hand->setRefPoint(handref);
+		hand->setnrefr(handref);
+
 		body->Rotate();
 		hand->Rotate();
 
 		rotated = 0;
 
-		
+		hand->setRefPoint(handref);
 
 	}
+
+	body->draw();
+	bullet1->draw();
+	bullet2->draw();
+	hand->draw();
 }
 ShapeType Gun::getShapeType()const
 {
@@ -1124,9 +1174,15 @@ void house::Rotate() {
 		roofref = { RefPoint.x + (config.house.bodyheight + config.house.roofheight) / 2, RefPoint.y };
 
 		body->setRefPoint(bodyref);
-		roof->setRefPoint(roofref);
+		roof->setnrefr(roofref);
 
 		rotated += 1;
+
+
+		body->Rotate();
+		roof->Rotate();
+
+		roof->setRefPoint(roofref);
 
 	}
 	else if (rotated == 1)
@@ -1136,10 +1192,15 @@ void house::Rotate() {
 		roofref = { RefPoint.x , RefPoint.y + (config.house.bodyheight + config.house.roofheight) / 2 };
 
 		body->setRefPoint(bodyref);
-		roof->setRefPoint(roofref);
+		roof->setnrefr(roofref);
 
 		rotated += 1;
 
+
+		body->Rotate();
+		roof->Rotate();
+
+		roof->setRefPoint(roofref);
 	}
 	else if (rotated == 2)
 	{
@@ -1147,21 +1208,37 @@ void house::Rotate() {
 		roofref = { RefPoint.x - (config.house.bodyheight + config.house.roofheight) / 2, RefPoint.y };
 
 		body->setRefPoint(bodyref);
-		roof->setRefPoint(roofref);
+		roof->setnrefr(roofref);
 
 		rotated += 1;
+
+
+		body->Rotate();
+		roof->Rotate();
+
+		roof->setRefPoint(roofref);
 
 	}
 	else if (rotated == 3)
 	{
-		this->draw();
+		bodyref = RefPoint;
+		roofref = { RefPoint.x , RefPoint.y - (config.house.bodyheight + config.house.roofheight) / 2 };
+
+		body->setRefPoint(bodyref);
+		roof->setnrefr(roofref);
+
 		rotated = 0;
+
+		body->Rotate();
+		roof->Rotate();
+
+		roof->setRefPoint(roofref);
 	}
-
-
 	body->draw();
 	roof->draw();
 }
+
+
 ShapeType house::getShapeType()const
 {
 	return HOS;
@@ -1269,9 +1346,15 @@ void balance::Rotate() {
 
 		rec->setRefPoint(recRef);
 		circ->setRefPoint(circRef);
-		tri->setRefPoint(triRef);
+		tri->setnrefr(triRef);
 
 		rotated += 1;
+
+
+		rec->Rotate();
+		tri->Rotate();
+
+		tri->setRefPoint(triRef);
 
 	}
 	else if (rotated == 1)
@@ -1283,9 +1366,15 @@ void balance::Rotate() {
 
 		rec->setRefPoint(recRef);
 		circ->setRefPoint(circRef);
-		tri->setRefPoint(triRef);
+		tri->setnrefr(triRef);
 
 		rotated += 1;
+
+
+		rec->Rotate();
+		tri->Rotate();
+
+		tri->setRefPoint(triRef);
 
 	}
 	else if (rotated == 2)
@@ -1296,9 +1385,15 @@ void balance::Rotate() {
 
 		rec->setRefPoint(recRef);
 		circ->setRefPoint(circRef);
-		tri->setRefPoint(triRef);
+		tri->setnrefr(triRef);
 
 		rotated += 1;
+
+
+		rec->Rotate();
+		tri->Rotate();
+
+		tri->setRefPoint(triRef);
 
 	}
 	else if (rotated == 3)
@@ -1309,6 +1404,11 @@ void balance::Rotate() {
 
 		rec->setRefPoint(recRef);
 		circ->setRefPoint(circRef);
+		tri->setnrefr(triRef);
+
+		rec->Rotate();
+		tri->Rotate();
+
 		tri->setRefPoint(triRef);
 		rotated = 0;
 	}
