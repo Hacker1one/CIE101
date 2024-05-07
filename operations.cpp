@@ -279,10 +279,8 @@ operDelete::operDelete(game* r_pGame) :operation(r_pGame)
 void operDelete::Act()
 {
 	window* pw = pGame->getWind();
-
 	grid* pgrid = pGame->getGrid();
-	shape* shp = pgrid->getActiveShape();
-	delete shp;
+	pgrid->deleteActiveShape();
 	pgrid->editShapeCount();
 }
 
