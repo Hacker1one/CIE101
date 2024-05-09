@@ -190,11 +190,11 @@ void operAddhouse::Act()
 	point blusblock = { xGrid,yGrid };
 
 	//create a sign shape
-	//shape* psh = new house(pGame, blusblock);
+	shape* psh = new house(pGame, blusblock);
 
 	////Add the shape to the grid
-	//grid* pGrid = pGame->getGrid();
-	//pGrid->setActiveShape(psh);
+	grid* pGrid = pGame->getGrid();
+	pGrid->setActiveShape(psh);
 
 
 
@@ -221,11 +221,11 @@ void operAddbalance::Act()
 	point blusblock = { xGrid,yGrid };
 
 	//create a sign shape
-	//shape* psh = new Triangle(pGame, blusblock, 40 ,50);
+	shape* psh = new balance(pGame, blusblock);
 
 	////Add the shape to the grid
-	//grid* pGrid = pGame->getGrid();
-	//pGrid->setActiveShape(psh);
+	grid* pGrid = pGame->getGrid();
+	pGrid->setActiveShape(psh);
 
 
 
@@ -279,8 +279,10 @@ operDelete::operDelete(game* r_pGame) :operation(r_pGame)
 void operDelete::Act()
 {
 	window* pw = pGame->getWind();
+
 	grid* pgrid = pGame->getGrid();
-	pgrid->deleteActiveShape();
+	shape* shp = pgrid->getActiveShape();
+	delete shp;
 	pgrid->editShapeCount();
 }
 
