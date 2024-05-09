@@ -90,3 +90,7 @@ void grid::editShapeCount()
 	else
 		activeShape = nullptr;
 }
+void grid::deleteActiveShape()
+{
+	delete activeShape;
+}
