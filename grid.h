@@ -27,5 +27,6 @@ public:
 	void setActiveShape(shape* actShape);
 	shape* getActiveShape() const;
 	void editShapeCount();
+	void deleteActiveShape();
 };
 
