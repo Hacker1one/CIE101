@@ -38,6 +38,7 @@ protected:
 	color borderColor;	//shape border color
 	bool flipped;
 	int rotated ;
+int resized;
 	int axis;
 public:
 	shape(game* r_pGame, point ref);
