@@ -1777,6 +1777,7 @@ void house::move(char key) {
 
 		if (newRef.y + body->getheight() / 2 < (config.windHeight - config.statusBarHeight)) {
 			this->setRefPoint(newRef);
+
 			bodyref.y += config.gridSpacing;
 			roof->move(key);
 		}
@@ -1810,10 +1811,11 @@ void house::move(char key) {
 }
 void house::resizeUp()
 {
-	body->resizeUp();
-	roof->resizeUp();
+	body->resizeUp();		
+	roof->dbah();
 	resized++;
-	point newRef;
+
+point newRef;
 		newRef = { this->getRefPoint().x,this->getRefPoint().y + config.gridSpacing };
 if (newRef.y + body->getheight() / 2 > (config.windHeight - config.statusBarHeight)) {
 	body->resizeDown();
@@ -1838,21 +1840,27 @@ if (newRef.y + body->getheight() / 2 > (config.windHeight - config.statusBarHeig
 			roof->resizeDown();
 			resized--;
 		}
+
 	if (rotated == 1)
 	{
 
 		bodyref = RefPoint;
-		roofref = { RefPoint.x + (body->getheight() + roof->getheight()) / 2, RefPoint.y };
+		roofref = { RefPoint.x + (body->getwidth() + roof->getheight()) / 2 , RefPoint.y };
+		
+		roof->setnrefr(roofref);
+		roof->resizeUp();
 
 		body->setRefPoint(bodyref);
 		roof->setRefPoint(roofref);
-
 	}
 	else if (rotated == 2)
 	{
 
 		bodyref = RefPoint;
 		roofref = { RefPoint.x , RefPoint.y + (body->getheight() + roof->getheight()) / 2 };
+
+		roof->setnrefr(roofref);
+		roof->resizeUp();
 
 		body->setRefPoint(bodyref);
 		roof->setRefPoint(roofref);
@@ -1861,7 +1869,10 @@ if (newRef.y + body->getheight() / 2 > (config.windHeight - config.statusBarHeig
 	else if (rotated == 3)
 	{
 		bodyref = RefPoint;
-		roofref = { RefPoint.x - (body->getheight() + roof->getheight()) / 2, RefPoint.y };
+		roofref = { RefPoint.x - (body->getwidth() + roof->getheight()) / 2, RefPoint.y };
+		
+		roof->setnrefr(roofref);
+		roof->resizeUp();
 
 		body->setRefPoint(bodyref);
 		roof->setRefPoint(roofref);
@@ -1871,20 +1882,29 @@ if (newRef.y + body->getheight() / 2 > (config.windHeight - config.statusBarHeig
 	{
 		bodyref = RefPoint;
 		roofref = { RefPoint.x , RefPoint.y - (body->getheight() / 2 + roof->getheight() / 2) };
+		
+		roof->setnrefr(roofref);
+		roof->resizeUp();
+
 		body->setRefPoint(bodyref);
 		roof->setRefPoint(roofref);
 	}
+
+	
 }
 void house::resizeDown()
 {
 	body->resizeDown();
-	roof->resizeDown();
+	roof->hbah();
 	resized--;
 	if (rotated == 1)
 	{
 
 		bodyref = RefPoint;
 		roofref = { RefPoint.x + (body->getheight() + roof->getheight()) / 2, RefPoint.y };
+		
+		roof->setnrefr(roofref);
+		roof->resizeDown();
 
 		body->setRefPoint(bodyref);
 		roof->setRefPoint(roofref);
@@ -1896,6 +1916,9 @@ void house::resizeDown()
 		bodyref = RefPoint;
 		roofref = { RefPoint.x , RefPoint.y + (body->getheight() + roof->getheight()) / 2 };
 
+		roof->setnrefr(roofref);
+		roof->resizeDown();
+
 		body->setRefPoint(bodyref);
 		roof->setRefPoint(roofref);
 
@@ -1905,6 +1928,9 @@ void house::resizeDown()
 		bodyref = RefPoint;
 		roofref = { RefPoint.x - (body->getheight() + roof->getheight()) / 2, RefPoint.y };
 
+		roof->setnrefr(roofref);
+		roof->resizeDown();
+
 		body->setRefPoint(bodyref);
 		roof->setRefPoint(roofref);
 
@@ -1913,10 +1939,14 @@ void house::resizeDown()
 	{
 		bodyref = RefPoint;
 		roofref = { RefPoint.x , RefPoint.y - (body->getheight() / 2 + roof->getheight() / 2) };
+
+		roof->setnrefr(roofref);
+		roof->resizeDown();
+
 		body->setRefPoint(bodyref);
 		roof->setRefPoint(roofref);
 	}
-
+	
 }
 
 

@@ -55,6 +55,7 @@ int Rect::getwidth()
 {
 	return wdth;
 }
+
 void Rect::resizeUp()
 {
 	wdth = wdth * 2;
@@ -252,6 +253,7 @@ void Triangle::Rotate() {
 
 
 }
+
 ShapeType Triangle::getShapeType() const
 {
 	return TRI;
@@ -272,7 +274,6 @@ void Triangle::move(char key) {
 			vertix1.x -= config.gridSpacing;
 			vertix2.x -= config.gridSpacing;
 			vertix3.x -= config.gridSpacing;
-		
 
 		break;
 	case 6:                       //right arrow
@@ -293,10 +294,20 @@ void Triangle::move(char key) {
 
 	}
 }
-void Triangle::resizeUp()
+void Triangle::dbah()
 {
 	base = base * 2;
 	height = height * 2;
+}
+
+void Triangle::hbah()
+{
+	base = base * 0.5;
+	height = height * 0.5;
+}
+
+void Triangle::resizeUp()
+{
 
 	int x1, y1, x2, y2, x3, y3;
 	int nx1, ny1, nx2, ny2, nx3, ny3;
@@ -320,20 +331,18 @@ void Triangle::resizeUp()
 	nx3 = 2*x3;
 	ny3 = 2*y3;
 
-	vertix1.x = RefPoint.x + nx1;
-	vertix1.y = RefPoint.y + ny1;
+	vertix1.x = nrefr.x + nx1;
+	vertix1.y = nrefr.y + ny1;
 
-	vertix2.x = RefPoint.x + nx2;
-	vertix2.y = RefPoint.y + ny2;
+	vertix2.x = nrefr.x + nx2;
+	vertix2.y = nrefr.y + ny2;
 
-	vertix3.x = RefPoint.x + nx3;
-	vertix3.y = RefPoint.y + ny3;
+	vertix3.x = nrefr.x + nx3;
+	vertix3.y = nrefr.y + ny3;
 	
 }
 void Triangle::resizeDown()
 {
-	base = base * 0.5;
-	height = height * 0.5;
 	int x1, y1, x2, y2, x3, y3;
 	int nx1, ny1, nx2, ny2, nx3, ny3;
 
@@ -356,14 +365,14 @@ void Triangle::resizeDown()
 	nx3 = 0.5 * x3;
 	ny3 = 0.5 * y3;
 
-	vertix1.x = RefPoint.x + nx1;
-	vertix1.y = RefPoint.y + ny1;
+	vertix1.x = nrefr.x + nx1;
+	vertix1.y = nrefr.y + ny1;
 
-	vertix2.x = RefPoint.x + nx2;
-	vertix2.y = RefPoint.y + ny2;
+	vertix2.x = nrefr.x + nx2;
+	vertix2.y = nrefr.y + ny2;
 
-	vertix3.x = RefPoint.x + nx3;
-	vertix3.y = RefPoint.y + ny3;
+	vertix3.x = nrefr.x + nx3;
+	vertix3.y = nrefr.y + ny3;
 
 }
 void Triangle::setnrefr(point newref) {
