@@ -138,3 +138,15 @@ void toolbar::dscorelevel()
 	pWind->DrawString(config.XlevelPosition, config.YlevelPosition, "Level = ");
 	pWind->DrawInteger(config.XlevelPosition + config.LevelLength, config.YlevelPosition, level);
 }
+int toolbar::getLives() const
+{
+	return num_lives;
+}
+int toolbar::getLevel() const
+{
+	return level;
+}
+int toolbar::getScore() const
+{
+	return score;
+}

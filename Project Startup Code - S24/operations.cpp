@@ -2,6 +2,8 @@
 #include "game.h"
 #include "CompositeShapes.h"
 #include "gameConfig.h"
+#include "fstream"
+using namespace std;
 
 /////////////////////////////////// class operation  //////////////////
 operation::operation(game* r_pGame)
@@ -330,3 +332,19 @@ void operexit::Act()
 {
 
 }
+operSave::operSave(game* r_pGame) : operation(r_pGame)
+{
+}
+void operSave::Act()
+{
+	int lev = pGame->getToolbar()->getLevel();
+	int life = pGame->getToolbar()->getLives();
+	int scre = pGame->getToolbar()->getScore();
+	ofstream outfile;
+	outfile.open("progress.txt");
+	outfile << scre << "\n" << lev << "\n" << life << "\n";
+	pGame->getGrid()->SaveShapes(outfile);
+	outfile.close();
+}
+
+

@@ -183,6 +183,10 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 		op = new operexit(this);
 		printMessage("You selected on Exit");
 		break;
+	case ITM_SAVE:
+		op = new operSave(this);
+		printMessage("you clicked on Save");
+		break;
 
 	}
 	return op;
@@ -239,6 +243,10 @@ grid* game::getGrid() const
 {
 	// TODO: Add your implementation code here.
 	return shapesGrid;
+}
+toolbar* game::getToolbar() const
+{
+	return gameToolbar;
 }
 
 

@@ -1,7 +1,8 @@
 #include "grid.h"
 #include "game.h"
 #include "gameConfig.h"
-
+#include "fstream"
+using namespace std;
 
 grid::grid(point r_uprleft, int wdth, int hght, game* pG)
 {
@@ -81,7 +82,6 @@ shape* grid::getActiveShape() const
 {
 	return activeShape;
 }
-
 void grid::editShapeCount()
 {
 	shapeCount--;
@@ -93,4 +93,11 @@ void grid::editShapeCount()
 void grid::deleteActiveShape()
 {
 	delete activeShape;
+}
+void grid::SaveShapes(ofstream& OutFile)
+{
+	for (int i = 0; i < shapeCount; i++)
+	{
+		shapeList[i]->save(OutFile);
+	}
 }

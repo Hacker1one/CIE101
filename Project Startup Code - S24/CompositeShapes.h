@@ -13,8 +13,9 @@ public:
 	virtual void draw() ;
 	virtual ShapeType getShapeType() const;
 	virtual void move(char);
-	virtual void resizeUp();
-	virtual void resizeDown();
+	virtual void resizeUp() override;
+	virtual void resizeDown() override;
+	virtual void save(ofstream& OutFile) override;
 	virtual void Rotate() override;
 	virtual void Flip() override;
 };
@@ -34,8 +35,9 @@ public:
 	virtual void draw();
 	virtual ShapeType getShapeType() const;
 	virtual void move(char);
-	virtual void resizeUp();
-	virtual void resizeDown();
+	virtual void resizeUp() override;
+	virtual void resizeDown() override;
+	virtual void save(ofstream& OutFile) override;
 	virtual void Flip();
 	virtual void Rotate() override;
 };
@@ -53,8 +55,9 @@ public:
 	
 	virtual ShapeType getShapeType() const;
 	virtual void move(char);
-	virtual void resizeUp();
-	virtual void resizeDown();
+	virtual void resizeUp() override;
+	virtual void resizeDown() override;
+	virtual void save(ofstream& OutFile) override;
 	virtual void Flip();
 	virtual void Rotate() override;
 };
@@ -71,8 +74,9 @@ public:
 	virtual void draw();
 	virtual ShapeType getShapeType() const;
 	virtual void move(char);
-	virtual void resizeUp();
-	virtual void resizeDown();
+	virtual void resizeUp() override;
+	virtual void resizeDown() override;
+	virtual void save(ofstream& OutFile) override;
 	virtual void Flip();
 	virtual void Rotate() override;
 };
@@ -92,8 +96,9 @@ public:
 	virtual void draw();
 	virtual ShapeType getShapeType() const;
 	virtual void move(char);
-	virtual void resizeUp();
-	virtual void resizeDown();
+	virtual void resizeUp() override;
+	virtual void resizeDown() override;
+	virtual void save(ofstream& OutFile) override;
 	virtual void Flip();
 	virtual void Rotate() override;
 };
@@ -111,8 +116,9 @@ public:
 	virtual void draw();
 	virtual ShapeType getShapeType() const;
 	virtual void move(char);
-	virtual void resizeUp();
-	virtual void resizeDown();
+	virtual void resizeUp() override;
+	virtual void resizeDown() override;
+	virtual void save(ofstream& OutFile) override;
 	virtual void Flip();
 	virtual void Rotate() override;
 };
@@ -130,8 +136,9 @@ public:
 	virtual void draw();
 	virtual ShapeType getShapeType() const;
 	virtual void move(char);
-	virtual void resizeUp();
-	virtual void resizeDown();
+	virtual void resizeUp() override;
+	virtual void resizeDown() override;
+	virtual void save(ofstream& OutFile) override;
 	virtual void Flip();
 	virtual void Rotate() override;
 };

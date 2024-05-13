@@ -16,5 +16,8 @@ public:
 	void setlevel(int l);
 	void dscorelevel();
 	void dsteps();
+	int getLives() const;
+	int getLevel() const;
+	int getScore() const;
 };
 

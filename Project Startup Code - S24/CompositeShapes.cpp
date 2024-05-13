@@ -1,6 +1,8 @@
 #include "CompositeShapes.h"
 #include "shape.h"
 #include "gameConfig.h"
+#include "fstream"
+using namespace std;
 
 ////////////////////////////////////////////////////  class Sign  ///////////////////////////////////////
 Sign::Sign(game* r_pGame, point ref):shape(r_pGame, ref)
@@ -23,6 +25,11 @@ void Sign::draw()
 	
 	
 		
+}
+void Sign::save(ofstream& OutFile)
+{
+	OutFile.open("progress.txt");
+	OutFile << SIGN << "\n" << topRef.x << "\n" << topRef.y << "\n" << fillColor.ucRed << "\n" << fillColor.ucGreen << "\n" << fillColor.ucBlue << "\n" << resized << "\n" << rotated << "\n";
 }
 void Sign::Flip() {
 	if (!flipped) {
@@ -267,6 +274,10 @@ void pointerToAball::draw()
 	Ptrbdy->draw();
 	ball->draw();
 	ptrtip->draw();
+}
+void pointerToAball::save(ofstream& OutFile)
+{
+	OutFile << POINTER << "\n" << ptrtipref.x << "\n" << ptrtipref.y << "\n" << fillColor.ucRed << "\n" << fillColor.ucGreen << "\n" << fillColor.ucBlue << "\n" << resized << "\n" << rotated << "\n";
 }
 void pointerToAball::Flip() {
 	if (!flipped) {
@@ -558,6 +569,11 @@ void  standingball::draw() {
 	
 
 }
+void standingball::save(ofstream& OutFile)
+{
+	OutFile << STDBALL << "\n" << standref.x << "\n" << standref.y << "\n" << fillColor.ucRed << "\n" << fillColor.ucGreen << "\n" << fillColor.ucBlue << "\n" << resized << "\n" << rotated << "\n";
+}
+
 void standingball::Flip () {
 	if (!flipped) {
 		axis = RefPoint.x - stand->getwidth() / 2;
@@ -717,6 +733,7 @@ void standingball::resizeUp() {
 			standref = RefPoint;
 			ballref = { standref.x + (stand->getwidth() / 2 + ball->getradius()) , standref.y };
 
+
 			stand->setRefPoint(standref);
 			ball->setRefPoint(ballref);
 			stand->Rotate();
@@ -828,6 +845,10 @@ void strawman::draw()
 	Leg1->draw();
 	Leg2->draw();
 	Face->draw();
+}
+void strawman::save(ofstream& OutFile)
+{
+	OutFile << MAN << "\n" << bodyref.x << "\n" << bodyref.y << "\n" << fillColor.ucRed << "\n" << fillColor.ucGreen << "\n" << fillColor.ucBlue << "\n" << resized << "\n" << rotated << "\n";
 }
 void strawman::Flip() {
 	if (!flipped) {
@@ -1313,6 +1334,10 @@ void Gun::draw()
 	hand->draw();
 	
 }
+void Gun::save(ofstream& OutFile)
+{
+	OutFile << GUN << "\n" << bodyref.x << "\n" << bodyref.y << "\n" << fillColor.ucRed << "\n" << fillColor.ucGreen << "\n" << fillColor.ucBlue << "\n" << resized << "\n" << rotated << "\n";
+}
 void Gun::Flip() {
 	if (!flipped) {
 		axis = RefPoint.x - body->getwidth();
@@ -1666,6 +1691,10 @@ void house::draw()
 	roof->draw();
 
 }
+void house::save(ofstream& OutFile)
+{
+	OutFile << HOS << "\n" << bodyref.x << "\n" << bodyref.y << "\n" << fillColor.ucRed << "\n" << fillColor.ucGreen << "\n" << fillColor.ucBlue << "\n" << resized << "\n" << rotated << "\n";
+}
 void house::Flip()
 {
 
@@ -1777,7 +1806,6 @@ void house::move(char key) {
 
 		if (newRef.y + body->getheight() / 2 < (config.windHeight - config.statusBarHeight)) {
 			this->setRefPoint(newRef);
-
 			bodyref.y += config.gridSpacing;
 			roof->move(key);
 		}
@@ -1811,11 +1839,10 @@ void house::move(char key) {
 }
 void house::resizeUp()
 {
-	body->resizeUp();		
-	roof->dbah();
+	body->resizeUp();
+	roof->resizeUp();
 	resized++;
-
-point newRef;
+	point newRef;
 		newRef = { this->getRefPoint().x,this->getRefPoint().y + config.gridSpacing };
 if (newRef.y + body->getheight() / 2 > (config.windHeight - config.statusBarHeight)) {
 	body->resizeDown();
@@ -1840,71 +1867,11 @@ if (newRef.y + body->getheight() / 2 > (config.windHeight - config.statusBarHeig
 			roof->resizeDown();
 			resized--;
 		}
-
-	if (rotated == 1)
-	{
-
-		bodyref = RefPoint;
-		roofref = { RefPoint.x + (body->getwidth() + roof->getheight()) / 2 , RefPoint.y };
-		
-		roof->setnrefr(roofref);
-		roof->resizeUp();
-
-		body->setRefPoint(bodyref);
-		roof->setRefPoint(roofref);
-	}
-	else if (rotated == 2)
-	{
-
-		bodyref = RefPoint;
-		roofref = { RefPoint.x , RefPoint.y + (body->getheight() + roof->getheight()) / 2 };
-
-		roof->setnrefr(roofref);
-		roof->resizeUp();
-
-		body->setRefPoint(bodyref);
-		roof->setRefPoint(roofref);
-
-	}
-	else if (rotated == 3)
-	{
-		bodyref = RefPoint;
-		roofref = { RefPoint.x - (body->getwidth() + roof->getheight()) / 2, RefPoint.y };
-		
-		roof->setnrefr(roofref);
-		roof->resizeUp();
-
-		body->setRefPoint(bodyref);
-		roof->setRefPoint(roofref);
-
-	}
-	else if (rotated == 0)
-	{
-		bodyref = RefPoint;
-		roofref = { RefPoint.x , RefPoint.y - (body->getheight() / 2 + roof->getheight() / 2) };
-		
-		roof->setnrefr(roofref);
-		roof->resizeUp();
-
-		body->setRefPoint(bodyref);
-		roof->setRefPoint(roofref);
-	}
-
-	
-}
-void house::resizeDown()
-{
-	body->resizeDown();
-	roof->hbah();
-	resized--;
 	if (rotated == 1)
 	{
 
 		bodyref = RefPoint;
 		roofref = { RefPoint.x + (body->getheight() + roof->getheight()) / 2, RefPoint.y };
-		
-		roof->setnrefr(roofref);
-		roof->resizeDown();
 
 		body->setRefPoint(bodyref);
 		roof->setRefPoint(roofref);
@@ -1915,9 +1882,6 @@ void house::resizeDown()
 
 		bodyref = RefPoint;
 		roofref = { RefPoint.x , RefPoint.y + (body->getheight() + roof->getheight()) / 2 };
-
-		roof->setnrefr(roofref);
-		roof->resizeDown();
 
 		body->setRefPoint(bodyref);
 		roof->setRefPoint(roofref);
@@ -1928,8 +1892,47 @@ void house::resizeDown()
 		bodyref = RefPoint;
 		roofref = { RefPoint.x - (body->getheight() + roof->getheight()) / 2, RefPoint.y };
 
-		roof->setnrefr(roofref);
-		roof->resizeDown();
+		body->setRefPoint(bodyref);
+		roof->setRefPoint(roofref);
+
+	}
+	else if (rotated == 0)
+	{
+		bodyref = RefPoint;
+		roofref = { RefPoint.x , RefPoint.y - (body->getheight() / 2 + roof->getheight() / 2) };
+		body->setRefPoint(bodyref);
+		roof->setRefPoint(roofref);
+	}
+}
+void house::resizeDown()
+{
+	body->resizeDown();
+	roof->resizeDown();
+	resized--;
+	if (rotated == 1)
+	{
+
+		bodyref = RefPoint;
+		roofref = { RefPoint.x + (body->getheight() + roof->getheight()) / 2, RefPoint.y };
+
+		body->setRefPoint(bodyref);
+		roof->setRefPoint(roofref);
+
+	}
+	else if (rotated == 2)
+	{
+
+		bodyref = RefPoint;
+		roofref = { RefPoint.x , RefPoint.y + (body->getheight() + roof->getheight()) / 2 };
+
+		body->setRefPoint(bodyref);
+		roof->setRefPoint(roofref);
+
+	}
+	else if (rotated == 3)
+	{
+		bodyref = RefPoint;
+		roofref = { RefPoint.x - (body->getheight() + roof->getheight()) / 2, RefPoint.y };
 
 		body->setRefPoint(bodyref);
 		roof->setRefPoint(roofref);
@@ -1939,14 +1942,10 @@ void house::resizeDown()
 	{
 		bodyref = RefPoint;
 		roofref = { RefPoint.x , RefPoint.y - (body->getheight() / 2 + roof->getheight() / 2) };
-
-		roof->setnrefr(roofref);
-		roof->resizeDown();
-
 		body->setRefPoint(bodyref);
 		roof->setRefPoint(roofref);
 	}
-	
+
 }
 
 
@@ -1973,6 +1972,11 @@ void balance::draw()
 	tri->draw();
 	circ->draw();
 	
+}
+void balance::save(ofstream& OutFile)
+{
+	OutFile.open("progress.txt");
+	OutFile << BAL << "\n" << recRef.x << "\n" << recRef.y << "\n" << fillColor.ucRed << "\n" << fillColor.ucGreen << "\n" << fillColor.ucBlue << "\n" << resized << "\n" << rotated << "\n";
 }
 void balance::Flip()
 {
@@ -2092,7 +2096,7 @@ void balance::Rotate() {
 }
 ShapeType balance::getShapeType()const
 {
-	return HOS;
+	return BAL;
 }
 void balance::move(char key) {
 	point newRef;

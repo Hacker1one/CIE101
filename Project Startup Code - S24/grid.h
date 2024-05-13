@@ -28,5 +28,6 @@ public:
 	shape* getActiveShape() const;
 	void editShapeCount();
 	void deleteActiveShape();
+	void SaveShapes(ofstream& OutFile);
 };
 

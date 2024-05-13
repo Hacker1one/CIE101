@@ -37,6 +37,7 @@ public:
 	int getsteps() const;
 	window* getWind() const;		//returns a pointer to the graphics window
 	grid* getGrid() const;		//returns a pointer to the shapes grid
+	toolbar* getToolbar() const;
 
 	//creates an operation according to the toolbar item clicked
 	operation* createRequiredOperation(toolbarItem clickedItem);
