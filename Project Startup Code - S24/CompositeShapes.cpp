@@ -131,7 +131,7 @@ void Sign::resizeUp()
 	if (rotated == 1)
 	{
 		topRef = RefPoint;
-		baseRef = { RefPoint.x - top->getheight() / 2 - config.sighShape.baseHeight / 2, RefPoint.y };
+		baseRef = { RefPoint.x - (top->getheight() / 2) - (base->getheight() / 2), RefPoint.y };
 
 		base->setRefPoint(baseRef);
 		top->setRefPoint(topRef);
@@ -168,7 +168,7 @@ void Sign::resizeDown()
 	if (rotated == 1)
 	{
 		topRef = RefPoint;
-		baseRef = { RefPoint.x - top->getheight() / 2 - config.sighShape.baseHeight / 2, RefPoint.y };
+		baseRef = { RefPoint.x - top->getheight() / 2 - base->getheight() / 2, RefPoint.y };
 
 		base->setRefPoint(baseRef);
 		top->setRefPoint(topRef);
@@ -203,7 +203,7 @@ void Sign::Rotate() {
 	if (rotated == 0)
 	{
 		topRef = RefPoint;
-		baseRef = { RefPoint.x - top->getheight() / 2 - config.sighShape.baseHeight / 2, RefPoint.y };
+		baseRef = { RefPoint.x - top->getheight() / 2 - base->getheight() / 2, RefPoint.y };
 
 		base->setRefPoint(baseRef);
 		top->setRefPoint(topRef);
@@ -458,6 +458,7 @@ void pointerToAball::move(char key) {
 }
 void pointerToAball::resizeUp() {
 	Ptrbdy->resizeUp();
+	ptrtip->dbah();
 	ptrtip->resizeUp();
 	ball->resizeUp();
 	resized++;
@@ -495,7 +496,7 @@ void pointerToAball::resizeUp() {
 		resized--;
 	}
 	if (rotated == 1) {
-		ptrbdyref = { RefPoint.x, RefPoint.y - (ptrtip->getheight() + Ptrbdy->getwidth()) / 2 };
+		ptrbdyref = { RefPoint.x, RefPoint.y - (ptrtip->getheight() + Ptrbdy->getheight()) / 2 };
 		ballref = { RefPoint.x , RefPoint.y + (ptrtip->getheight()) / 2 + ball->getradius() };
 		ptrtipref = RefPoint;
 		Ptrbdy->setRefPoint(ptrbdyref);
@@ -503,7 +504,7 @@ void pointerToAball::resizeUp() {
 		ball->setRefPoint(ballref);
 	}
 	if (rotated == 2) {
-		ptrbdyref = { RefPoint.x + (ptrtip->getheight() + Ptrbdy->getheight()) / 2 , RefPoint.y };
+		ptrbdyref = { RefPoint.x + (ptrtip->getheight() + Ptrbdy->getwidth()) / 2 , RefPoint.y };
 		ballref = { RefPoint.x - (ptrtip->getheight()) / 2 - ball->getradius(), RefPoint.y };
 		ptrtipref = RefPoint;
 		Ptrbdy->setRefPoint(ptrbdyref);
@@ -511,7 +512,7 @@ void pointerToAball::resizeUp() {
 		ball->setRefPoint(ballref);
 	}
 	if (rotated == 3) {
-		ptrbdyref = { RefPoint.x, RefPoint.y + (ptrtip->getheight() + Ptrbdy->getwidth()) / 2 };
+		ptrbdyref = { RefPoint.x, RefPoint.y + (ptrtip->getheight() + Ptrbdy->getheight()) / 2 };
 		ballref = { RefPoint.x , RefPoint.y - (ptrtip->getheight()) / 2 - ball->getradius() };
 		ptrtipref = RefPoint;
 		Ptrbdy->setRefPoint(ptrbdyref);
@@ -519,7 +520,7 @@ void pointerToAball::resizeUp() {
 		ball->setRefPoint(ballref);
 	}
 	if (rotated == 0) {
-		ptrbdyref = { RefPoint.x - (ptrtip->getheight() + Ptrbdy->getheight()) / 2,RefPoint.y };
+		ptrbdyref = { RefPoint.x - (ptrtip->getheight() + Ptrbdy->getwidth()) / 2,RefPoint.y };
 		ballref = { RefPoint.x + (ptrtip->getheight()) / 2 + ball->getradius() , RefPoint.y };
 		ptrtipref = RefPoint;
 		Ptrbdy->setRefPoint(ptrbdyref);
@@ -530,10 +531,11 @@ void pointerToAball::resizeUp() {
 void pointerToAball::resizeDown() {
 	Ptrbdy->resizeDown();
 	ptrtip->resizeDown();
+	ptrtip->hbah();
 	ball->resizeDown();
 	resized--;
 	if (rotated == 1) {
-		ptrbdyref = { RefPoint.x, RefPoint.y - (ptrtip->getheight() + Ptrbdy->getwidth()) / 2 };
+		ptrbdyref = { RefPoint.x, RefPoint.y - (ptrtip->getheight() + Ptrbdy->getheight()) / 2 };
 		ballref = { RefPoint.x , RefPoint.y + (ptrtip->getheight()) / 2 + ball->getradius() };
 		ptrtipref = RefPoint;
 		Ptrbdy->setRefPoint(ptrbdyref);
@@ -541,7 +543,7 @@ void pointerToAball::resizeDown() {
 		ball->setRefPoint(ballref);
 	}
 	if (rotated == 2) {
-		ptrbdyref = { RefPoint.x + (ptrtip->getheight() + Ptrbdy->getheight()) / 2 , RefPoint.y };
+		ptrbdyref = { RefPoint.x + (ptrtip->getheight() + Ptrbdy->getwidth()) / 2 , RefPoint.y };
 		ballref = { RefPoint.x - (ptrtip->getheight()) / 2 - ball->getradius(), RefPoint.y };
 		ptrtipref = RefPoint;
 		Ptrbdy->setRefPoint(ptrbdyref);
@@ -549,7 +551,7 @@ void pointerToAball::resizeDown() {
 		ball->setRefPoint(ballref);
 	}
 	if (rotated == 3) {
-		ptrbdyref = { RefPoint.x, RefPoint.y + (ptrtip->getheight() + Ptrbdy->getwidth()) / 2 };
+		ptrbdyref = { RefPoint.x, RefPoint.y + (ptrtip->getheight() + Ptrbdy->getheight()) / 2 };
 		ballref = { RefPoint.x , RefPoint.y - (ptrtip->getheight()) / 2 - ball->getradius() };
 		ptrtipref = RefPoint;
 		Ptrbdy->setRefPoint(ptrbdyref);
@@ -557,7 +559,7 @@ void pointerToAball::resizeDown() {
 		ball->setRefPoint(ballref);
 	}
 	if (rotated == 0) {
-		ptrbdyref = { RefPoint.x - (ptrtip->getheight() + Ptrbdy->getheight()) / 2,RefPoint.y };
+		ptrbdyref = { RefPoint.x - (ptrtip->getheight() + Ptrbdy->getwidth()) / 2,RefPoint.y };
 		ballref = { RefPoint.x + (ptrtip->getheight()) / 2 + ball->getradius() , RefPoint.y };
 		ptrtipref = RefPoint;
 		Ptrbdy->setRefPoint(ptrbdyref);
@@ -774,17 +776,16 @@ void standingball::resizeUp() {
 	if (rotated == 1)
 	{
 		standref = RefPoint;
-		ballref = { standref.x + (stand->getwidth() / 2 + ball->getradius()) , standref.y };
+		ballref = { standref.x + (stand->getheight() / 2 + ball->getradius()) , standref.y };
 
 		stand->setRefPoint(standref);
 		ball->setRefPoint(ballref);
-		stand->Rotate();
 	}
 	else if (rotated == 2)
 	{
 
 		standref = RefPoint;
-		ballref = { standref.x  , standref.y + (stand->getheight() / 2 + ball->getradius()) };
+		ballref = { standref.x  , standref.y + (stand->getwidth() / 2 + ball->getradius()) };
 
 		stand->setRefPoint(standref);
 		ball->setRefPoint(ballref);
@@ -792,7 +793,7 @@ void standingball::resizeUp() {
 	else if (rotated == 3)
 	{
 		standref = RefPoint;
-		ballref = { standref.x - (stand->getwidth() / 2 + ball->getradius()) , standref.y };
+		ballref = { standref.x - (stand->getheight() / 2 + ball->getradius()) , standref.y };
 
 
 		stand->setRefPoint(standref);
@@ -802,7 +803,7 @@ void standingball::resizeUp() {
 	else if (rotated == 0)
 	{
 		standref = RefPoint;
-		ballref = { standref.x  , standref.y - (stand->getheight() / 2 + ball->getradius()) };
+		ballref = { standref.x  , standref.y - (stand->getwidth() / 2 + ball->getradius()) };
 
 		stand->setRefPoint(standref);
 		ball->setRefPoint(ballref);
@@ -816,17 +817,16 @@ void standingball::resizeDown() {
 	if (rotated == 1)
 	{
 		standref = RefPoint;
-		ballref = { standref.x + (stand->getwidth() / 2 + ball->getradius()) , standref.y };
+		ballref = { standref.x + (stand->getheight() / 2 + ball->getradius()) , standref.y };
 
 		stand->setRefPoint(standref);
 		ball->setRefPoint(ballref);
-		stand->Rotate();
 	}
 	else if (rotated == 2)
 	{
 
 		standref = RefPoint;
-		ballref = { standref.x  , standref.y + (stand->getheight() / 2 + ball->getradius()) };
+		ballref = { standref.x  , standref.y + (stand->getwidth() / 2 + ball->getradius()) };
 
 		stand->setRefPoint(standref);
 		ball->setRefPoint(ballref);
@@ -834,7 +834,7 @@ void standingball::resizeDown() {
 	else if (rotated == 3)
 	{
 		standref = RefPoint;
-		ballref = { standref.x - (stand->getwidth() / 2 + ball->getradius()) , standref.y };
+		ballref = { standref.x - (stand->getheight() / 2 + ball->getradius()) , standref.y };
 
 
 		stand->setRefPoint(standref);
@@ -844,7 +844,7 @@ void standingball::resizeDown() {
 	else if (rotated == 0)
 	{
 		standref = RefPoint;
-		ballref = { standref.x  , standref.y - (stand->getheight() / 2 + ball->getradius()) };
+		ballref = { standref.x  , standref.y - (stand->getwidth() / 2 + ball->getradius()) };
 
 		stand->setRefPoint(standref);
 		ball->setRefPoint(ballref);
@@ -952,7 +952,6 @@ void strawman::Rotate() {
 	if (rotated == 0)
 	{
 
-		
 		/*bodyref = RefPoint;
 		hand1ref = { RefPoint.x , RefPoint.y + hand1->getheight() / 2 };
 		hand2ref = { RefPoint.x, RefPoint.y - hand1->getheight() / 2 };
@@ -1177,13 +1176,14 @@ void strawman::move(char key) {
 }
 void strawman::resizeUp() {
 	body->resizeUp();
+	body->dbah();
 	hand1->resizeUp();
 	hand2->resizeUp();
-	Leg1->resizeUp();
-	Leg2->resizeUp();
+	Leg1->dbah();
+	Leg2->dbah();
 	Face->resizeUp();
 	resized++;
-	point newRef;
+	/*point newRef;
 	newRef = { this->getRefPoint().x,this->getRefPoint().y + config.gridSpacing };
 	if (newRef.y + (body->getheight()) > (config.windHeight - config.statusBarHeight))
 	{
@@ -1227,146 +1227,244 @@ void strawman::resizeUp() {
 		Leg2->resizeDown();
 		Face->resizeDown();
 		resized--;
-	}
+	}*/
 
 	if (rotated == 1)
 	{
+
 		bodyref = RefPoint;
-		hand1ref = { RefPoint.x , RefPoint.y + hand1->getwidth() / 2 };
-		hand2ref = { RefPoint.x, RefPoint.y - hand1->getwidth() / 2 };
-		leg1ref = { RefPoint.x - (body->getheight()) / 2 , RefPoint.y + hand1->getwidth() / 4 };
-		leg2ref = { RefPoint.x - (body->getheight()) / 2, RefPoint.y - hand1->getwidth() / 4 };
+		hand1ref = { RefPoint.x , RefPoint.y + body->getbase() / 2 };
+		hand2ref = { RefPoint.x, RefPoint.y - body->getbase() / 2 };
+		leg1ref = { RefPoint.x - (body->getheight()) / 2 , RefPoint.y + body->getbase() / 4 };
+		leg2ref = { RefPoint.x - (body->getheight()) / 2, RefPoint.y - body->getbase() / 4 };
 		faceref = { RefPoint.x + (Face->getradius() + body->getheight()) / 2 ,RefPoint.y };
 
+		/*bodyref = RefPoint;
+		hand1ref = { RefPoint.x , RefPoint.y + hand1->getheight() / 2 };
+		hand2ref = { RefPoint.x, RefPoint.y - hand1->getheight() / 2 };
+		leg1ref = { RefPoint.x - (body->getheight()) / 2 , RefPoint.y + hand1->getheight() / 4 };
+		leg2ref = { RefPoint.x - (body->getheight()) / 2, RefPoint.y - hand1->getheight() / 4 };
+		faceref = { RefPoint.x + (Face->getradius() + body->getheight()) / 2 ,RefPoint.y };*/
+
+		Face->setRefPoint(faceref);
 		hand1->setRefPoint(hand1ref);
 		hand2->setRefPoint(hand2ref);
+		body->setRefPoint(bodyref);
+		
+		Leg1->setnrefr(leg1ref);
+		Leg2->setnrefr(leg2ref);
+
+		Leg1->resizeUp();
+		Leg2->resizeUp();
+
 		Leg1->setRefPoint(leg1ref);
 		Leg2->setRefPoint(leg2ref);
-		Face->setRefPoint(faceref);
-		body->setRefPoint(bodyref);
+		
 	}
 	else if (rotated == 2)
 	{
 		bodyref = RefPoint;
+		hand1ref = { RefPoint.x - body->getbase() / 2, RefPoint.y };
+		hand2ref = { RefPoint.x + body->getbase() / 2, RefPoint.y };
+		leg1ref = { RefPoint.x - body->getbase() / 4, RefPoint.y - (body->getheight() / 2) };
+		leg2ref = { RefPoint.x + body->getbase() / 4, RefPoint.y - (body->getheight() / 2) };
+		faceref = { RefPoint.x,RefPoint.y + (Face->getradius() + body->getheight()) / 2 };
+
+		/*bodyref = RefPoint;
 		hand1ref = { RefPoint.x - hand1->getwidth() / 2, RefPoint.y };
 		hand2ref = { RefPoint.x + hand1->getwidth() / 2, RefPoint.y };
 		leg1ref = { RefPoint.x - hand1->getwidth() / 4, RefPoint.y - (body->getheight() / 2) };
 		leg2ref = { RefPoint.x + hand1->getwidth() / 4, RefPoint.y - (body->getheight()) / 2 };
-		faceref = { RefPoint.x,RefPoint.y + (Face->getradius() + body->getheight()) / 2 };
+		faceref = { RefPoint.x,RefPoint.y + (Face->getradius() + body->getheight()) / 2 };*/
 
+		Face->setRefPoint(faceref);
 		hand1->setRefPoint(hand1ref);
 		hand2->setRefPoint(hand2ref);
+		body->setRefPoint(bodyref);
+
+		Leg1->setnrefr(leg1ref);
+		Leg2->setnrefr(leg2ref);
+
+		Leg1->resizeUp();
+		Leg2->resizeUp();
+
 		Leg1->setRefPoint(leg1ref);
 		Leg2->setRefPoint(leg2ref);
-		Face->setRefPoint(faceref);
-		body->setRefPoint(bodyref);
 	}
 	else if (rotated == 3)
 	{
 
-
 		bodyref = RefPoint;
+		hand1ref = { RefPoint.x , RefPoint.y - body->getbase() / 2 };
+		hand2ref = { RefPoint.x, RefPoint.y + body->getbase() / 2 };
+		leg1ref = { RefPoint.x + (body->getheight()) / 2 , RefPoint.y - body->getbase() / 4 };
+		leg2ref = { RefPoint.x + (body->getheight()) / 2, RefPoint.y + body->getbase() / 4 };
+		faceref = { RefPoint.x - (Face->getradius() + body->getheight()) / 2 ,RefPoint.y };
+
+		/*bodyref = RefPoint;
 		hand1ref = { RefPoint.x , RefPoint.y - hand1->getwidth() / 2 };
 		hand2ref = { RefPoint.x, RefPoint.y + hand1->getwidth() / 2 };
 		leg1ref = { RefPoint.x + (body->getheight()) / 2 , RefPoint.y - hand1->getwidth() / 4 };
 		leg2ref = { RefPoint.x + (body->getheight()) / 2, RefPoint.y + hand1->getwidth() / 4 };
-		faceref = { RefPoint.x - (Face->getradius() + body->getheight()) / 2 ,RefPoint.y };
+		faceref = { RefPoint.x - (Face->getradius() + body->getheight()) / 2 ,RefPoint.y };*/
 
+		Face->setRefPoint(faceref);
 		hand1->setRefPoint(hand1ref);
 		hand2->setRefPoint(hand2ref);
+		body->setRefPoint(bodyref);
+
+		Leg1->setnrefr(leg1ref);
+		Leg2->setnrefr(leg2ref);
+
+		Leg1->resizeUp();
+		Leg2->resizeUp();
+
 		Leg1->setRefPoint(leg1ref);
 		Leg2->setRefPoint(leg2ref);
-		Face->setRefPoint(faceref);
-		body->setRefPoint(bodyref);
 	}
 	else if (rotated == 0)
 	{
 		bodyref = RefPoint;
+		hand1ref = { RefPoint.x + body->getbase() / 2, RefPoint.y };
+		hand2ref = { RefPoint.x - body->getbase() / 2, RefPoint.y };
+		leg1ref = { RefPoint.x + body->getbase() / 4, RefPoint.y + (body->getheight() / 2) };
+		leg2ref = { RefPoint.x - body->getbase() / 4, RefPoint.y + (body->getheight() / 2) };
+		faceref = { RefPoint.x,RefPoint.y - (Face->getradius() + body->getheight()) / 2 };
+		/*bodyref = RefPoint;
 		hand1ref = { RefPoint.x + hand1->getwidth() / 2, RefPoint.y };
 		hand2ref = { RefPoint.x - hand1->getwidth() / 2, RefPoint.y };
 		leg1ref = { RefPoint.x + hand1->getwidth() / 4, RefPoint.y + (body->getheight() / 2) };
 		leg2ref = { RefPoint.x - hand1->getwidth() / 4, RefPoint.y + (body->getheight()) / 2 };
-		faceref = { RefPoint.x,RefPoint.y - (Face->getradius() + body->getheight()) / 2 };
+		faceref = { RefPoint.x,RefPoint.y - (Face->getradius() + body->getheight()) / 2 };*/
+		
+		Face->setRefPoint(faceref);
 		hand1->setRefPoint(hand1ref);
 		hand2->setRefPoint(hand2ref);
+		body->setRefPoint(bodyref);
+
+		Leg1->setnrefr(leg1ref);
+		Leg2->setnrefr(leg2ref);
+
+		Leg1->resizeUp();
+		Leg2->resizeUp();
+
 		Leg1->setRefPoint(leg1ref);
 		Leg2->setRefPoint(leg2ref);
-		Face->setRefPoint(faceref);
-		body->setRefPoint(bodyref);
 	}
 }
 void strawman::resizeDown() {
 	body->resizeDown();
+	body->hbah();
 	hand1->resizeDown();
 	hand2->resizeDown();
-	Leg1->resizeDown();
-	Leg2->resizeDown();
+	Leg1->hbah();
+	Leg2->hbah();
 	Face->resizeDown();
 	resized--;
 	if (rotated == 1)
 	{
-		bodyref = RefPoint;
+		/*bodyref = RefPoint;
 		hand1ref = { RefPoint.x , RefPoint.y + hand1->getwidth() / 2 };
 		hand2ref = { RefPoint.x, RefPoint.y - hand1->getwidth() / 2 };
 		leg1ref = { RefPoint.x - (body->getheight()) / 2 , RefPoint.y + hand1->getwidth() / 4 };
 		leg2ref = { RefPoint.x - (body->getheight()) / 2, RefPoint.y - hand1->getwidth() / 4 };
+		faceref = { RefPoint.x + (Face->getradius() + body->getheight()) / 2 ,RefPoint.y };*/
+
+		bodyref = RefPoint;
+		hand1ref = { RefPoint.x , RefPoint.y + body->getbase() / 2 };
+		hand2ref = { RefPoint.x, RefPoint.y - body->getbase() / 2 };
+		leg1ref = { RefPoint.x - (body->getheight()) / 2 , RefPoint.y + body->getbase() / 4 };
+		leg2ref = { RefPoint.x - (body->getheight()) / 2, RefPoint.y - body->getbase() / 4 };
 		faceref = { RefPoint.x + (Face->getradius() + body->getheight()) / 2 ,RefPoint.y };
 
+		Face->setRefPoint(faceref);
 		hand1->setRefPoint(hand1ref);
 		hand2->setRefPoint(hand2ref);
+		body->setRefPoint(bodyref);
+
+		Leg1->setnrefr(leg1ref);
+		Leg2->setnrefr(leg2ref);
+
+		Leg1->resizeDown();
+		Leg2->resizeDown();
+
 		Leg1->setRefPoint(leg1ref);
 		Leg2->setRefPoint(leg2ref);
-		Face->setRefPoint(faceref);
-		body->setRefPoint(bodyref);
+
 	}
 	else if (rotated == 2)
 	{
 		bodyref = RefPoint;
-		hand1ref = { RefPoint.x - hand1->getwidth() / 2, RefPoint.y };
-		hand2ref = { RefPoint.x + hand1->getwidth() / 2, RefPoint.y };
-		leg1ref = { RefPoint.x - hand1->getwidth() / 4, RefPoint.y - (body->getheight() / 2) };
-		leg2ref = { RefPoint.x + hand1->getwidth() / 4, RefPoint.y - (body->getheight()) / 2 };
+		hand1ref = { RefPoint.x - body->getbase() / 2, RefPoint.y };
+		hand2ref = { RefPoint.x + body->getbase() / 2, RefPoint.y };
+		leg1ref = { RefPoint.x - body->getbase() / 4, RefPoint.y - (body->getheight() / 2) };
+		leg2ref = { RefPoint.x + body->getbase() / 4, RefPoint.y - (body->getheight() / 2) };
 		faceref = { RefPoint.x,RefPoint.y + (Face->getradius() + body->getheight()) / 2 };
 
+		Face->setRefPoint(faceref);
 		hand1->setRefPoint(hand1ref);
 		hand2->setRefPoint(hand2ref);
+		body->setRefPoint(bodyref);
+
+		Leg1->setnrefr(leg1ref);
+		Leg2->setnrefr(leg2ref);
+
+		Leg1->resizeDown();
+		Leg2->resizeDown();
+
 		Leg1->setRefPoint(leg1ref);
 		Leg2->setRefPoint(leg2ref);
-		Face->setRefPoint(faceref);
-		body->setRefPoint(bodyref);
+
 	}
 	else if (rotated == 3)
 	{
 
 
 		bodyref = RefPoint;
-		hand1ref = { RefPoint.x , RefPoint.y - hand1->getwidth() / 2 };
-		hand2ref = { RefPoint.x, RefPoint.y + hand1->getwidth() / 2 };
-		leg1ref = { RefPoint.x + (body->getheight()) / 2 , RefPoint.y - hand1->getwidth() / 4 };
-		leg2ref = { RefPoint.x + (body->getheight()) / 2, RefPoint.y + hand1->getwidth() / 4 };
+		hand1ref = { RefPoint.x , RefPoint.y - body->getbase() / 2 };
+		hand2ref = { RefPoint.x, RefPoint.y + body->getbase() / 2 };
+		leg1ref = { RefPoint.x + (body->getheight()) / 2 , RefPoint.y - body->getbase() / 4 };
+		leg2ref = { RefPoint.x + (body->getheight()) / 2, RefPoint.y + body->getbase() / 4 };
 		faceref = { RefPoint.x - (Face->getradius() + body->getheight()) / 2 ,RefPoint.y };
 
+		Face->setRefPoint(faceref);
 		hand1->setRefPoint(hand1ref);
 		hand2->setRefPoint(hand2ref);
+		body->setRefPoint(bodyref);
+
+		Leg1->setnrefr(leg1ref);
+		Leg2->setnrefr(leg2ref);
+
+		Leg1->resizeDown();
+		Leg2->resizeDown();
+
 		Leg1->setRefPoint(leg1ref);
 		Leg2->setRefPoint(leg2ref);
-		Face->setRefPoint(faceref);
-		body->setRefPoint(bodyref);
+
 	}
 	else if (rotated == 0)
 	{
 		bodyref = RefPoint;
-		hand1ref = { RefPoint.x + hand1->getwidth() / 2, RefPoint.y };
-		hand2ref = { RefPoint.x - hand1->getwidth() / 2, RefPoint.y };
-		leg1ref = { RefPoint.x + hand1->getwidth() / 4, RefPoint.y + (body->getheight() / 2) };
-		leg2ref = { RefPoint.x - hand1->getwidth() / 4, RefPoint.y + (body->getheight()) / 2 };
+		hand1ref = { RefPoint.x + body->getbase() / 2, RefPoint.y };
+		hand2ref = { RefPoint.x - body->getbase() / 2, RefPoint.y };
+		leg1ref = { RefPoint.x + body->getbase() / 4, RefPoint.y + (body->getheight() / 2) };
+		leg2ref = { RefPoint.x - body->getbase() / 4, RefPoint.y + (body->getheight() / 2) };
 		faceref = { RefPoint.x,RefPoint.y - (Face->getradius() + body->getheight()) / 2 };
+		
+		Face->setRefPoint(faceref);
 		hand1->setRefPoint(hand1ref);
 		hand2->setRefPoint(hand2ref);
+		body->setRefPoint(bodyref);
+
+		Leg1->setnrefr(leg1ref);
+		Leg2->setnrefr(leg2ref);
+
+		Leg1->resizeDown();
+		Leg2->resizeDown();
+
 		Leg1->setRefPoint(leg1ref);
 		Leg2->setRefPoint(leg2ref);
-		Face->setRefPoint(faceref);
-		body->setRefPoint(bodyref);
+
 	}
 }
 int strawman::getblockbase() {
@@ -2329,7 +2427,7 @@ void balance::move(char key) {
 void balance::resizeUp()
 {
 	rec->resizeUp();
-	tri->resizeUp();
+	tri->dbah();
 	circ->resizeUp();
 	resized++;
 	point newRef;
@@ -2367,98 +2465,106 @@ void balance::resizeUp()
 	{
 
 		recRef = RefPoint;
-		circRef = { RefPoint.x + (rec->getheight() / 2 + circ->getradius()) , RefPoint.y };
-		triRef = { RefPoint.x - (tri->getheight() + rec->getheight()) / 2 , RefPoint.y };
+		circRef = { RefPoint.x + (rec->getwidth() / 2 + circ->getradius()) , RefPoint.y };
+		triRef = { RefPoint.x - (tri->getheight() + rec->getwidth()) / 2 , RefPoint.y };
 		rec->setRefPoint(RefPoint);
 		circ->setRefPoint(circRef);
 		tri->setnrefr(triRef);
-
-
+		tri->resizeUp();
+		tri->setRefPoint(triRef);
 	}
 	else if (rotated == 2)
 	{
 
 		recRef = RefPoint;
-		circRef = { RefPoint.x , RefPoint.y + (rec->getwidth() / 2 + circ->getradius()) };
-		triRef = { RefPoint.x  , RefPoint.y - (tri->getheight() + rec->getwidth()) / 2 };
+		circRef = { RefPoint.x , RefPoint.y + (rec->getheight() / 2 + circ->getradius()) };
+		triRef = { RefPoint.x  , RefPoint.y - (tri->getheight() + rec->getheight()) / 2 };
 		rec->setRefPoint(RefPoint);
 		circ->setRefPoint(circRef);
 		tri->setnrefr(triRef);
+		tri->resizeUp();
+		tri->setRefPoint(triRef);
 	}
 	else if (rotated == 3)
 	{
 		recRef = RefPoint;
-		circRef = { RefPoint.x - (rec->getheight() / 2 + circ->getradius()) , RefPoint.y };
-		triRef = { RefPoint.x + (tri->getheight() + rec->getheight()) / 2 , RefPoint.y };
+		circRef = { RefPoint.x - (rec->getwidth() / 2 + circ->getradius()) , RefPoint.y };
+		triRef = { RefPoint.x + (tri->getheight() + rec->getwidth()) / 2 , RefPoint.y };
 
 
 		rec->setRefPoint(RefPoint);
 		circ->setRefPoint(circRef);
 		tri->setnrefr(triRef);
-
+		tri->resizeUp();
+		tri->setRefPoint(triRef);
 	}
 	else if (rotated == 0)
 	{
 
 		recRef = RefPoint;
-		circRef = { RefPoint.x , RefPoint.y - (rec->getwidth() / 2 + circ->getradius()) };
-		triRef = { RefPoint.x  , RefPoint.y + (tri->getheight() + rec->getwidth()) / 2 };
+		circRef = { RefPoint.x , RefPoint.y - (rec->getheight() / 2 + circ->getradius()) };
+		triRef = { RefPoint.x  , RefPoint.y + (tri->getheight() + rec->getheight()) / 2 };
 		rec->setRefPoint(RefPoint);
 		circ->setRefPoint(circRef);
 		tri->setnrefr(triRef);
-
+		tri->resizeUp();
+		tri->setRefPoint(triRef);
 	}
 }
 void balance::resizeDown()
 {
 	rec->resizeDown();
-	tri->resizeDown();
+	tri->hbah();
 	circ->resizeDown();
 	resized--;
 	if (rotated == 1)
 	{
 
 		recRef = RefPoint;
-		circRef = { RefPoint.x + (rec->getheight() / 2 + circ->getradius()) , RefPoint.y };
-		triRef = { RefPoint.x - (tri->getheight() + rec->getheight()) / 2 , RefPoint.y };
+		circRef = { RefPoint.x + (rec->getwidth() / 2 + circ->getradius()) , RefPoint.y };
+		triRef = { RefPoint.x - (tri->getheight() + rec->getwidth()) / 2 , RefPoint.y };
 		rec->setRefPoint(RefPoint);
 		circ->setRefPoint(circRef);
 		tri->setnrefr(triRef);
-
-
+		tri->resizeDown();
+		tri->setRefPoint(triRef);
 	}
 	else if (rotated == 2)
 	{
 
 		recRef = RefPoint;
-		circRef = { RefPoint.x , RefPoint.y + (rec->getwidth() / 2 + circ->getradius()) };
-		triRef = { RefPoint.x  , RefPoint.y - (tri->getheight() + rec->getwidth()) / 2 };
+		circRef = { RefPoint.x , RefPoint.y + (rec->getheight() / 2 + circ->getradius()) };
+		triRef = { RefPoint.x  , RefPoint.y - (tri->getheight() + rec->getheight()) / 2 };
 		rec->setRefPoint(RefPoint);
 		circ->setRefPoint(circRef);
 		tri->setnrefr(triRef);
+		tri->resizeDown();
+		tri->setRefPoint(triRef);
 	}
 	else if (rotated == 3)
 	{
 		recRef = RefPoint;
-		circRef = { RefPoint.x - (rec->getheight() / 2 + circ->getradius()) , RefPoint.y };
-		triRef = { RefPoint.x + (tri->getheight() + rec->getheight()) / 2 , RefPoint.y };
+		circRef = { RefPoint.x - (rec->getwidth() / 2 + circ->getradius()) , RefPoint.y };
+		triRef = { RefPoint.x + (tri->getheight() + rec->getwidth()) / 2 , RefPoint.y };
 
 
 		rec->setRefPoint(RefPoint);
 		circ->setRefPoint(circRef);
 		tri->setnrefr(triRef);
-
+		tri->resizeDown();
+		tri->setRefPoint(triRef);
 	}
 	else if (rotated == 0)
 	{
 
 		recRef = RefPoint;
-		circRef = { RefPoint.x , RefPoint.y - (rec->getwidth() / 2 + circ->getradius()) };
-		triRef = { RefPoint.x  , RefPoint.y + (tri->getheight() + rec->getwidth()) / 2 };
+		circRef = { RefPoint.x , RefPoint.y - (rec->getheight() / 2 + circ->getradius()) };
+		triRef = { RefPoint.x  , RefPoint.y + (tri->getheight() + rec->getheight()) / 2 };
 		rec->setRefPoint(RefPoint);
 		circ->setRefPoint(circRef);
 		tri->setnrefr(triRef);
-
+		tri->resizeDown();
+		tri->setRefPoint(triRef);
 	}
 }
 
