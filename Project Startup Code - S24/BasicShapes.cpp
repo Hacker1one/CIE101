@@ -4,12 +4,13 @@
 #include "game.h"
 
 
-Rect::Rect(game* r_pGame, point ref, int r_hght, int r_wdth):shape(r_pGame,ref) 
+Rect::Rect(game* r_pGame, point ref, int r_hght, int r_wdth, color fillcolor) :shape(r_pGame, ref)
 {
 	hght = r_hght;
 	wdth = r_wdth;
-	
-	
+	this->fillColor = fillcolor;
+	borderColor = fillcolor;
+
 }
 void Rect::draw() 
 {
@@ -20,8 +21,8 @@ void Rect::draw()
 	lowerBottom.x = RefPoint.x + wdth / 2;
 	lowerBottom.y = RefPoint.y + hght / 2;
 
-	pW->SetPen(config.penColor, config.penWidth);
-	pW->SetBrush(config.fillColor);
+	pW->SetPen(fillColor, config.penWidth);
+	pW->SetBrush(fillColor);
 	pW->DrawRectangle(upperLeft.x, upperLeft.y, lowerBottom.x, lowerBottom.y, FILLED);	
 }
 void Rect::Flip() {
@@ -92,6 +93,12 @@ void Rect::move(char key) {
 
 	}
 }
+int Rect::getblockbase() {
+	return wdth;
+}
+int Rect::getblockheight() {
+	return hght;
+}
 ShapeType Rect::getShapeType() const
 {
 	return RCT;
@@ -103,10 +110,12 @@ ShapeType Rect::getShapeType() const
 
 
 
-circle::circle(game* r_pGame, point ref, int r):shape(r_pGame,ref)
+circle::circle(game* r_pGame, point ref, int r, color fillcolor) :shape(r_pGame, ref)
 {
-	
+
 	rad = r;
+	this->fillColor = fillcolor;
+	borderColor = fillcolor;
 }
 int circle::getradius()
 {
@@ -115,7 +124,7 @@ int circle::getradius()
 void circle::draw() 
 {
 	window* pW = pGame->getWind();	//get interface window
-	pW->SetPen(borderColor, config.penWidth);
+	pW->SetPen(fillColor, config.penWidth);
 	pW->SetBrush(fillColor);
 	pW->DrawCircle(RefPoint.x, RefPoint.y, rad, FILLED);
 
@@ -172,29 +181,37 @@ void circle::move(char key) {
 
 	}
 }
+int circle::getblockbase() {
+	return rad * 2;
+}
+int circle::getblockheight() {
+	return rad * 2;
+}
 
 
 
 
 
-Triangle::Triangle(game* r_pGame, point ref, int r_base, int r_height):shape(r_pGame, ref)
+Triangle::Triangle(game* r_pGame, point ref, int r_base, int r_height, color fillcolor) :shape(r_pGame, ref)
 {
 	base = r_base;
 	height = r_height;
-	nrefr = RefPoint;
 	vertix1.x = RefPoint.x - 0.5 * base;
 	vertix1.y = RefPoint.y + 0.5 * height;
 	vertix2.x = RefPoint.x + 0.5 * base;
 	vertix2.y = RefPoint.y + 0.5 * height;
-	vertix3.x = RefPoint.x ;
+	vertix3.x = RefPoint.x;
 	vertix3.y = RefPoint.y - 0.5 * height;
-	
+	nrefr = RefPoint;
+	this->fillColor = fillcolor;
+	borderColor = fillcolor;
+
 }
 void Triangle::draw()
 {
 	window* pW = pGame->getWind(); //get interface window
-	pW->SetPen(config.penColor, config.penWidth);
-	pW->SetBrush(config.fillColor);
+	pW->SetPen(fillColor, config.penWidth);
+	pW->SetBrush(fillColor);
 	
 
 	pW->DrawTriangle(vertix1.x, vertix1.y, vertix2.x, vertix2.y, vertix3.x, vertix3.y, FILLED);
@@ -219,7 +236,6 @@ void Triangle::Flip() {
 	
 }
 void Triangle::Rotate() {
-
 	int x1, y1, x2, y2, x3, y3;
 	int nx1, ny1, nx2, ny2, nx3, ny3;
 
@@ -253,6 +269,12 @@ void Triangle::Rotate() {
 
 
 }
+int Triangle::getblockbase() {
+	return base;
+}
+int Triangle::getblockheight() {
+	return height;
+}
 
 ShapeType Triangle::getShapeType() const
 {
@@ -264,6 +286,7 @@ void Triangle::move(char key) {
 	case 2:                      //Down arrow
 		newRef = { this->getRefPoint().x,this->getRefPoint().y + config.gridSpacing };
 			this->setRefPoint(newRef);
+
 			vertix1.y += config.gridSpacing;
 			vertix2.y += config.gridSpacing;
 			vertix3.y += config.gridSpacing;
@@ -271,6 +294,7 @@ void Triangle::move(char key) {
 	case 4:                      //Left arrow
 		newRef = { this->getRefPoint().x - config.gridSpacing,this->getRefPoint().y };
 			this->setRefPoint(newRef);
+
 			vertix1.x -= config.gridSpacing;
 			vertix2.x -= config.gridSpacing;
 			vertix3.x -= config.gridSpacing;
@@ -286,6 +310,7 @@ void Triangle::move(char key) {
 	case 8:                      //Up arrow
 		newRef = { this->getRefPoint().x ,this->getRefPoint().y - config.gridSpacing };
 			this->setRefPoint(newRef);
+
 			vertix1.y -= config.gridSpacing;
 			vertix2.y -= config.gridSpacing;
 			vertix3.y -= config.gridSpacing;

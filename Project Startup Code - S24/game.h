@@ -19,6 +19,7 @@ class game
 	char pressedkey;
 
 	int step;
+	long int givens = 0;
 
 public:
 	game();
@@ -30,15 +31,20 @@ public:
 	void printMessage(string msg) const;	//Print a message on Status bar
 	void createToolBar();		//creates the toolbar
 	void createGrid();		//creates the shapes grid
-
+	
 	void slevel();
 	void countsteps();
 	void incrementsteps();
 	int getsteps() const;
+	void givesteps();
+	void drawgivensteps()const;
+
+	int getgivensteps() const;
+
 	window* getWind() const;		//returns a pointer to the graphics window
 	grid* getGrid() const;		//returns a pointer to the shapes grid
 	toolbar* getToolbar() const;
-
+	bool IsMatching(shape*);
 	//creates an operation according to the toolbar item clicked
 	operation* createRequiredOperation(toolbarItem clickedItem);
 	

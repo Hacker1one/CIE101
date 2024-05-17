@@ -156,9 +156,22 @@ public:
 	operexit(game* r_pGame);
 	virtual void Act();
 };
-class operSave :public operation
+class operHint : public operation
 {
 public:
-	operSave(game* r_pGame);
+	operHint(game* r_pGame);
 	virtual void Act();
 };
+
+class operrefresh : public operation
+{
+public:
+	operrefresh(game* r_pGame);
+	virtual void Act();
+};
+//class operSave :public operation
+//{
+//public:
+//	operSave(game* r_pGame);
+//	virtual void Act();
+//};

@@ -17,13 +17,17 @@ game::game()
 	createToolBar();
 
 	//Create and draw the grid
-	createGrid();
-	shapesGrid->draw();	//draw the grid and all shapes it contains.
+	
+	
 
 	//Create and clear the status bar
 	clearStatusBar();
 
 	slevel();
+
+	createGrid();
+	shapesGrid->draw();	//draw the grid and all shapes it contains.
+	
 }
 
 game::~game()
@@ -64,6 +68,7 @@ void game::createGrid()
 	int gridHeight = config.windHeight - config.toolBarHeight - config.statusBarHeight;
 	//create the grid
 	shapesGrid = new grid(gridUpperLeftPoint, config.windWidth, gridHeight, this);
+	shapesGrid->randomShapeGeneration();
 }
 
 void game::slevel()
@@ -98,12 +103,42 @@ void game::slevel()
 		Pause(500);
 
 
-	} while (bQuit != true); 
+	} while (bQuit != true); \
+	givesteps();
+}
+void game::givesteps()
+{
+	int totalcompositeshapes = 0;
+	for (int i = gameToolbar->getlevel(); i < 11; i++)
+	{
+		totalcompositeshapes += (2 * i - 1);
+	}
+	givens = 30 * totalcompositeshapes;
+	drawgivensteps();
+}
+
+int game::getgivensteps() const
+{
+	return givens;
+}
+
+void game::drawgivensteps() const
+{
+	pWind->SetPen(BLACK, 1);
+	pWind->SetBrush(BLACK);
+	pWind->DrawRectangle(1250, config.windHeight - (int)(1 * config.statusBarHeight), config.windWidth, 621);
+
+	pWind->SetPen(config.penColor, 50);
+	pWind->SetFont(24, BOLD, BY_NAME, "Arial");
+	pWind->DrawString(1270, config.windHeight - (int)(0.85 * config.statusBarHeight), "Given Steps = ");
+	pWind->DrawInteger(1410, config.windHeight - (int)(0.85 * config.statusBarHeight), givens);
 }
 
 void game::countsteps()
 {
-
+	try {}
+	catch(string s)
+	{}
 }
 void game::incrementsteps()
 {
@@ -178,16 +213,23 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 		op = new operslevel(this);
 		printMessage("Select a level from 1 to 10");
 		break;
-
+	case ITM_REF:
+		op = new operrefresh(this);
+		printMessage("You clicked on Refresh");
+		break;
 	case ITM_EXIT:
 		op = new operexit(this);
 		printMessage("You selected on Exit");
 		break;
-	case ITM_SAVE:
+	case ITM_HINT:
+		op = new operHint(this);
+		printMessage("You selected on Hint");
+		break;
+	/*case ITM_SAVE:
 		op = new operSave(this);
 		printMessage("you clicked on Save");
 		break;
-
+*/
 	}
 	return op;
 }
@@ -204,15 +246,14 @@ void game::printMessage(string msg) const	//Prints a message on status bar
 	pWind->SetPen(config.penColor, 50);
 	pWind->SetFont(24, BOLD, BY_NAME, "Arial");
 	pWind->DrawString(10, config.windHeight - (int)(0.85 * config.statusBarHeight), msg);
+	drawgivensteps();
 }
-
 
 
 window* game::getWind() const		//returns a pointer to the graphics window
 {
 	return pWind;
 }
-
 
 
 string game::getSrting() const
@@ -250,9 +291,8 @@ toolbar* game::getToolbar() const
 }
 
 
-
 ////////////////////////////////////////////////////////////////////////
-void game::run() 
+void game::run()
 {
 	//This function reads the position where the user clicks to determine the desired operation
 	int x, y;
@@ -260,7 +300,9 @@ void game::run()
 
 	//Change the title
 	pWind->ChangeTitle("- - - - - - - - - - SHAPE HUNT (CIE 101 / CIE202 - project) - - - - - - - - - -");
-	toolbarItem clickedItem=ITM_CNT;
+	toolbarItem clickedItem = ITM_CNT;
+
+
 	do
 	{
 		//printMessage("Ready...");
@@ -284,17 +326,73 @@ void game::run()
 		}
 		kt = pWind->GetKeyPress(pressedkey);
 
+		if (kt == ASCII) {
+			printMessage("you clicked on ASCII");
+			if (pressedkey == ' ') {
+				printMessage("You clicked on Space");
+				int score = gameToolbar->getscore();
+				if (IsMatching(shapesGrid->getActiveShape())) {
+					score += 2;
+					printMessage("Mathcing !!");
+					gameToolbar->setscore(score);
+					
+					shapesGrid->deleteActiveShape();
+					shapesGrid->editShapeCount();
+
+				}
+				else {
+					score--;
+					printMessage("Wrong Mathcing !!");
+					gameToolbar->setscore(score);
+
+				
+				}
+			shapesGrid->draw();
+			}
+		}
+
 		if (kt == ARROW) {
+			printMessage("you clicked on arrow");
 			operation* op2 = nullptr;
 			op2 = new operMove(pressedkey, this);
 			if (op2) {
 				op2->Act();
 				shapesGrid->draw();
-				
+
 
 			}
+		}
+		
+        
+	} while (clickedItem != ITM_EXIT);
+}
+
+	
+
+
+
+
+bool game::IsMatching(shape *sh) {
+	vector<shape*> V = shapesGrid->getshapeVector(); 
+	
+	for (unsigned int i = 0; i < V.size(); i++) {
+		
+		if (V[i]->getRefPoint().x == sh->getRefPoint().x && V[i]->getRefPoint().y == sh->getRefPoint().y && V[i]->getrotated() == sh->getrotated() && V[i]->getsize() == sh->getsize() && V[i]->getShapeType() == sh->getShapeType()) {
+			
+			
+			cout << V[i]->getShapeType();
+			V[i]->setcolor(LAVENDER);
+			
+			
+			return true; 
+			
 			
 			
 		}
-	} while (clickedItem != ITM_EXIT);
+		
+		
+	}
+	return false;
 }
+
+

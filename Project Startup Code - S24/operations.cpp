@@ -3,6 +3,12 @@
 #include "CompositeShapes.h"
 #include "gameConfig.h"
 #include "fstream"
+#include <iostream>
+#include <vector>
+#include "random"
+#include "cmath"
+#include "sstream"
+
 using namespace std;
 
 /////////////////////////////////// class operation  //////////////////
@@ -32,7 +38,7 @@ void operAddSign::Act()
 	point signShapeRef = { xGrid,yGrid };
 
 	//create a sign shape
-	shape* psh = new Sign(pGame, signShapeRef );
+	shape* psh = new Sign(pGame, signShapeRef , RED);
 
 	//Add the shape to the grid
 	grid* pGrid = pGame->getGrid();
@@ -64,7 +70,7 @@ void operAddgun::Act()
 	point signShapeRef = { xGrid,yGrid };
 
 	//create a sign shape
-	shape* psh = new Gun(pGame, signShapeRef);
+	shape* psh = new Gun(pGame, signShapeRef,RED);
 
 	//Add the shape to the grid
 	grid* pGrid = pGame->getGrid();
@@ -98,7 +104,7 @@ void operAddstandingball::Act()
 	point blusblock = { xGrid,yGrid };
 
 	//create a sign shape
-	shape* psh = new standingball(pGame,blusblock);
+	shape* psh = new standingball(pGame,blusblock , RED);
 
 	////Add the shape to the grid
 	grid* pGrid = pGame->getGrid();
@@ -131,7 +137,7 @@ void operAddstrawman::Act()
 	point blusblock = { xGrid,yGrid };
 
 
-	shape* psh = new strawman(pGame, blusblock);
+	shape* psh = new strawman(pGame, blusblock , RED);
 
 	//Add the shape to the grid
 	grid* pGrid = pGame->getGrid();
@@ -162,8 +168,10 @@ void operAddpointer::Act()
 	//take the aligned point as the sign shape ref point
 	point blusblock = { xGrid,yGrid };
 
+
+
 	//create a sign shape
-	shape* psh = new pointerToAball(pGame, blusblock);
+	shape* psh = new pointerToAball(pGame, blusblock , RED);
 
 	////Add the shape to the grid
 	grid* pGrid = pGame->getGrid();
@@ -193,7 +201,7 @@ void operAddhouse::Act()
 	point blusblock = { xGrid,yGrid };
 
 	//create a sign shape
-	shape* psh = new house(pGame, blusblock);
+	shape* psh = new house(pGame, blusblock , RED);
 
 	////Add the shape to the grid
 	grid* pGrid = pGame->getGrid();
@@ -222,9 +230,9 @@ void operAddbalance::Act()
 
 	//take the aligned point as the sign shape ref point
 	point blusblock = { xGrid,yGrid };
-
+	
 	//create a sign shape
-	shape* psh = new balance(pGame, blusblock);
+	shape* psh = new balance(pGame, blusblock , RED);
 
 	////Add the shape to the grid
 	grid* pGrid = pGame->getGrid();
@@ -273,6 +281,8 @@ void operMove::Act() {
 	shape* psh = pGame->getGrid()->getActiveShape();
 	psh->move(key);
 	pGame->incrementsteps();
+	grid* pGrid = pGame->getGrid();
+	pGrid->setActiveShape(psh);
 }
 
 operDelete::operDelete(game* r_pGame) :operation(r_pGame)
@@ -332,19 +342,67 @@ void operexit::Act()
 {
 
 }
-operSave::operSave(game* r_pGame) : operation(r_pGame)
+operHint::operHint(game* r_pGame) : operation(r_pGame)
 {
 }
-void operSave::Act()
-{
-	int lev = pGame->getToolbar()->getLevel();
-	int life = pGame->getToolbar()->getLives();
-	int scre = pGame->getToolbar()->getScore();
-	ofstream outfile;
-	outfile.open("progress.txt");
-	outfile << scre << "\n" << lev << "\n" << life << "\n";
-	pGame->getGrid()->SaveShapes(outfile);
-	outfile.close();
+
+void operHint::Act() {
+	int i = 0;
+	grid* pgrid = pGame->getGrid();
+	vector <shape*> v  = pgrid->getshapeVector();
+	random_device randshape;
+	uniform_int_distribution<int> rrandshape(0,4);
+	i = rrandshape(randshape);
+	v[i]->setcolor(GREEN);
 }
+
+operrefresh::operrefresh(game* r_pGame) : operation(r_pGame)
+{
+}
+
+void operrefresh::Act()
+{
+
+	int totalcompositeshapes = 2* pGame->getToolbar()->getlevel() -1;
+	grid* pgrid = pGame->getGrid();
+	vector<shape*>V = pgrid->getshapeVector();
+	toolbar* tb = pGame->getToolbar();
+	if (tb->getlives() > 0)
+	{
+		for (int i = 0; i < totalcompositeshapes; i++)
+		{
+			delete V[i];
+			V[i] = nullptr;
+		}
+		pGame->getToolbar()->decrementlives();
+		if (pgrid->getActiveShape() != nullptr)
+		{
+			delete pgrid->getActiveShape();
+		}
+		delete pgrid;
+		pgrid = nullptr;
+
+		pGame->createGrid();
+	}
+	else
+	{
+		pGame->printMessage("You have used all of you lives");
+	}
+}
+
+//operSave::operSave(game* r_pGame) : operation(r_pGame)
+//{
+//}
+//void operSave::Act()
+//{
+//	int lev = pGame->getToolbar()->getLevel();
+//	int life = pGame->getToolbar()->getLives();
+//	int scre = pGame->getToolbar()->getScore();
+//	ofstream outfile;
+//	outfile.open("progress.txt");
+//	outfile << scre << "\n" << lev << "\n" << life << "\n";
+//	pGame->getGrid()->SaveShapes(outfile);
+//	outfile.close();
+//}
 
 

@@ -94,6 +94,20 @@ toolbarItem toolbar::getItemClicked(int x)
 
 }
 
+void toolbar::drawlives()
+{
+	window* pWind = pGame->getWind();
+
+	pWind->SetPen(config.bkGrndColor, 1);
+	pWind->SetBrush(config.bkGrndColor);
+	pWind->DrawRectangle(1100, 0, 1300, 35);
+
+	string heart = "images\\toolbarItems\\Heartt.jpg";
+	//Draw the lives
+	for (int i = config.hearts_beg_pos_factor; i < (config.hearts_beg_pos_factor + num_lives); i++)
+		pWind->DrawImage(heart, i * config.hearts_width, 0, config.hearts_width, config.hearts_height);
+}
+
 void toolbar::setlevel(int l)
 {
 	level = l;
@@ -107,6 +121,7 @@ void toolbar::dsteps()
 	pWind->SetPen(config.bkGrndColor, 1);
 	pWind->SetBrush(config.bkGrndColor);
 	pWind->DrawRectangle(1100, 35, 1300, 55);
+
 
 	pWind->SetPen(config.TextColor, 50);
 	pWind->SetFont(24, BOLD, BY_NAME, "Arial");
@@ -138,15 +153,27 @@ void toolbar::dscorelevel()
 	pWind->DrawString(config.XlevelPosition, config.YlevelPosition, "Level = ");
 	pWind->DrawInteger(config.XlevelPosition + config.LevelLength, config.YlevelPosition, level);
 }
-int toolbar::getLives() const
-{
-	return num_lives;
+
+void toolbar::setscore(int newscore) {
+	score = newscore;
+	dscorelevel();
 }
-int toolbar::getLevel() const
-{
+void toolbar::setlives(int new_num_lives) {
+	num_lives = new_num_lives;
+}
+int toolbar::getlevel()  const {
 	return level;
 }
-int toolbar::getScore() const
-{
+int toolbar::getscore()  const {
 	return score;
+}
+
+int toolbar::getlives()  const {
+	return num_lives;
+}
+
+void toolbar::decrementlives()
+{
+	num_lives--;
+	drawlives();
 }

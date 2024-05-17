@@ -7,7 +7,7 @@
 __declspec(selectany) //This line to prevent "redefinition error"
 struct 		
 {
-	int	windWidth = 1600, windHeight = 600,	//Window width and height
+	int	windWidth = 1590, windHeight = 621,	//Window width and height
 		wx = 5, wy = 5,			//Window starting coordinates
 
 		//The window is divded into 3 areas: toolbar, Working area, and statusbar
@@ -37,7 +37,7 @@ struct
 
 	////// Configuration for the composite shapes //////
 	// default Ref Point for any newly created shape 
-	int RefX = windWidth *  (2.0 / 3);
+	int RefX = windWidth *  (2.0/3);
 	int RefY = windHeight * (0.5);
 
 	////-----  Sign Shape Confoguration ---------////

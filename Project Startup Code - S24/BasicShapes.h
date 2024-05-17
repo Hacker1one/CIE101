@@ -10,7 +10,7 @@ class Rect:public shape
 	
 	point upperLeft, lowerBottom;
 public:
-	Rect(game* r_pGame, point ref, int r_hght, int r_wdth);
+	Rect(game* r_pGame, point ref, int r_hght, int r_wdth, color fillcolor);
 	virtual void draw() ;
 	virtual void Rotate() override;
 	int getheight();
@@ -20,6 +20,8 @@ public:
 	virtual void resizeUp();
 	virtual void resizeDown();
 	virtual void Flip() override;
+	virtual int getblockheight()override;
+	virtual int getblockbase()override;
 };
 
 
@@ -32,7 +34,7 @@ class circle :public shape
 	
 
 public:
-	circle(game* r_pGame, point ref, int r);	//add more parameters for the constructor if needed
+	circle(game* r_pGame, point ref, int r, color fillcolor);	//add more parameters for the constructor if needed
 	virtual void draw()  override ;
 	virtual void Flip();
 	virtual void Rotate() override;
@@ -41,7 +43,8 @@ public:
 	virtual void move(char);
 	virtual void resizeUp();
 	virtual void resizeDown();
-
+	virtual int getblockheight()override;
+	virtual int getblockbase()override;
 };
 
 
@@ -53,7 +56,7 @@ class Triangle : public shape
 
 
 public:
-	Triangle(game* r_pGame, point ref, int r_base, int r_height);
+	Triangle(game* r_pGame, point ref, int r_base, int r_height, color fillcolor);
 	virtual void draw() override;
 	virtual void Flip();
 	virtual void Rotate() override;
@@ -67,4 +70,6 @@ public:
 	virtual void move(char);
 	void setAxis(int);
 	void setnrefr(point);
+	virtual int getblockheight()override;
+	virtual int getblockbase()override;
 };

@@ -13,11 +13,15 @@ private:
 public:
 	toolbar(game* r_pGame);
 	toolbarItem getItemClicked(int x);	//handles clicks on toolbar icons, returns the "enum" of the clicekd item
-	void setlevel(int l);
+	void setlevel(int );
 	void dscorelevel();
+	void drawlives();
 	void dsteps();
-	int getLives() const;
-	int getLevel() const;
-	int getScore() const;
+	void decrementlives();
+	void setscore(int);
+	void setlives(int);
+	int getlevel() const;
+	int getscore() const;
+	int getlives() const;
 };
 

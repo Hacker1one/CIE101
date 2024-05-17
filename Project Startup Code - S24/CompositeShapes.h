@@ -9,15 +9,19 @@ class Sign :public shape
 
 
 public:
-	Sign(game* r_pGame, point ref);
+	Sign(game* r_pGame, point ref, color fillcolor);
 	virtual void draw() ;
 	virtual ShapeType getShapeType() const;
 	virtual void move(char);
 	virtual void resizeUp() override;
 	virtual void resizeDown() override;
-	virtual void save(ofstream& OutFile) override;
+	//virtual void save(ofstream& OutFile) override;
 	virtual void Rotate() override;
 	virtual void Flip() override;
+	virtual int getblockbase()override;
+	virtual int getblockheight()override;
+	void setxrange(int);
+	void setyrange(int);
 };
 
 
@@ -31,15 +35,19 @@ class pointerToAball : public shape
 	Triangle* ptrtip;
 	point ptrbdyref, ballref, ptrtipref;
 public:
-	pointerToAball(game* r_game, point ref);
+	pointerToAball(game* r_game, point ref, color fillcolor);
 	virtual void draw();
 	virtual ShapeType getShapeType() const;
 	virtual void move(char);
 	virtual void resizeUp() override;
 	virtual void resizeDown() override;
-	virtual void save(ofstream& OutFile) override;
+	/*virtual void save(ofstream& OutFile) override;*/
 	virtual void Flip();
 	virtual void Rotate() override;
+	virtual int getblockbase()override;
+	virtual int getblockheight()override;
+	void setxrange(int);
+	void setyrange(int);
 };
 
 class Gun : public shape
@@ -50,16 +58,20 @@ class Gun : public shape
 	Triangle* hand;
 	point handref, bullet1ref, bullet2ref, bodyref;
 public:
-	Gun(game* r_game, point ref);
+	Gun(game* r_game, point ref, color fillcolor);
 	virtual void draw();
 	
 	virtual ShapeType getShapeType() const;
 	virtual void move(char);
 	virtual void resizeUp() override;
 	virtual void resizeDown() override;
-	virtual void save(ofstream& OutFile) override;
+	/*virtual void save(ofstream& OutFile) override;*/
 	virtual void Flip();
 	virtual void Rotate() override;
+	virtual int getblockbase()override;
+	virtual int getblockheight()override;
+	void setxrange(int);
+	void setyrange(int);
 };
 
 
@@ -70,15 +82,19 @@ class standingball : public shape
 	circle* ball;
 	point standref, ballref;
 public:
-	standingball(game* r_game, point ref);
+	standingball(game* r_game, point ref, color fillcolor);
 	virtual void draw();
 	virtual ShapeType getShapeType() const;
 	virtual void move(char);
 	virtual void resizeUp() override;
 	virtual void resizeDown() override;
-	virtual void save(ofstream& OutFile) override;
+	//virtual void save(ofstream& OutFile) override;
 	virtual void Flip();
 	virtual void Rotate() override;
+	virtual int getblockbase()override;
+	virtual int getblockheight()override;
+	void setxrange(int);
+	void setyrange(int);
 };
 
 
@@ -92,15 +108,19 @@ class strawman : public shape
 	circle* Face;
 	point bodyref, hand1ref, hand2ref, leg1ref, leg2ref, faceref;
 public:
-	strawman(game* r_game, point ref);
+	strawman(game* r_game, point ref, color fillcolor);
 	virtual void draw();
 	virtual ShapeType getShapeType() const;
 	virtual void move(char);
 	virtual void resizeUp() override;
 	virtual void resizeDown() override;
-	virtual void save(ofstream& OutFile) override;
+	//virtual void save(ofstream& OutFile) override;
 	virtual void Flip();
 	virtual void Rotate() override;
+	virtual int getblockbase()override;
+	virtual int getblockheight()override;
+	void setxrange(int);
+	void setyrange(int);
 };
 
 
@@ -112,15 +132,19 @@ class house : public shape
 	point bodyref, roofref;
 
 public:
-	house(game* r_game, point ref);
+	house(game* r_game, point ref, color fillcolor);
 	virtual void draw();
 	virtual ShapeType getShapeType() const;
 	virtual void move(char);
 	virtual void resizeUp() override;
 	virtual void resizeDown() override;
-	virtual void save(ofstream& OutFile) override;
+	//virtual void save(ofstream& OutFile) override;
 	virtual void Flip();
 	virtual void Rotate() override;
+	virtual int getblockbase()override;
+	virtual int getblockheight()override;
+	void setxrange(int);
+	void setyrange(int);
 };
 
 
@@ -132,13 +156,17 @@ class balance : public shape
 	circle* circ;
 	point triRef, recRef, circRef;
 public:
-	balance(game* r_game, point ref);
+	balance(game* r_game, point ref, color fillcolor);
 	virtual void draw();
 	virtual ShapeType getShapeType() const;
 	virtual void move(char);
 	virtual void resizeUp() override;
 	virtual void resizeDown() override;
-	virtual void save(ofstream& OutFile) override;
+	//virtual void save(ofstream& OutFile) override;
 	virtual void Flip();
 	virtual void Rotate() override;
+	virtual int getblockbase()override;
+	virtual int getblockheight()override;
+	void setxrange(int);
+	void setyrange(int);
 };

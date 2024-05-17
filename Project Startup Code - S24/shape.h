@@ -13,7 +13,7 @@ struct point
 
 enum ShapeType
 {
-	//Basic shapes
+	
 	RCT,	//rectangle
 	CRC,	//circle
 	TRI,	//triangle
@@ -39,7 +39,12 @@ protected:
 	color borderColor;	//shape border color
 	bool flipped;
 	int rotated ;
-int resized;
+	int resized;
+	int size = 3;
+	int max_x;
+	int max_y;
+	int min_x;
+	int min_y;
 	int axis;
 public:
 	shape(game* r_pGame, point ref);
@@ -53,7 +58,19 @@ public:
 	virtual void resizeUp() = 0;
 	virtual void resizeDown() = 0;
 	virtual void Flip() = 0;
-	virtual void save(ofstream& OutFile) = 0;
+	virtual int getblockbase() = 0;
+	virtual int getblockheight() = 0;
+	void setxrange(int);
+	void setyrange(int);
+	int getxmax()const;
+	int getymax()const;
+	int getxmin()const;
+	int getymin()const;
+	void setcolor(color);
+	int getsize()const;
+	int getrotated()const; 
+	
+	//virtual void save(ofstream& OutFile) = 0;
 							  
 	//-- The following functions should be supported by the shape class
 	//-- It should be overridden by each inherited shape
