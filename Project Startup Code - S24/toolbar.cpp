@@ -1,6 +1,8 @@
 #include "toolbar.h"
 #include "game.h"
-
+#include<algorithm>
+#include <memory>
+#include<ctime>
 //#include "grid.h"
 
 
@@ -36,7 +38,7 @@ toolbar::toolbar(game* pG)
 	toolbarItemImages[ITM_INC] = "images\\toolbarItems\\inc.jpg";
 	toolbarItemImages[ITM_DEC] = "images\\toolbarItems\\dec.jpg";
 	toolbarItemImages[ITM_LVL] = "images\\toolbarItems\\lev.jpeg";
-	
+
 	
 	
 
@@ -94,6 +96,20 @@ toolbarItem toolbar::getItemClicked(int x)
 
 }
 
+void toolbar::drawlives()
+{
+	window* pWind = pGame->getWind();
+
+	pWind->SetPen(config.bkGrndColor, 1);
+	pWind->SetBrush(config.bkGrndColor);
+	pWind->DrawRectangle(1100, 0, 1300, 35);
+
+	string heart = "images\\toolbarItems\\Heartt.jpg";
+	//Draw the lives
+	for (int i = config.hearts_beg_pos_factor; i < (config.hearts_beg_pos_factor + num_lives); i++)
+		pWind->DrawImage(heart, i * config.hearts_width, 0, config.hearts_width, config.hearts_height);
+}
+
 void toolbar::setlevel(int l)
 {
 	level = l;
@@ -106,12 +122,13 @@ void toolbar::dsteps()
 
 	pWind->SetPen(config.bkGrndColor, 1);
 	pWind->SetBrush(config.bkGrndColor);
-	pWind->DrawRectangle(1100, 35, 1300, 55);
+	pWind->DrawRectangle(1250, 35, 1400, 55);
+
 
 	pWind->SetPen(config.TextColor, 50);
 	pWind->SetFont(24, BOLD, BY_NAME, "Arial");
-	pWind->DrawString(1150, 35, "Steps = ");
-	pWind->DrawInteger(1150 + config.ScoreLength, 35, pGame->getsteps());
+	pWind->DrawString(1250, 35, "Steps = ");
+	pWind->DrawInteger(1250 + config.ScoreLength, 35, pGame->getsteps());
 
 }
 
@@ -139,31 +156,6 @@ void toolbar::dscorelevel()
 	pWind->DrawInteger(config.XlevelPosition + config.LevelLength, config.YlevelPosition, level);
 }
 
-void toolbar::IncreaseTime(){
-	window* pWind = pGame->getWind();
-
-	pWind->SetPen(config.bkGrndColor, 1);
-	pWind->SetBrush(config.bkGrndColor);
-	pWind->DrawRectangle(1250, 35, 1300, 55);
-
-	pWind->SetPen(config.TextColor, 50);
-	pWind->SetFont(24, BOLD, BY_NAME, "Arial");
-	pWind->DrawString(1150, 35, "Time = ");
-	pWind->DrawInteger(1250, 35, time);
-}
-
-
-
-void toolbar::settime(int newtime) {
-	time = newtime;
-
-}
-
-int toolbar::gettime() const{
-	return time;
-}
-
-
 void toolbar::setscore(int newscore) {
 	score = newscore;
 	dscorelevel();
@@ -182,3 +174,32 @@ int toolbar::getlives()  const {
 	return num_lives;
 }
 
+void toolbar::decrementlives()
+{
+	num_lives--;
+	drawlives();
+}
+
+void toolbar::IncreaseTime() {
+	window* pWind = pGame->getWind();
+
+	pWind->SetPen(config.bkGrndColor, 1);
+	pWind->SetBrush(config.bkGrndColor);
+	pWind->DrawRectangle(1100, 35, 1220, 55);
+
+	pWind->SetPen(config.TextColor, 50);
+	pWind->SetFont(24, BOLD, BY_NAME, "Arial");
+	pWind->DrawString(1100, 35, "Time = ");
+	pWind->DrawInteger(1180, 35, time);
+}
+
+
+
+void toolbar::settime(int newtime) {
+	time = newtime;
+
+}
+
+int toolbar::gettime() const {
+	return time;
+}

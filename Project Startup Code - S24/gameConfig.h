@@ -17,8 +17,9 @@ struct
 		hearts_beg_pos_factor = 32, hearts_width = 35, hearts_height = 35,
 		XscorePosition = 1400, YscorePosition = 5,
 		XlevelPosition = 1400, YlevelPosition = 35,
-		ScoreLength = 80,LevelLength=80 , XtimePostiion = 1150 , YtimePosition = 35 , timeLength = 100;
-	    
+		ScoreLength = 80,LevelLength=80, XtimePostiion = 1150, YtimePosition = 35, timeLength = 100;
+	
+	
 	int remainingHeight = windHeight - toolBarHeight - statusBarHeight;
 
 	int gridHeight = int(remainingHeight * (2 / 3.0)); 		//The grid is where bricks can be drawn
