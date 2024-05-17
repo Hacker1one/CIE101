@@ -17,7 +17,7 @@ class game
 	window* pWind;	//Pointer to the CMU graphics window
 	grid* shapesGrid;
 	char pressedkey;
-
+	vector<operation*>operations;
 	int step;
 	long int givens = 0;
 
@@ -40,7 +40,7 @@ public:
 	void drawgivensteps()const;
 
 	int getgivensteps() const;
-
+	vector<operation*> getvectoroperations() const;
 	window* getWind() const;		//returns a pointer to the graphics window
 	grid* getGrid() const;		//returns a pointer to the shapes grid
 	toolbar* getToolbar() const;

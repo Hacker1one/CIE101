@@ -76,10 +76,6 @@ void operAddgun::Act()
 	grid* pGrid = pGame->getGrid();
 	pGrid->setActiveShape(psh);
 
-
-
-
-
 }
 
 
@@ -340,8 +336,34 @@ operexit::operexit(game* r_pGame) : operation(r_pGame)
 
 void operexit::Act()
 {
-
+	
+	window* pw = pGame->getWind();
+	grid* pgrid = pGame->getGrid();
+	vector<operation*> oper = pGame->getvectoroperations();
+	vector<shape*>V = pgrid->getshapeVector();
+	toolbar* tb = pGame->getToolbar();
+	for (int i = 0; i < V.size(); i++)
+	{
+		delete V[i];
+		V[i] = nullptr;
+	}
+	pGame->getToolbar()->decrementlives();
+	if (pgrid->getActiveShape() != nullptr)
+	{
+		delete pgrid->getActiveShape();
+	}
+	
+	delete tb;
+	tb = nullptr;
+	
+	for (int i = 0; i < oper.size(); i++)
+	{
+		delete oper[i];
+		oper[i] = nullptr;
+	}
+	delete pGame;
 }
+
 operHint::operHint(game* r_pGame) : operation(r_pGame)
 {
 }
@@ -367,7 +389,7 @@ void operrefresh::Act()
 	grid* pgrid = pGame->getGrid();
 	vector<shape*>V = pgrid->getshapeVector();
 	toolbar* tb = pGame->getToolbar();
-	if (tb->getlives() > 0)
+	if (tb->getlives() > 1)
 	{
 		for (int i = 0; i < totalcompositeshapes; i++)
 		{
@@ -386,7 +408,7 @@ void operrefresh::Act()
 	}
 	else
 	{
-		pGame->printMessage("You have used all of you lives");
+		pGame->printMessage("It is your last life. You no longer can use refresh");
 	}
 }
 
