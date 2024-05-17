@@ -3,9 +3,9 @@
 #include <iostream>
 #include <sstream>
 #include "CMUgraphicsLib\auxil.h"	// where Pause is found
-
-
-
+#include<algorithm>
+#include <memory>
+#include<ctime>
 
 game::game()
 {
@@ -24,7 +24,6 @@ game::game()
 	clearStatusBar();
 
 	slevel();
-
 	createGrid();
 	shapesGrid->draw();	//draw the grid and all shapes it contains.
 	
@@ -34,6 +33,7 @@ game::~game()
 {
 	delete pWind;
 	delete shapesGrid;
+	
 }
 
 
@@ -103,42 +103,12 @@ void game::slevel()
 		Pause(500);
 
 
-	} while (bQuit != true); \
-	givesteps();
-}
-void game::givesteps()
-{
-	int totalcompositeshapes = 0;
-	for (int i = gameToolbar->getlevel(); i < 11; i++)
-	{
-		totalcompositeshapes += (2 * i - 1);
-	}
-	givens = 30 * totalcompositeshapes;
-	drawgivensteps();
-}
-
-int game::getgivensteps() const
-{
-	return givens;
-}
-
-void game::drawgivensteps() const
-{
-	pWind->SetPen(BLACK, 1);
-	pWind->SetBrush(BLACK);
-	pWind->DrawRectangle(1250, config.windHeight - (int)(1 * config.statusBarHeight), config.windWidth, 621);
-
-	pWind->SetPen(config.penColor, 50);
-	pWind->SetFont(24, BOLD, BY_NAME, "Arial");
-	pWind->DrawString(1270, config.windHeight - (int)(0.85 * config.statusBarHeight), "Given Steps = ");
-	pWind->DrawInteger(1410, config.windHeight - (int)(0.85 * config.statusBarHeight), givens);
+	} while (bQuit != true); 
 }
 
 void game::countsteps()
 {
-	try {}
-	catch(string s)
-	{}
+
 }
 void game::incrementsteps()
 {
@@ -160,60 +130,49 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 	case ITM_SIGN:
 		op = new operAddSign(this);
 		printMessage("you clicked on sign");
-		operations.push_back(op);
 		break;
 	case ITM_BALL:
 		op = new operAddstandingball(this);
 		printMessage("you clicked on Standing ball");
-		operations.push_back(op);
 		break;
 	case ITM_MAN:
 		op = new operAddstrawman(this);
 		printMessage("you clicked on Straw Man");
-		operations.push_back(op);
 		break;
 	case ITM_PTR:
 		op = new operAddpointer(this);
 		printMessage("you clicked on Pointer Towards a Ball");
-		operations.push_back(op);
 		break;
 	case ITM_GUN:
 		op = new operAddgun(this);
 		printMessage("you clicked on Gun");
-		operations.push_back(op);
 		break;
 	case ITM_HOUSE:
 		op = new operAddhouse(this);
 		printMessage("you clicked on House");
-		operations.push_back(op);
 		break;
 	case ITM_BAL:
 		op = new operAddbalance(this);
 		printMessage("you clicked on Balance");
-		operations.push_back(op);
 		break;
 	case ITM_INC:
 		op = new operResizeUp(this);
 		incrementsteps();
 		printMessage("you clicked on Resize Up");
-		operations.push_back(op);
 		break;
 	case ITM_DEC:
 		op = new operResizeDown(this);
 		incrementsteps();
 		printMessage("you clicked on Resize Down");
-		operations.push_back(op);
 		break;
 	case ITM_DEL:
 		op = new operDelete(this);
 		printMessage("you clicked on Delete");
-		operations.push_back(op);
 		break;
 	case ITM_ROT:
 		op = new operRotate(this);
 		incrementsteps();
 		printMessage("you clicked on Rotate");
-		operations.push_back(op);
 		break;
 	case ITM_FLP:
 		op = new operFlip(this);
@@ -223,28 +182,15 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 	case ITM_LVL:
 		op = new operslevel(this);
 		printMessage("Select a level from 1 to 10");
-		operations.push_back(op);
 		break;
-	case ITM_REF:
-		op = new operrefresh(this);
-		printMessage("You clicked on Refresh");
-		operations.push_back(op);
-		break;
+
 	case ITM_EXIT:
 		op = new operexit(this);
-		printMessage("You clicked on Exit");
-		//operations.push_back(op);
-		delete op;
-		break;
-	case ITM_HINT:
-		op = new operHint(this);
-		printMessage("You selected on Hint");
-		operations.push_back(op);
+		printMessage("You selected on Exit");
 		break;
 	/*case ITM_SAVE:
 		op = new operSave(this);
 		printMessage("you clicked on Save");
-				operations.push_back(op);
 		break;
 */
 	}
@@ -263,14 +209,15 @@ void game::printMessage(string msg) const	//Prints a message on status bar
 	pWind->SetPen(config.penColor, 50);
 	pWind->SetFont(24, BOLD, BY_NAME, "Arial");
 	pWind->DrawString(10, config.windHeight - (int)(0.85 * config.statusBarHeight), msg);
-	drawgivensteps();
 }
+
 
 
 window* game::getWind() const		//returns a pointer to the graphics window
 {
 	return pWind;
 }
+
 
 
 string game::getSrting() const
@@ -308,6 +255,7 @@ toolbar* game::getToolbar() const
 }
 
 
+
 ////////////////////////////////////////////////////////////////////////
 void game::run()
 {
@@ -319,69 +267,77 @@ void game::run()
 	pWind->ChangeTitle("- - - - - - - - - - SHAPE HUNT (CIE 101 / CIE202 - project) - - - - - - - - - -");
 	toolbarItem clickedItem = ITM_CNT;
 
-
+	double timer = clock();
+	int cnt = 0; 
 	do
 	{
 		//printMessage("Ready...");
-		//1- Get user click
-		pWind->GetMouseClick(x, y);	//Get the coordinates of the user click
+		//1- Get user click 
+		
+		if (clock() - timer > 1000) {
 
-		//2-Explain the user click
-		//If user clicks on the Toolbar, ask toolbar which item is clicked
-		if (y >= 0 && y < config.toolBarHeight)
-		{
-			clickedItem = gameToolbar->getItemClicked(x);
-
-			//3-create the approp operation accordin to item clicked by the user
-			operation* op = createRequiredOperation(clickedItem);
-			if (op)
-				op->Act();
-			operations.push_back(op);
-
-
-			//4-Redraw the grid after each action
-			shapesGrid->draw();
-
-		}
-		kt = pWind->GetKeyPress(pressedkey);
-
-		if (kt == ASCII) {
-			printMessage("you clicked on ASCII");
-			if (pressedkey == ' ') {
-				printMessage("You clicked on Space");
-				int score = gameToolbar->getscore();
-				if (IsMatching(shapesGrid->getActiveShape())) {
-					score += 2;
-					printMessage("Mathcing !!");
-					gameToolbar->setscore(score);
-					
-					shapesGrid->deleteActiveShape();
-					shapesGrid->editShapeCount();
-
-				}
-				else {
-					score--;
-					printMessage("Wrong Mathcing !!");
-					gameToolbar->setscore(score);
-
-				
-				}
-			shapesGrid->draw();
-			}
+			timer = clock();
+			cnt++;
+			gameToolbar->settime(cnt);
+			gameToolbar->IncreaseTime(); // increase time by 1 second
+			
 		}
 
-		if (kt == ARROW) {
-			printMessage("you clicked on arrow");
-			operation* op2 = nullptr;
-			op2 = new operMove(pressedkey, this);
-			operations.push_back(op2);
-			if (op2) {
-				op2->Act();
+			pWind->GetMouseClick(x, y);	//Get the coordinates of the user click
+
+			//2-Explain the user click
+			//If user clicks on the Toolbar, ask toolbar which item is clicked
+			if (y >= 0 && y < config.toolBarHeight)
+			{
+				clickedItem = gameToolbar->getItemClicked(x);
+
+				//3-create the approp operation accordin to item clicked by the user
+				operation* op = createRequiredOperation(clickedItem);
+				if (op)
+					op->Act();
+
+				//4-Redraw the grid after each action
 				shapesGrid->draw();
 
-
 			}
-		}
+			kt = pWind->GetKeyPress(pressedkey);
+
+			if (kt == ASCII) {
+				printMessage("you clicked on ASCII");
+				if (pressedkey == ' ') {
+					printMessage("You clicked on Space");
+					int score = gameToolbar->getscore();
+					if (IsMatching(shapesGrid->getActiveShape(), currentobj)) {
+						score += 2;
+						printMessage("Mathcing !!");
+						gameToolbar->setscore(score);
+						delete shapesGrid->getActiveShape();
+
+
+					}
+					else {
+						score--;
+						printMessage("Wrong Mathcing !!");
+						gameToolbar->setscore(score);
+
+
+					}
+					shapesGrid->draw();
+				}
+			}
+
+			if (kt == ARROW) {
+				printMessage("you clicked on arrow");
+				operation* op2 = nullptr;
+				op2 = new operMove(pressedkey, this);
+				if (op2) {
+					op2->Act();
+					shapesGrid->draw();
+
+
+				}
+			}
+
 		
         
 	} while (clickedItem != ITM_EXIT);
@@ -392,30 +348,44 @@ void game::run()
 
 
 
-bool game::IsMatching(shape *sh) {
-	vector<shape*> V = shapesGrid->getshapeVector(); 
-	
-	for (unsigned int i = 0; i < V.size(); i++) {
-		
-		if (V[i]->getRefPoint().x == sh->getRefPoint().x && V[i]->getRefPoint().y == sh->getRefPoint().y && V[i]->getrotated() == sh->getrotated() && V[i]->getsize() == sh->getsize() && V[i]->getShapeType() == sh->getShapeType()) {
-			
-			
-			cout << V[i]->getShapeType();
-			V[i]->setcolor(LAVENDER);
-			
-			
-			return true; 
-			
-			
-			
+//bool game::IsMatching(shape *sh , int& curreentobj) {
+//	vector<shape*> V = shapesGrid->getshapeVector(); 
+//	
+//	for (unsigned int i = 0; i < V.size(); i++) {
+//		
+//		if (V[i]->getRefPoint().x == sh->getRefPoint().x && V[i]->getRefPoint().y == sh->getRefPoint().y && V[i]->getrotated() == sh->getrotated() && V[i]->getsize() == sh->getsize() && V[i]->getShapeType() == sh->getShapeType()) {
+//			
+//			shape* ptr; 
+//			
+//			V.erase(V.begin() + i);
+//			
+//			
+//			cout << i << endl;
+//			
+//			return true;
+//			 
+//		}
+//		
+//		
+//	}
+//	return false;
+//}
+bool game::IsMatching(shape* sh, int& curreentobj) {
+	vector<shape*> V = shapesGrid->getshapeVector();
+	V.push_back(sh);
+	vector<shape*>::iterator it; 
+	for (it = V.begin(); it != V.end(); it++) {
+		if ((*it)->getRefPoint().x == (*V.end())->getRefPoint().x) {
+			delete* it;
+			it = V.erase(it);
+			cout << "deleted" << *it << endl;
+
+			return true;
 		}
-		
-		
+		else {
+			return false;
+		}
+
 	}
-	return false;
 }
 
-vector<operation*> game::getvectoroperations() const
-{
-	return operations;
-}
