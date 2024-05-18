@@ -412,19 +412,39 @@ void operrefresh::Act()
 	}
 }
 
-//operSave::operSave(game* r_pGame) : operation(r_pGame)
-//{
-//}
-//void operSave::Act()
-//{
-//	int lev = pGame->getToolbar()->getLevel();
-//	int life = pGame->getToolbar()->getLives();
-//	int scre = pGame->getToolbar()->getScore();
-//	ofstream outfile;
-//	outfile.open("progress.txt");
-//	outfile << scre << "\n" << lev << "\n" << life << "\n";
-//	pGame->getGrid()->SaveShapes(outfile);
-//	outfile.close();
-//}
+
+operSave::operSave(game* r_pGame) : operation(r_pGame)
+{
+}
+void operSave::Act()
+{
+	int lev = pGame->getToolbar()->getlevel();
+	int life = pGame->getToolbar()->getlives();
+	int scre = pGame->getToolbar()->getscore();
+	ofstream outfile;
+	outfile.open("progress.txt");
+	outfile << scre << "\n" << lev << "\n" << life << "\n";
+	pGame->getGrid()->SaveShapes(outfile);
+	outfile.close();
+}
+operLoad::operLoad(game* r_pGame) : operation(r_pGame)
+{
+}
+void operLoad::Act()
+{
+	ifstream infile;
+	infile.open("progress.txt");
+	if (infile) {
+		int lev, life, scre;
+		infile >> scre >> lev >> life;
+		pGame->getToolbar()->setscore(scre);
+		pGame->getToolbar()->setlevel(lev);
+		pGame->getToolbar()->setlives(life);
+		pGame->getGrid()->LoadShapes(infile);
+		infile.close();
+	}
+	else
+		pGame->printMessage("No saved progress");
+}
 
 

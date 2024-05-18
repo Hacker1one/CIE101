@@ -45,6 +45,7 @@ public:
 	grid* getGrid() const;		//returns a pointer to the shapes grid
 	toolbar* getToolbar() const;
 	bool IsMatching(shape*);
+	void checktoload();
 	//creates an operation according to the toolbar item clicked
 	operation* createRequiredOperation(toolbarItem clickedItem);
 	

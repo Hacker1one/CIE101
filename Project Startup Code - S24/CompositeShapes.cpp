@@ -14,7 +14,7 @@ Sign::Sign(game* r_pGame, point ref, color fillcolor) :shape(r_pGame, ref)
 	borderColor = fillcolor;
 	top = new Rect(pGame, topRef, config.sighShape.topHeight, config.sighShape.topWdth, fillColor);
 	base = new Rect(pGame, baseRef, config.sighShape.baseHeight, config.sighShape.baseWdth, fillColor);
-
+	resized = 0;
 
 }
 void Sign::draw()   
@@ -266,7 +266,30 @@ void Sign::setyrange(int height) {
 	min_y = RefPoint.y - (height / 2);
 	max_y = RefPoint.y + (height / 2);
 }
-
+void Sign::save(ofstream& OutFile)
+{
+	OutFile << SIGN << "\n" << topRef.x << "\n" << topRef.y << "\n" << fillColor.ucRed << "\n" << fillColor.ucGreen << "\n" << fillColor.ucBlue << "\n" << resized << "\n" << rotated << "\n";
+}
+void Sign::load(ifstream& Infile)
+{
+	int rszd, rttd;
+	Infile >> rszd >> rttd;
+	if (rszd > 0)
+	{
+		for (int i = 0; i < rszd; i++)
+			this->resizeUp();
+	}
+	else if (rszd < 0)
+	{
+		for (int i = rszd; i > 0; i--)
+			this->resizeDown();
+	}
+	if (rttd > 0)
+	{
+		for (int i = 0; i < rttd; i++)
+			this->Rotate();
+	}
+}
 
 
 
@@ -281,7 +304,7 @@ pointerToAball::pointerToAball(game* r_pGame, point ref, color fillcolor) :shape
 	Ptrbdy = new Rect(pGame, ptrbdyref, config.bdy.bdywidth, config.bdy.bdylength, fillColor);
 	ball = new circle(pGame, ballref, config.ball.ballradius, fillColor);
 	ptrtip = new Triangle(pGame, ptrtipref, config.tip.tipwidth, config.tip.tipheight, fillColor);
-	
+	resized = 0;
 	ptrtip->Rotate();
 }
 void pointerToAball::draw() 
@@ -585,7 +608,30 @@ void pointerToAball::setyrange(int height) {
 	min_y = RefPoint.y - (height / 2);
 	max_y = RefPoint.y + (height / 2);
 }
-
+void pointerToAball::save(ofstream& OutFile)
+{
+	OutFile << POINTER << "\n" << ptrtipref.x << "\n" << ptrtipref.y << "\n" << fillColor.ucRed << "\n" << fillColor.ucGreen << "\n" << fillColor.ucBlue << "\n" << resized << "\n" << rotated << "\n";
+}
+void pointerToAball::load(ifstream& Infile)
+{
+	int rszd, rttd;
+	Infile >> rszd >> rttd;
+	if (rszd > 0)
+	{
+		for (int i = 0; i < rszd; i++)
+			this->resizeUp();
+	}
+	else if (rszd < 0)
+	{
+		for (int i = rszd; i > 0; i--)
+			this->resizeDown();
+	}
+	if (rttd > 0)
+	{
+		for (int i = 0; i < rttd; i++)
+			this->Rotate();
+	}
+}
 
 
 
@@ -600,7 +646,7 @@ standingball::standingball(game* r_pGame, point ref, color fillcolor) :shape(r_p
 
 	stand = new Rect(pGame, standref, config.stand.standwidth, config.stand.standlength, fillColor);
 	ball = new circle(pGame, ballref, config.ball.ballradius, fillColor);
-
+	resized = 0;
 
 }
 void  standingball::draw() {
@@ -865,7 +911,30 @@ void standingball::setyrange(int height) {
 	min_y = RefPoint.y - (height / 2);
 	max_y = RefPoint.y + (height / 2);
 }
-
+void standingball::save(ofstream& OutFile)
+{
+	OutFile << STDBALL << "\n" << standref.x << "\n" << standref.y << "\n" << fillColor.ucRed << "\n" << fillColor.ucGreen << "\n" << fillColor.ucBlue << "\n" << resized << "\n" << rotated << "\n";
+}
+void standingball::load(ifstream& Infile)
+{
+	int rszd, rttd;
+	Infile >> rszd >> rttd;
+	if (rszd > 0)
+	{
+		for (int i = 0; i < rszd; i++)
+			this->resizeUp();
+	}
+	else if (rszd < 0)
+	{
+		for (int i = rszd; i > 0; i--)
+			this->resizeDown();
+	}
+	if (rttd > 0)
+	{
+		for (int i = 0; i < rttd; i++)
+			this->Rotate();
+	}
+}
 
 
 
@@ -886,6 +955,7 @@ strawman::strawman(game* r_pGame, point ref, color fillcolor) :shape(r_pGame, re
 	Leg1 = new Triangle(pGame, leg1ref, config.strawman.legwidth, config.strawman.legheight, fillColor);
 	Leg2 = new Triangle(pGame, leg2ref, config.strawman.legwidth, config.strawman.legheight, fillColor);
 	Face = new circle(pGame, faceref, config.strawman.faceradius, fillColor);
+	resized = 0;
 }
 void strawman::draw() 
 {
@@ -1481,7 +1551,30 @@ void strawman::setyrange(int height) {
 	min_y = RefPoint.y - (height / 2);
 	max_y = RefPoint.y + (height / 2);
 }
-
+void strawman::save(ofstream& OutFile)
+{
+	OutFile << MAN << "\n" << bodyref.x << "\n" << bodyref.y << "\n" << fillColor.ucRed << "\n" << fillColor.ucGreen << "\n" << fillColor.ucBlue << "\n" << resized << "\n" << rotated << "\n";
+}
+void strawman::load(ifstream& Infile)
+{
+	int rszd, rttd;
+	Infile >> rszd >> rttd;
+	if (rszd > 0)
+	{
+		for (int i = 0; i < rszd; i++)
+			this->resizeUp();
+	}
+	else if (rszd < 0)
+	{
+		for (int i = rszd; i > 0; i--)
+			this->resizeDown();
+	}
+	if (rttd > 0)
+	{
+		for (int i = 0; i < rttd; i++)
+			this->Rotate();
+	}
+}
 
 
 
@@ -1499,6 +1592,7 @@ Gun::Gun(game* r_pGame, point ref, color fillcolor) :shape(r_pGame, ref)
 	bullet2 = new circle(pGame, bullet2ref, config.Gun.BulletRadius, fillColor);
 
 	hand = new Triangle(pGame, handref, config.Gun.GetBase, config.Gun.GetHeight, fillColor);
+	resized = 0;
 }
 void Gun::draw() 
 {
@@ -1892,7 +1986,30 @@ void Gun::setyrange(int height) {
 	min_y = RefPoint.y - (height / 2);
 	max_y = RefPoint.y + (height / 2);
 }
-
+void Gun::save(ofstream& OutFile)
+{
+	OutFile << GUN << "\n" << bodyref.x << "\n" << bodyref.y << "\n" << fillColor.ucRed << "\n" << fillColor.ucGreen << "\n" << fillColor.ucBlue << "\n" << resized << "\n" << rotated << "\n";
+}
+void Gun::load(ifstream& Infile)
+{
+	int rszd, rttd;
+	Infile >> rszd >> rttd;
+	if (rszd > 0)
+	{
+		for (int i = 0; i < rszd; i++)
+			this->resizeUp();
+	}
+	else if (rszd < 0)
+	{
+		for (int i = rszd; i > 0; i--)
+			this->resizeDown();
+	}
+	if (rttd > 0)
+	{
+		for (int i = 0; i < rttd; i++)
+			this->Rotate();
+	}
+}
 
 
 house::house(game* r_pGame, point ref, color fillcolor) :shape(r_pGame, ref)
@@ -1903,7 +2020,7 @@ house::house(game* r_pGame, point ref, color fillcolor) :shape(r_pGame, ref)
 	borderColor = fillcolor;
 	body = new Rect(pGame, bodyref, config.house.bodyheight, config.house.bodyLength, fillColor);
 	roof = new Triangle(pGame, roofref, config.house.roofwidth, config.house.roofheight, fillColor);
-
+	resized = 0;
 }
 void house::draw()
 {
@@ -2229,7 +2346,30 @@ void house::setyrange(int height) {
 	min_y = RefPoint.y - (height / 2);
 	max_y = RefPoint.y + (height / 2);
 }
-
+void house::save(ofstream& OutFile)
+{
+	OutFile << HOS << "\n" << bodyref.x << "\n" << bodyref.y << "\n" << fillColor.ucRed << "\n" << fillColor.ucGreen << "\n" << fillColor.ucBlue << "\n" << resized << "\n" << rotated << "\n";
+}
+void house::load(ifstream& Infile)
+{
+	int rszd, rttd;
+	Infile >> rszd >> rttd;
+	if (rszd > 0)
+	{
+		for (int i = 0; i < rszd; i++)
+			this->resizeUp();
+	}
+	else if (rszd < 0)
+	{
+		for (int i = rszd; i > 0; i--)
+			this->resizeDown();
+	}
+	if (rttd > 0)
+	{
+		for (int i = 0; i < rttd; i++)
+			this->Rotate();
+	}
+}
 
 
 
@@ -2244,7 +2384,7 @@ balance::balance(game* r_pGame, point ref, color fillcolor) :shape(r_pGame, ref)
 	circ = new circle(pGame, circRef, config.balance.getradius, fillColor);
 	circRef = { RefPoint.x , RefPoint.y - (rec->getheight() / 2 + circ->getradius()) };
 	triRef = { RefPoint.x  , RefPoint.y + (tri->getheight() / 2 + rec->getheight() / 2) };
-
+	resized = 0;
 }
 void balance::draw()
 {
@@ -2585,4 +2725,29 @@ void balance::setxrange(int base) {
 void balance::setyrange(int height) {
 	min_y = RefPoint.y - (height / 2);
 	max_y = RefPoint.y + (height / 2);
+}
+void balance::save(ofstream& OutFile)
+{
+	OutFile.open("progress.txt");
+	OutFile << BAL << "\n" << recRef.x << "\n" << recRef.y << "\n" << fillColor.ucRed << "\n" << fillColor.ucGreen << "\n" << fillColor.ucBlue << "\n" << resized << "\n" << rotated << "\n";
+}
+void balance::load(ifstream& Infile)
+{
+	int rszd, rttd;
+	Infile >> rszd >> rttd;
+	if (rszd > 0)
+	{
+		for (int i = 0; i < rszd; i++)
+			this->resizeUp();
+	}
+	else if (rszd < 0)
+	{
+		for (int i = rszd; i > 0; i--)
+			this->resizeDown();
+	}
+	if (rttd > 0)
+	{
+		for (int i = 0; i < rttd; i++)
+			this->Rotate();
+	}
 }

@@ -26,7 +26,7 @@ game::game()
 	//Create and clear the status bar
 	clearStatusBar();
 
-	slevel();
+	checktoload();
 
 	createGrid();
 	shapesGrid->draw();	//draw the grid and all shapes it contains.
@@ -74,6 +74,46 @@ void game::createGrid()
 	shapesGrid->randomShapeGeneration();
 }
 
+void game::checktoload()
+{
+		bool bQuit = false;
+		keytype ktInput;
+		clicktype ctInput;
+		char cKeyData;
+
+		// Display initial message
+		printMessage("Do you want to load a previous file. Click (y) for Yes and (n) for No");
+
+		// Flush out the input queues before beginning
+		pWind->FlushMouseQueue();
+		pWind->FlushKeyQueue();
+
+		do
+		{
+			pWind->SetPen(BLACK);
+
+			ktInput = pWind->GetKeyPress(cKeyData);
+
+			if (cKeyData == 121 || cKeyData == 89 ) {
+				ostringstream output;
+				output << "You chose to load ";
+				pWind->DrawString(5, 180, output.str()); // Adjust Y coordinate for clarity4
+				operation* op = new operLoad(this);
+				bQuit = true;
+			}
+			else if (cKeyData == 79 || cKeyData == 110)
+			{
+				slevel();
+				bQuit = true;
+			}
+
+			// Pause for half a second
+			Pause(500);
+
+
+		} while (bQuit != true);
+		givesteps();
+}
 void game::slevel()
 {
 	bool bQuit = false;
@@ -82,7 +122,7 @@ void game::slevel()
 	char cKeyData;
 
 	// Display initial message
-	printMessage("Select a level from 1 to 10");
+	printMessage("Select a level from 1 to 10 (Press T or t for 10)");
 
 	// Flush out the input queues before beginning
 	pWind->FlushMouseQueue();
@@ -94,21 +134,33 @@ void game::slevel()
 
 		ktInput = pWind->GetKeyPress(cKeyData);
 
-		if (isdigit(cKeyData)) {
-			ostringstream output;
-			output << "You chose level '" << cKeyData << "'";
-			pWind->DrawString(5, 180, output.str()); // Adjust Y coordinate for clarity4
-			gameToolbar->setlevel(cKeyData-48);
-			bQuit = true;
+		if ((cKeyData>=48 && cKeyData < 58) || cKeyData == 84 || cKeyData == 116) {
+			if (cKeyData >= 48 && cKeyData < 58)
+			{
+				ostringstream output;
+				output << "You chose level '" << cKeyData << "'";
+				pWind->DrawString(5, 180, output.str()); // Adjust Y coordinate for clarity4
+				gameToolbar->setlevel(cKeyData - 48);
+				bQuit = true;
+			}
+			else
+			{
+				ostringstream output;
+				output << "You chose level '10'";
+				pWind->DrawString(5, 180, output.str()); // Adjust Y coordinate for clarity4
+				gameToolbar->setlevel(10);
+				bQuit = true;
+			}
 		}
 
 		// Pause for half a second
 		Pause(500);
 
 
-	} while (bQuit != true); \
+	} while (bQuit != true); 
 	givesteps();
 }
+
 void game::givesteps()
 {
 	int totalcompositeshapes = 0;
@@ -244,12 +296,14 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 		printMessage("You selected on Hint");
 		operations.push_back(op);
 		break;
-	/*case ITM_SAVE:
+	case ITM_SAVE:
 		op = new operSave(this);
 		printMessage("you clicked on Save");
-				operations.push_back(op);
 		break;
-*/
+	case ITM_LOAD:
+		op = new operLoad(this);
+		printMessage("you clicked on Load");
+		break;
 	}
 	return op;
 }

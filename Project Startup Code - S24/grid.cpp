@@ -224,6 +224,7 @@ bool grid::addShape(shape* newShape)
 	}
 
 	shapeVector.push_back(newShape);
+	shapeCount++;
 	cout << "halooo";
 	return true;
 }
@@ -249,15 +250,60 @@ void grid::editShapeCount()
 void grid::deleteActiveShape()
 {
 	delete activeShape;
+	activeShape = nullptr;
 }
-//void grid::SaveShapes(ofstream& OutFile)
-//{
-//	for (int i = 0; i < shapeCount; i++)
-//	{
-//		shapeList[i]->save(OutFile);
-//	}
-//}
 
+void grid::SaveShapes(ofstream& OutFile)
+{
+	if (shapeCount > 0)
+		OutFile << shapeCount << "\n";
+	for (int i = 0; i < shapeCount; i++)
+	{
+		shapeVector[i]->save(OutFile);
+	}
+}
+void grid::LoadShapes(ifstream& InFile)
+{
+	int shpcnt;
+	InFile >> shpcnt;
+	for (int i = 0; i < shpcnt; i++)
+	{
+		int shptyp, x, y;
+		unsigned char red, green, blue;
+		InFile >> shptyp >> x >> y >> red >> green >> blue;
+		point pnt;
+		pnt.x = x;
+		pnt.y = y;
+		color clr(red, green, blue);
+		shape* sh = nullptr;
+
+		switch (shptyp)
+		{
+		case GUN:
+			sh = new Gun(pGame, pnt, clr);
+			break;
+		case POINTER:
+			sh = new pointerToAball(pGame, pnt, clr);
+			break;
+		case HOS:
+			sh = new house(pGame, pnt, clr);
+			break;
+		case MAN:
+			sh = new strawman(pGame, pnt, clr);
+			break;
+		case  STDBALL:
+			sh = new standingball(pGame, pnt, clr);
+			break;
+		case SIGN:
+			sh = new Sign(pGame, pnt, clr);
+			break;
+		case BAL:
+			sh = new Sign(pGame, pnt, clr);
+		}
+		sh->load(InFile);
+		addShape(sh);
+	}
+}
 int grid::getshapecount()const {
 	return shapeCount;
 }
