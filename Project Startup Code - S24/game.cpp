@@ -3,9 +3,6 @@
 #include <iostream>
 #include <sstream>
 #include "CMUgraphicsLib\auxil.h"	// where Pause is found
-#include<algorithm>
-#include <memory>
-#include<ctime>
 
 
 
@@ -163,60 +160,49 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 	case ITM_SIGN:
 		op = new operAddSign(this);
 		printMessage("you clicked on sign");
-		operations.push_back(op);
 		break;
 	case ITM_BALL:
 		op = new operAddstandingball(this);
 		printMessage("you clicked on Standing ball");
-		operations.push_back(op);
 		break;
 	case ITM_MAN:
 		op = new operAddstrawman(this);
 		printMessage("you clicked on Straw Man");
-		operations.push_back(op);
 		break;
 	case ITM_PTR:
 		op = new operAddpointer(this);
 		printMessage("you clicked on Pointer Towards a Ball");
-		operations.push_back(op);
 		break;
 	case ITM_GUN:
 		op = new operAddgun(this);
 		printMessage("you clicked on Gun");
-		operations.push_back(op);
 		break;
 	case ITM_HOUSE:
 		op = new operAddhouse(this);
 		printMessage("you clicked on House");
-		operations.push_back(op);
 		break;
 	case ITM_BAL:
 		op = new operAddbalance(this);
 		printMessage("you clicked on Balance");
-		operations.push_back(op);
 		break;
 	case ITM_INC:
 		op = new operResizeUp(this);
 		incrementsteps();
 		printMessage("you clicked on Resize Up");
-		operations.push_back(op);
 		break;
 	case ITM_DEC:
 		op = new operResizeDown(this);
 		incrementsteps();
 		printMessage("you clicked on Resize Down");
-		operations.push_back(op);
 		break;
 	case ITM_DEL:
 		op = new operDelete(this);
 		printMessage("you clicked on Delete");
-		operations.push_back(op);
 		break;
 	case ITM_ROT:
 		op = new operRotate(this);
 		incrementsteps();
 		printMessage("you clicked on Rotate");
-		operations.push_back(op);
 		break;
 	case ITM_FLP:
 		op = new operFlip(this);
@@ -226,30 +212,27 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 	case ITM_LVL:
 		op = new operslevel(this);
 		printMessage("Select a level from 1 to 10");
-		operations.push_back(op);
 		break;
 	case ITM_REF:
 		op = new operrefresh(this);
 		printMessage("You clicked on Refresh");
-		operations.push_back(op);
 		break;
 	case ITM_EXIT:
 		op = new operexit(this);
-		printMessage("You clicked on Exit");
-		//operations.push_back(op);
-		delete op;
+		printMessage("You selected on Exit");
 		break;
 	case ITM_HINT:
 		op = new operHint(this);
 		printMessage("You selected on Hint");
-		operations.push_back(op);
 		break;
-	/*case ITM_SAVE:
+	case ITM_SAVE:
 		op = new operSave(this);
 		printMessage("you clicked on Save");
-				operations.push_back(op);
 		break;
-*/
+	case ITM_LOAD:
+		op = new operLoad(this);
+		printMessage("you clicked on Load");
+		break;
 	}
 	return op;
 }
@@ -322,21 +305,9 @@ void game::run()
 	pWind->ChangeTitle("- - - - - - - - - - SHAPE HUNT (CIE 101 / CIE202 - project) - - - - - - - - - -");
 	toolbarItem clickedItem = ITM_CNT;
 
-	double timer = clock();
-	int cnt = 0;
+
 	do
 	{
-		//printMessage("Ready...");
-		//1- Get user click 
-
-		if (clock() - timer > 1000) {
-
-			timer = clock();
-			cnt++;
-			gameToolbar->settime(cnt);
-			gameToolbar->IncreaseTime(); // increase time by 1 second
-
-		}
 		//printMessage("Ready...");
 		//1- Get user click
 		pWind->GetMouseClick(x, y);	//Get the coordinates of the user click
@@ -351,8 +322,6 @@ void game::run()
 			operation* op = createRequiredOperation(clickedItem);
 			if (op)
 				op->Act();
-			operations.push_back(op);
-
 
 			//4-Redraw the grid after each action
 			shapesGrid->draw();
@@ -389,7 +358,6 @@ void game::run()
 			printMessage("you clicked on arrow");
 			operation* op2 = nullptr;
 			op2 = new operMove(pressedkey, this);
-			operations.push_back(op2);
 			if (op2) {
 				op2->Act();
 				shapesGrid->draw();
@@ -403,6 +371,8 @@ void game::run()
 }
 
 	
+
+
 
 
 bool game::IsMatching(shape *sh) {
@@ -428,7 +398,4 @@ bool game::IsMatching(shape *sh) {
 	return false;
 }
 
-vector<operation*> game::getvectoroperations() const
-{
-	return operations;
-}
+

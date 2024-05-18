@@ -35,6 +35,7 @@ public:
 	int getshapecount()const;
 	void randomShapeGeneration();
 	vector<shape*> getshapeVector() const;
-	/*void SaveShapes(ofstream& OutFile);*/
+	void SaveShapes(ofstream& OutFile);
+	void LoadShapes(ifstream& InFile);
 };
 

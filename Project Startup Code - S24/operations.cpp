@@ -76,6 +76,10 @@ void operAddgun::Act()
 	grid* pGrid = pGame->getGrid();
 	pGrid->setActiveShape(psh);
 
+
+
+
+
 }
 
 
@@ -336,34 +340,8 @@ operexit::operexit(game* r_pGame) : operation(r_pGame)
 
 void operexit::Act()
 {
-	
-	window* pw = pGame->getWind();
-	grid* pgrid = pGame->getGrid();
-	vector<operation*> oper = pGame->getvectoroperations();
-	vector<shape*>V = pgrid->getshapeVector();
-	toolbar* tb = pGame->getToolbar();
-	for (int i = 0; i < V.size(); i++)
-	{
-		delete V[i];
-		V[i] = nullptr;
-	}
-	pGame->getToolbar()->decrementlives();
-	if (pgrid->getActiveShape() != nullptr)
-	{
-		delete pgrid->getActiveShape();
-	}
-	
-	delete tb;
-	tb = nullptr;
-	
-	for (int i = 0; i < oper.size(); i++)
-	{
-		delete oper[i];
-		oper[i] = nullptr;
-	}
-	delete pGame;
-}
 
+}
 operHint::operHint(game* r_pGame) : operation(r_pGame)
 {
 }
@@ -389,7 +367,7 @@ void operrefresh::Act()
 	grid* pgrid = pGame->getGrid();
 	vector<shape*>V = pgrid->getshapeVector();
 	toolbar* tb = pGame->getToolbar();
-	if (tb->getlives() > 1)
+	if (tb->getlives() > 0)
 	{
 		for (int i = 0; i < totalcompositeshapes; i++)
 		{
@@ -408,23 +386,42 @@ void operrefresh::Act()
 	}
 	else
 	{
-		pGame->printMessage("It is your last life. You no longer can use refresh");
+		pGame->printMessage("You have used all of you lives");
 	}
 }
 
-//operSave::operSave(game* r_pGame) : operation(r_pGame)
-//{
-//}
-//void operSave::Act()
-//{
-//	int lev = pGame->getToolbar()->getLevel();
-//	int life = pGame->getToolbar()->getLives();
-//	int scre = pGame->getToolbar()->getScore();
-//	ofstream outfile;
-//	outfile.open("progress.txt");
-//	outfile << scre << "\n" << lev << "\n" << life << "\n";
-//	pGame->getGrid()->SaveShapes(outfile);
-//	outfile.close();
-//}
+operSave::operSave(game* r_pGame) : operation(r_pGame)
+{
+}
+void operSave::Act()
+{
+	int lev = pGame->getToolbar()->getlevel();
+	int life = pGame->getToolbar()->getlives();
+	int scre = pGame->getToolbar()->getscore();
+	ofstream outfile;
+	outfile.open("progress.txt");
+	outfile << scre << "\n" << lev << "\n" << life << "\n";
+	pGame->getGrid()->SaveShapes(outfile);
+	outfile.close();
+}
+operLoad::operLoad(game* r_pGame) : operation(r_pGame)
+{
+}
+void operLoad::Act()
+{
+	ifstream infile;
+	infile.open("progress.txt");
+	if (infile) {
+		int lev, life, scre;
+		infile >> scre >> lev >> life;
+		pGame->getToolbar()->setscore(scre);
+		pGame->getToolbar()->setlevel(lev);
+		pGame->getToolbar()->setlives(life);
+		pGame->getGrid()->LoadShapes(infile);
+		infile.close();
+	}
+	else
+		pGame->printMessage("No saved progress");
+}
 
 
