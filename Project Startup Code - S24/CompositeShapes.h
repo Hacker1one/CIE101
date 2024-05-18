@@ -15,7 +15,8 @@ public:
 	virtual void move(char);
 	virtual void resizeUp() override;
 	virtual void resizeDown() override;
-	//virtual void save(ofstream& OutFile) override;
+	virtual void save(ofstream& OutFile) override;
+	virtual void load(ifstream& Infile) override;
 	virtual void Rotate() override;
 	virtual void Flip() override;
 	virtual int getblockbase()override;
@@ -41,7 +42,8 @@ public:
 	virtual void move(char);
 	virtual void resizeUp() override;
 	virtual void resizeDown() override;
-	/*virtual void save(ofstream& OutFile) override;*/
+	virtual void save(ofstream& OutFile) override;
+	virtual void load(ifstream& Infile) override;
 	virtual void Flip();
 	virtual void Rotate() override;
 	virtual int getblockbase()override;
@@ -65,7 +67,8 @@ public:
 	virtual void move(char);
 	virtual void resizeUp() override;
 	virtual void resizeDown() override;
-	/*virtual void save(ofstream& OutFile) override;*/
+	virtual void save(ofstream& OutFile) override;
+	virtual void load(ifstream& Infile) override;
 	virtual void Flip();
 	virtual void Rotate() override;
 	virtual int getblockbase()override;
@@ -88,7 +91,8 @@ public:
 	virtual void move(char);
 	virtual void resizeUp() override;
 	virtual void resizeDown() override;
-	//virtual void save(ofstream& OutFile) override;
+	virtual void save(ofstream& OutFile) override;
+	virtual void load(ifstream& Infile) override;
 	virtual void Flip();
 	virtual void Rotate() override;
 	virtual int getblockbase()override;
@@ -114,7 +118,8 @@ public:
 	virtual void move(char);
 	virtual void resizeUp() override;
 	virtual void resizeDown() override;
-	//virtual void save(ofstream& OutFile) override;
+	virtual void save(ofstream& OutFile) override;
+	virtual void load(ifstream& Infile) override;
 	virtual void Flip();
 	virtual void Rotate() override;
 	virtual int getblockbase()override;
@@ -138,7 +143,8 @@ public:
 	virtual void move(char);
 	virtual void resizeUp() override;
 	virtual void resizeDown() override;
-	//virtual void save(ofstream& OutFile) override;
+	virtual void save(ofstream& OutFile) override;
+	virtual void load(ifstream& Infile) override;
 	virtual void Flip();
 	virtual void Rotate() override;
 	virtual int getblockbase()override;
@@ -162,7 +168,8 @@ public:
 	virtual void move(char);
 	virtual void resizeUp() override;
 	virtual void resizeDown() override;
-	//virtual void save(ofstream& OutFile) override;
+	virtual void save(ofstream& OutFile) override;
+	virtual void load(ifstream& Infile) override;
 	virtual void Flip();
 	virtual void Rotate() override;
 	virtual int getblockbase()override;

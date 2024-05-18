@@ -22,6 +22,8 @@ public:
 	virtual void Flip() override;
 	virtual int getblockheight()override;
 	virtual int getblockbase()override;
+	virtual void save(ofstream& OutFile) override;
+	virtual void load(ifstream& Infile) override;
 };
 
 
@@ -45,6 +47,8 @@ public:
 	virtual void resizeDown();
 	virtual int getblockheight()override;
 	virtual int getblockbase()override;
+	virtual void save(ofstream& OutFile) override;
+	virtual void load(ifstream& Infile) override;
 };
 
 
@@ -72,4 +76,6 @@ public:
 	void setnrefr(point);
 	virtual int getblockheight()override;
 	virtual int getblockbase()override;
+	virtual void save(ofstream& OutFile) override;
+	virtual void load(ifstream& Infile) override;
 };

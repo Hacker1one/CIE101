@@ -2,6 +2,8 @@
 #include "shape.h"
 #include "gameConfig.h"
 #include "game.h"
+#include "fstream"
+using namespace std;
 
 
 Rect::Rect(game* r_pGame, point ref, int r_hght, int r_wdth, color fillcolor) :shape(r_pGame, ref)
@@ -103,6 +105,14 @@ ShapeType Rect::getShapeType() const
 {
 	return RCT;
 }
+void Rect::save(ofstream& OutFile)
+{
+	OutFile << RCT << "\n" << hght << "\n" << wdth;
+}
+void Rect::load(ifstream& InFile)
+{
+	InFile >> wdth;
+}
 
 
 
@@ -187,6 +197,15 @@ int circle::getblockbase() {
 int circle::getblockheight() {
 	return rad * 2;
 }
+void circle::save(ofstream& OutFile)
+{
+	OutFile << CRC << "\n" << rad << "\n";
+}
+void circle::load(ifstream& InFile)
+{
+	InFile >> rad;
+}
+
 
 
 
@@ -404,3 +423,11 @@ void Triangle::setnrefr(point newref) {
 	nrefr = newref;
 }
 void Triangle::setAxis(int ax) { axis = ax; }
+void Triangle::save(ofstream& OutFile)
+{
+	OutFile << TRI << "\n" << base << "\n" << height;
+}
+void Triangle::load(ifstream& InFile)
+{
+	InFile >>  base;
+}

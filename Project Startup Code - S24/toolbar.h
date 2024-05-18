@@ -6,7 +6,7 @@ class toolbar
 {
 
 private:
-	int height, width,level,num_lives,score, time;	
+	int height, width,level,num_lives,score;	
 	string toolbarItemImages[ITM_CNT]; //array to hold paths to images of diffrent items in the toolbar
 	game* pGame;
 
@@ -20,11 +20,8 @@ public:
 	void decrementlives();
 	void setscore(int);
 	void setlives(int);
-	void settime(int);
-	void IncreaseTime();
 	int getlevel() const;
 	int getscore() const;
 	int getlives() const;
-	int gettime() const;
 };
 
