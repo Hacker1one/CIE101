@@ -290,7 +290,6 @@ void operDelete::Act()
 	grid* pgrid = pGame->getGrid();
 	
 	pgrid->deleteActiveShape();
-	pgrid->editShapeCount();
 }
 
 
