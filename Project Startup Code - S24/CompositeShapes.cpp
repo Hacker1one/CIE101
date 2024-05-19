@@ -281,7 +281,7 @@ void Sign::load(ifstream& Infile)
 	}
 	else if (rszd < 0)
 	{
-		for (int i = rszd; i > 0; i--)
+		for (int i = 0; i > rszd; i--)
 			this->resizeDown();
 	}
 	if (rttd > 0)
@@ -623,7 +623,7 @@ void pointerToAball::load(ifstream& Infile)
 	}
 	else if (rszd < 0)
 	{
-		for (int i = rszd; i > 0; i--)
+		for (int i = 0; i > rszd; i--)
 			this->resizeDown();
 	}
 	if (rttd > 0)
@@ -926,7 +926,7 @@ void standingball::load(ifstream& Infile)
 	}
 	else if (rszd < 0)
 	{
-		for (int i = rszd; i > 0; i--)
+		for (int i = 0; i > rszd; i--)
 			this->resizeDown();
 	}
 	if (rttd > 0)
@@ -1566,7 +1566,7 @@ void strawman::load(ifstream& Infile)
 	}
 	else if (rszd < 0)
 	{
-		for (int i = rszd; i > 0; i--)
+		for (int i = 0; i > rszd; i--)
 			this->resizeDown();
 	}
 	if (rttd > 0)
@@ -2361,7 +2361,7 @@ void house::load(ifstream& Infile)
 	}
 	else if (rszd < 0)
 	{
-		for (int i = rszd; i > 0; i--)
+		for (int i = 0; i > rszd; i--)
 			this->resizeDown();
 	}
 	if (rttd > 0)
@@ -2742,7 +2742,7 @@ void balance::load(ifstream& Infile)
 	}
 	else if (rszd < 0)
 	{
-		for (int i = rszd; i > 0; i--)
+		for (int i = 0; i > rszd; i--)
 			this->resizeDown();
 	}
 	if (rttd > 0)
