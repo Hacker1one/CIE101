@@ -64,6 +64,7 @@ public:
 	virtual void resizeDown() override;
 	int getheight();
 	int getbase();
+	point getnewrefpoint() const;
 	void dbah();
 	void hbah();
 	virtual ShapeType getShapeType() const;

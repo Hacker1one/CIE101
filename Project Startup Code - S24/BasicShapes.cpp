@@ -2,7 +2,7 @@
 #include "shape.h"
 #include "gameConfig.h"
 #include "game.h"
-
+#include<iostream>
 
 Rect::Rect(game* r_pGame, point ref, int r_hght, int r_wdth, color fillcolor) :shape(r_pGame, ref)
 {
@@ -235,40 +235,49 @@ void Triangle::Flip() {
 				 flipped = false;
 	
 }
+
 void Triangle::Rotate() {
-	int x1, y1, x2, y2, x3, y3;
-	int nx1, ny1, nx2, ny2, nx3, ny3;
+		if (rotated == 0) {
+			vertix1.x = RefPoint.x - 0.5 * height;
+			vertix1.y = RefPoint.y - 0.5 * base;
+			vertix2.x = RefPoint.x - 0.5 * height;
+			vertix2.y = RefPoint.y + 0.5 * base;
+			vertix3.x = RefPoint.x + 0.5 * height;
+			vertix3.y = RefPoint.y;
+			rotated++;
+		}
+		else if (rotated == 1) {
+			vertix1.x = RefPoint.x + 0.5 * base;
+			vertix1.y = RefPoint.y - 0.5 * height;
+			vertix2.x = RefPoint.x - 0.5 * base;
+			vertix2.y = RefPoint.y - 0.5 * height;
+			vertix3.x = RefPoint.x;
+			vertix3.y = RefPoint.y + 0.5 * height;
+			rotated++;
+		}
+		else if (rotated == 2) {
+			vertix1.x = RefPoint.x + 0.5 * height;
+			vertix1.y = RefPoint.y + 0.5 * base;
+			vertix2.x = RefPoint.x + 0.5 * height;
+			vertix2.y = RefPoint.y - 0.5 * base;
+			vertix3.x = RefPoint.x - 0.5 * height;
+			vertix3.y = RefPoint.y;
+			rotated++;
+		}
+		else if (rotated == 3) {
+			vertix1.x = RefPoint.x - 0.5 * base;
+			vertix1.y = RefPoint.y + 0.5 * height;
+			vertix2.x = RefPoint.x + 0.5 * base;
+			vertix2.y = RefPoint.y + 0.5 * height;
+			vertix3.x = RefPoint.x;
+			vertix3.y = RefPoint.y - 0.5 * height;
+			rotated = 0;
+		}
 
 
-	x1 = vertix1.x - RefPoint.x;
-	y1 = vertix1.y - RefPoint.y;
-
-	x2 = vertix2.x - RefPoint.x;
-	y2 = vertix2.y - RefPoint.y;
-
-	x3 = vertix3.x - RefPoint.x;
-	y3 = vertix3.y - RefPoint.y;
-
-	nx1 = -y1;
-	ny1 = x1;
-
-	nx2 = -y2;
-	ny2 = x2;
-
-	nx3 = -y3;
-	ny3 = x3;
-
-	vertix1.x = nrefr.x + nx1;
-	vertix1.y = nrefr.y + ny1;
-
-	vertix2.x = nrefr.x + nx2;
-	vertix2.y = nrefr.y + ny2;
-
-	vertix3.x = nrefr.x + nx3;
-	vertix3.y = nrefr.y + ny3;
-
-
+	
 }
+
 int Triangle::getblockbase() {
 	return base;
 }
@@ -404,3 +413,9 @@ void Triangle::setnrefr(point newref) {
 	nrefr = newref;
 }
 void Triangle::setAxis(int ax) { axis = ax; }
+
+
+point Triangle::getnewrefpoint() const
+{
+	return nrefr;
+}

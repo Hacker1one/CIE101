@@ -20,6 +20,11 @@ class game
 	vector<operation*>operations;
 	int step;
 	long int givens = 0;
+	int cnt ;
+	int endhint;
+	shape * rand_shape;
+	bool canhint;
+	shape** shapelist;
 
 public:
 	game();
@@ -47,10 +52,11 @@ public:
 	bool IsMatching(shape*);
 	//creates an operation according to the toolbar item clicked
 	operation* createRequiredOperation(toolbarItem clickedItem);
-	
+	void resethintcolor();
 
 
 	void run();	//start the game
-
+	void setendhint(int , shape*);
+	void updatelevel() ;
 };
 

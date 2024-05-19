@@ -54,3 +54,6 @@ int shape::getrotated() const{
 int shape::getsize()const {
 	return size; 
 }
+color shape:: getcolor()const {
+	return fillColor;
+}

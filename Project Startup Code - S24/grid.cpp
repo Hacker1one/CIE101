@@ -11,6 +11,7 @@ using namespace std;
 
 grid::grid(point r_uprleft, int wdth, int hght, game* pG)
 {
+	maxshapes = 30;
 	uprLeft = r_uprleft;
 	grid_height = hght;
 	grid_width = wdth;
@@ -18,6 +19,7 @@ grid::grid(point r_uprleft, int wdth, int hght, game* pG)
 	rows = grid_height / config.gridSpacing;
 	cols = grid_width / config.gridSpacing;
 	shapeCount = 0;
+	shapelist= new shape*[40];
 	
 	/*for (int i = 0; i < MaxShapeCount; i++)
 		shapeVector[i] = nullptr;*/
@@ -29,7 +31,7 @@ grid::grid(point r_uprleft, int wdth, int hght, game* pG)
 grid::~grid()
 {
 	for (int i = 0; i < shapeCount; i++)
-		delete shapeVector[i];
+		delete shapelist[i];
 }
 
 void grid::draw() const
@@ -47,8 +49,10 @@ void grid::draw() const
 			//pWind->DrawPixel(c * config.gridSpacing, r * config.gridSpacing + uprLeft.y);
 
 	//Draw ALL shapes
-	for (shape* i : shapeVector)
-		i->draw();
+	for (int i = 0; i < shapeCount; i++) {
+		if(shapelist[i])
+		shapelist[i]->draw();
+	}
 	//Draw the active shape
 	if(activeShape)
 		activeShape->draw();
@@ -98,13 +102,13 @@ void grid::randomShapeGeneration()
 		int xrand = rrandReferenceX(randReferenceX);
 
 		random_device randReferenceY;
-		uniform_int_distribution<int> rrandReferenceY(1.25* config.toolBarHeight, 0.75*config.windHeight);
+		uniform_int_distribution<int> rrandReferenceY(5* config.toolBarHeight, 0.75*config.windHeight);
 		int yrand = rrandReferenceY(randReferenceY);
 
 		xrand = xrand - xrand % config.gridSpacing;
 		yrand = yrand - yrand % config.gridSpacing;
 
-		point randRef = { xrand ,yrand };
+		point randRef = { xrand,yrand};
 		
 		random_device randsize;
 		uniform_int_distribution<int> rrandsize(1, 5);
@@ -173,8 +177,9 @@ void grid::randomShapeGeneration()
 			sh->resizeUp();
 			sh->resizeUp();
 			break;
-		}*/
-		sizerand = 3;
+		}
+	*/
+		
 		sh->setxrange(base);
 		sh->setyrange(height);
 		if (!addShape(sh))
@@ -200,7 +205,38 @@ bool grid::addShape(shape* newShape)
 
 	//Here we assume that the above checks are passed
 	if (level <= 2) {
+		
+		for (int i = 0; i < shapeCount; i++) {
+			if (shapelist[i]->getrotated() % 2 == 0) {
+				if (newShape->getblockbase() + shapelist[i]->getblockbase() < (newShape->getRefPoint().x - shapelist[i]->getRefPoint().x) && newShape->getblockheight() + shapelist[i]->getblockheight() < (newShape->getRefPoint().y - shapelist[i]->getRefPoint().y)) {
+					return false;
+				}
+			}
+			else {
+				if (newShape->getblockheight() + shapelist[i]->getblockheight() < (newShape->getRefPoint().x - shapelist[i]->getRefPoint().x) && newShape->getblockbase() + shapelist[i]->getblockbase() < (newShape->getRefPoint().y - shapelist[i]->getRefPoint().y)) {
+					return false;
+				}
+			}
 
+		}
+	}
+	else {
+		
+		for (int i = 0; i < shapeCount; i++) {
+			if (shapelist[i]->getrotated() % 2 == 0) {
+				if ((newShape->getblockbase() + shapelist[i]->getblockbase())/2 > abs((newShape->getRefPoint().x - shapelist[i]->getRefPoint().x)) && ((newShape->getblockheight() + shapelist[i]->getblockheight())/2 > abs(newShape->getRefPoint().y - shapelist[i]->getRefPoint().y))) {
+					cout << 0;
+					return false;
+				}
+			}
+			else {
+				if (((newShape->getblockheight() + shapelist[i]->getblockheight())/2 > abs((newShape->getRefPoint().x - shapelist[i]->getRefPoint().x))) && ((newShape->getblockbase() + shapelist[i]->getblockbase())/2 > abs(newShape->getRefPoint().y - shapelist[i]->getRefPoint().y))) {
+					cout << 1;
+					return false;
+				}
+			}
+
+		}
 	}
 	if ((newShape->getRefPoint().x - base) < 0 || (newShape->getRefPoint().x + base) > config.windWidth || (newShape->getRefPoint().y - height) < config.toolBarHeight || (newShape->getRefPoint().y + height) > (config.windHeight - config.statusBarHeight)) {
 		return false;
@@ -209,12 +245,12 @@ bool grid::addShape(shape* newShape)
 
 	if (shapeCount > 0) {
 		for (int i = 0; i < shapeCount; i++) {
-			if ((newShape->getxmin() > shapeVector[i]->getxmin()) && (newShape->getxmax() < shapeVector[i]->getxmax()) && (newShape->getymin() > shapeVector[i]->getymin()) && (newShape->getymax() < shapeVector[i]->getymax())) {
-				cout << "1";
+			if ((newShape->getxmin() > shapelist[i]->getxmin()) && (newShape->getxmax() < shapelist[i]->getxmax()) && (newShape->getymin() > shapelist[i]->getymin()) && (newShape->getymax() < shapelist[i]->getymax())) {
+				
 				return false;
 			}
-			if ((shapeVector[i]->getxmin() > newShape->getxmin()) && (shapeVector[i]->getxmax() < newShape->getxmax()) && (shapeVector[i]->getymin() > newShape->getymin()) && (shapeVector[i]->getymax() < newShape->getymax())) {
-				cout << "2";
+			if ((shapelist[i]->getxmin() > newShape->getxmin()) && (shapelist[i]->getxmax() < newShape->getxmax()) && (shapelist[i]->getymin() > newShape->getymin()) && (shapelist[i]->getymax() < newShape->getymax())) {
+				
 				return false;
 			}
 		}
@@ -223,8 +259,8 @@ bool grid::addShape(shape* newShape)
 
 	}
 
-	shapeVector.push_back(newShape);
-	cout << "halooo";
+	shapelist[shapeCount]= newShape;
+	shapeCount++;
 	return true;
 }
 
@@ -240,15 +276,16 @@ shape* grid::getActiveShape() const
 }
 void grid::editShapeCount()
 {
-	shapeCount++;
+	shapeCount--;
 	if (shapeCount > 0)
-		activeShape = shapeVector[shapeCount ];
+		activeShape = shapelist[shapeCount - 1];
 	else
 		activeShape = nullptr;
 }
 void grid::deleteActiveShape()
 {
 	delete activeShape;
+	activeShape = nullptr;
 }
 //void grid::SaveShapes(ofstream& OutFile)
 //{
@@ -261,6 +298,9 @@ void grid::deleteActiveShape()
 int grid::getshapecount()const {
 	return shapeCount;
 }
-vector<shape*> grid::getshapeVector()const {
-	return shapeVector;
+shape** grid::getshapeList()const {
+	return shapelist;
+}
+void grid::setshapecount(int c) {
+	shapeCount = c;
 }

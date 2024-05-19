@@ -189,7 +189,7 @@ void toolbar::IncreaseTime() {
 
 	pWind->SetPen(config.TextColor, 50);
 	pWind->SetFont(24, BOLD, BY_NAME, "Arial");
-	pWind->DrawString(1100, 35, "Time = ");
+	pWind->DrawString(1100, 35, "Timer = ");
 	pWind->DrawInteger(1180, 35, time);
 }
 

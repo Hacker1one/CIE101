@@ -897,6 +897,7 @@ void strawman::draw()
 	Leg2->setRefPoint(leg2ref);
 	Face->setRefPoint(faceref);
 	
+
 	body->draw();
 	hand1->draw();
 	hand2->draw();
@@ -970,10 +971,12 @@ void strawman::Rotate() {
 		hand1->setRefPoint(hand1ref);
 		hand2->setRefPoint(hand2ref);
 		Face->setRefPoint(faceref);
+		body->setRefPoint(bodyref);
+		Leg1->setRefPoint(leg1ref);
+		Leg2->setRefPoint(leg2ref);
 
-		body->setnrefr(bodyref);
-		Leg1->setnrefr(leg1ref);
-		Leg2->setnrefr(leg2ref);
+		
+		
 
 		body->Rotate();
 		hand1->Rotate();
@@ -1015,9 +1018,9 @@ void strawman::Rotate() {
 		hand2->setRefPoint(hand2ref);
 		Face->setRefPoint(faceref);
 
-		body->setnrefr(bodyref);
-		Leg1->setnrefr(leg1ref);
-		Leg2->setnrefr(leg2ref);
+		body->setRefPoint(bodyref);
+		Leg1->setRefPoint(leg1ref);
+		Leg2->setRefPoint(leg2ref);
 		
 		body->Rotate();
 		hand1->Rotate();
@@ -1057,9 +1060,9 @@ void strawman::Rotate() {
 		hand2->setRefPoint(hand2ref);
 		Face->setRefPoint(faceref);
 
-		body->setnrefr(bodyref);
-		Leg1->setnrefr(leg1ref);
-		Leg2->setnrefr(leg2ref);
+		body->setRefPoint(bodyref);
+		Leg1->setRefPoint(leg1ref);
+		Leg2->setRefPoint(leg2ref);
 
 		body->Rotate();
 		hand1->Rotate();
@@ -1095,9 +1098,9 @@ void strawman::Rotate() {
 		hand2->setRefPoint(hand2ref);
 		Face->setRefPoint(faceref);
 
-		body->setnrefr(bodyref);
-		Leg1->setnrefr(leg1ref);
-		Leg2->setnrefr(leg2ref);
+		body->setRefPoint(bodyref);
+		Leg1->setRefPoint(leg1ref);
+		Leg2->setRefPoint(leg2ref);
 
 		body->Rotate();
 		hand1->Rotate();
@@ -1953,12 +1956,12 @@ void house::Rotate() {
 
 
 		body->setRefPoint(bodyref);
-		roof->setnrefr(roofref);
+		roof->setRefPoint(roofref);
 
 		body->Rotate();
 		roof->Rotate();
 
-		roof->setRefPoint(roofref);
+		
 
 	}
 	else if (rotated == 1)
@@ -1974,11 +1977,11 @@ void house::Rotate() {
 
 
 		body->setRefPoint(bodyref);
-		roof->setnrefr(roofref);
+		roof->setRefPoint(roofref);
 
 		body->Rotate();
 		roof->Rotate();
-		roof->setRefPoint(roofref);
+		
 
 
 	}
@@ -1988,11 +1991,11 @@ void house::Rotate() {
 		roofref = { RefPoint.x - (body->getwidth() + roof->getheight()) / 2, RefPoint.y};
 
 		body->setRefPoint(bodyref);
-		roof->setnrefr(roofref);
+		roof->setRefPoint(roofref);
 
 		body->Rotate();
 		roof->Rotate();
-		roof->setRefPoint(roofref);
+		
 
 
 		rotated += 1;
@@ -2008,12 +2011,12 @@ void house::Rotate() {
 		roofref = { RefPoint.x , RefPoint.y - (body->getheight() + roof->getheight()) / 2};
 
 		body->setRefPoint(bodyref);
-		roof->setnrefr(roofref);
+		roof->setRefPoint(roofref);
 
 		body->Rotate();
 		roof->Rotate();
 
-		roof->setRefPoint(roofref);
+		
 
 		rotated = 0;
 

@@ -8,6 +8,8 @@
 #include "random"
 #include "cmath"
 #include "sstream"
+#include<ctime>
+
 
 using namespace std;
 
@@ -332,6 +334,7 @@ void operslevel::Act()
 
 operexit::operexit(game* r_pGame) : operation(r_pGame)
 {
+	
 }
 
 void operexit::Act()
@@ -340,12 +343,12 @@ void operexit::Act()
 	window* pw = pGame->getWind();
 	grid* pgrid = pGame->getGrid();
 	vector<operation*> oper = pGame->getvectoroperations();
-	vector<shape*>V = pgrid->getshapeVector();
+	shapelist = pgrid->getshapeList();
 	toolbar* tb = pGame->getToolbar();
-	for (int i = 0; i < V.size(); i++)
+	for (int i = 0;pgrid->getshapecount(); i++)
 	{
-		delete V[i];
-		V[i] = nullptr;
+		delete shapelist[i];
+		shapelist[i] = nullptr;
 	}
 	pGame->getToolbar()->decrementlives();
 	if (pgrid->getActiveShape() != nullptr)
@@ -364,19 +367,25 @@ void operexit::Act()
 	delete pGame;
 }
 
-operHint::operHint(game* r_pGame) : operation(r_pGame)
+operHint::operHint(game* r_pGame , int begcount) : operation(r_pGame)
 {
+	begin = begcount;
+	
 }
 
 void operHint::Act() {
 	int i = 0;
 	grid* pgrid = pGame->getGrid();
-	vector <shape*> v  = pgrid->getshapeVector();
+	shapelist  = pgrid->getshapeList();
 	random_device randshape;
-	uniform_int_distribution<int> rrandshape(0,4);
+	uniform_int_distribution<int> rrandshape(0,pgrid->getshapecount());
 	i = rrandshape(randshape);
-	v[i]->setcolor(GREEN);
+	shapelist[i]->setcolor(GREEN);
+	int endtime = begin + 5;
+	pGame->setendhint(endtime ,shapelist[i]);
+	
 }
+
 
 operrefresh::operrefresh(game* r_pGame) : operation(r_pGame)
 {
@@ -387,14 +396,14 @@ void operrefresh::Act()
 
 	int totalcompositeshapes = 2* pGame->getToolbar()->getlevel() -1;
 	grid* pgrid = pGame->getGrid();
-	vector<shape*>V = pgrid->getshapeVector();
+	shapelist = pgrid->getshapeList();
 	toolbar* tb = pGame->getToolbar();
 	if (tb->getlives() > 1)
 	{
 		for (int i = 0; i < totalcompositeshapes; i++)
 		{
-			delete V[i];
-			V[i] = nullptr;
+			delete shapelist[i];
+			shapelist[i] = nullptr;
 		}
 		pGame->getToolbar()->decrementlives();
 		if (pgrid->getActiveShape() != nullptr)

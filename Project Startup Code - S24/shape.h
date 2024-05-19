@@ -67,6 +67,7 @@ public:
 	int getxmin()const;
 	int getymin()const;
 	void setcolor(color);
+	color getcolor()const;
 	int getsize()const;
 	int getrotated()const; 
 	

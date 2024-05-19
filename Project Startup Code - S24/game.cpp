@@ -12,7 +12,10 @@
 
 game::game()
 {
+	canhint = true;
+	shapelist = nullptr;
 	step = 0;
+	cnt = 1000;
 	//Create the main window
 	createWind(config.windWidth, config.windHeight, config.wx, config.wy);
 
@@ -240,10 +243,13 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 		delete op;
 		break;
 	case ITM_HINT:
-		op = new operHint(this);
-		printMessage("You selected on Hint");
-		operations.push_back(op);
-		break;
+		if (canhint) {
+			op = new operHint(this, cnt);
+			printMessage("You selected on Hint");
+			operations.push_back(op);
+			canhint = false;
+			break;
+		}
 	/*case ITM_SAVE:
 		op = new operSave(this);
 		printMessage("you clicked on Save");
@@ -323,19 +329,29 @@ void game::run()
 	toolbarItem clickedItem = ITM_CNT;
 
 	double timer = clock();
-	int cnt = 0;
+	
 	do
 	{
+		if (shapesGrid->getshapecount() - 1) {
+			//up to the next level
+		}
+
+
 		//printMessage("Ready...");
 		//1- Get user click 
 
 		if (clock() - timer > 1000) {
 
 			timer = clock();
-			cnt++;
+			cnt--;
 			gameToolbar->settime(cnt);
 			gameToolbar->IncreaseTime(); // increase time by 1 second
 
+		}
+
+		if (cnt == endhint) {
+			resethintcolor();
+			canhint = true;
 		}
 		//printMessage("Ready...");
 		//1- Get user click
@@ -349,9 +365,10 @@ void game::run()
 
 			//3-create the approp operation accordin to item clicked by the user
 			operation* op = createRequiredOperation(clickedItem);
-			if (op)
+			if (op) {
 				op->Act();
-			operations.push_back(op);
+				operations.push_back(op);
+			}
 
 
 			//4-Redraw the grid after each action
@@ -360,7 +377,7 @@ void game::run()
 		}
 		kt = pWind->GetKeyPress(pressedkey);
 
-		if (kt == ASCII) {
+		if (kt == ASCII && shapesGrid->getActiveShape()) {
 			printMessage("you clicked on ASCII");
 			if (pressedkey == ' ') {
 				printMessage("You clicked on Space");
@@ -382,10 +399,12 @@ void game::run()
 				
 				}
 			shapesGrid->draw();
+			
+
 			}
 		}
 
-		if (kt == ARROW) {
+		if (kt == ARROW &&  shapesGrid->getActiveShape()) {
 			printMessage("you clicked on arrow");
 			operation* op2 = nullptr;
 			op2 = new operMove(pressedkey, this);
@@ -406,21 +425,26 @@ void game::run()
 
 
 bool game::IsMatching(shape *sh) {
-	vector<shape*> V = shapesGrid->getshapeVector(); 
+	shapelist = shapesGrid->getshapeList(); 
 	
-	for (unsigned int i = 0; i < V.size(); i++) {
+	for (int i = 0; i < shapesGrid->getshapecount(); i++) {
 		
-		if (V[i]->getRefPoint().x == sh->getRefPoint().x && V[i]->getRefPoint().y == sh->getRefPoint().y && V[i]->getrotated() == sh->getrotated() && V[i]->getsize() == sh->getsize() && V[i]->getShapeType() == sh->getShapeType()) {
-			
-			
-			cout << V[i]->getShapeType();
-			V[i]->setcolor(LAVENDER);
-			
-			
-			return true; 
-			
-			
-			
+		if(shapelist[i]){
+			if (shapelist[i]->getRefPoint().x == sh->getRefPoint().x && shapelist[i]->getRefPoint().y == sh->getRefPoint().y && shapelist[i]->getrotated() == sh->getrotated() && shapelist[i]->getsize() == sh->getsize() && shapelist[i]->getShapeType() == sh->getShapeType()) {
+
+				shape* temp = shapelist[shapesGrid->getshapecount() - 1];
+				shapelist[shapesGrid->getshapecount()-1] = shapelist[i];
+				shapelist[i] = temp;
+				shapelist[shapesGrid->getshapecount() - 1] = nullptr;
+				shapesGrid->setshapecount((shapesGrid->getshapecount()-1 ));
+				cout << endl<<"The number of shapes is " << shapesGrid->getshapecount();
+				if ((shapesGrid->getshapecount()==1)){
+					updatelevel();
+				}
+				return true;
+
+
+			}
 		}
 		
 		
@@ -431,4 +455,18 @@ bool game::IsMatching(shape *sh) {
 vector<operation*> game::getvectoroperations() const
 {
 	return operations;
+}
+void game::resethintcolor() {
+	rand_shape->setcolor(BLACK);
+ }
+void game::setendhint(int c, shape* r_shape) {
+	endhint = c;
+	rand_shape = r_shape;
+}
+
+void game::updatelevel() {
+	gameToolbar->setlevel(gameToolbar->getlevel() +1);
+	cout << gameToolbar->getlevel();
+	this->createGrid();
+	
 }
