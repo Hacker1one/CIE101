@@ -363,10 +363,10 @@ void pointerToAball::Rotate() {
 
 		ptrtip->setnrefr(ptrtipref);
 
-		ptrtip->Rotate();
 		Ptrbdy->setRefPoint(ptrbdyref);
 		ptrtip->setRefPoint(ptrtipref);
 		ball->setRefPoint(ballref);
+		ptrtip->Rotate();
 
 		rotated += 1;
 
@@ -382,12 +382,12 @@ void pointerToAball::Rotate() {
 
 		ptrtip->setnrefr(ptrtipref);
 
-		ptrtip->Rotate();
 		Ptrbdy->setRefPoint(ptrbdyref);
 		ptrtip->setRefPoint(ptrtipref);
 		ball->setRefPoint(ballref);
 
 		rotated += 1;
+		ptrtip->Rotate();
 
 
 	}
@@ -402,12 +402,12 @@ void pointerToAball::Rotate() {
 
 		ptrtip->setnrefr(ptrtipref);
 
-		ptrtip->Rotate();
 		Ptrbdy->setRefPoint(ptrbdyref);
 		ptrtip->setRefPoint(ptrtipref);
 		ball->setRefPoint(ballref);
 
 		rotated += 1;
+		ptrtip->Rotate();
 
 	}
 	else if (rotated == 3)
@@ -420,12 +420,13 @@ void pointerToAball::Rotate() {
 
 		ptrtip->setnrefr(ptrtipref);
 
-		ptrtip->Rotate();
 		Ptrbdy->setRefPoint(ptrbdyref);
 		ptrtip->setRefPoint(ptrtipref);
 		ball->setRefPoint(ballref);
 
 		rotated = 0;
+		ptrtip->Rotate();
+
 
 	}
 
@@ -447,6 +448,7 @@ void pointerToAball::move(char key) {
 			ballref.y += config.gridSpacing;
 			ptrtipref.y += config.gridSpacing;
 			ptrbdyref.y += config.gridSpacing;
+			ptrtipref.y += config.gridSpacing;
 			ptrtip->move(key);
 		}
 		break;
@@ -457,6 +459,8 @@ void pointerToAball::move(char key) {
 			ballref.x -= config.gridSpacing;
 			ptrtipref.x -= config.gridSpacing;
 			ptrbdyref.x -= config.gridSpacing;
+			ptrtipref.x -= config.gridSpacing;
+
 			ptrtip->move(key);
 		}
 		break;
@@ -467,6 +471,8 @@ void pointerToAball::move(char key) {
 			ballref.x += config.gridSpacing;
 			ptrtipref.x += config.gridSpacing;
 			ptrbdyref.x += config.gridSpacing;
+			ptrtipref.x += config.gridSpacing;
+
 			ptrtip->move(key);
 		}
 		break;
@@ -477,6 +483,8 @@ void pointerToAball::move(char key) {
 			ballref.y -= config.gridSpacing;
 			ptrtipref.y -= config.gridSpacing;
 			ptrbdyref.y -= config.gridSpacing;
+			ptrtipref.y -= config.gridSpacing;
+
 			ptrtip->move(key);
 		}
 		break;
@@ -486,7 +494,6 @@ void pointerToAball::move(char key) {
 void pointerToAball::resizeUp() {
 	if (resized < 1) {
 		Ptrbdy->resizeUp();
-		ptrtip->resizeUp();
 		ptrtip->dbah();
 		ball->resizeUp();
 		resized++;
@@ -528,40 +535,56 @@ void pointerToAball::resizeUp() {
 			ptrbdyref = { RefPoint.x, RefPoint.y - (ptrtip->getheight() + Ptrbdy->getheight()) / 2 };
 			ballref = { RefPoint.x , RefPoint.y + (ptrtip->getheight()) / 2 + ball->getradius() };
 			ptrtipref = RefPoint;
+
+			ptrtip->setnrefr(ptrtipref);
+
 			Ptrbdy->setRefPoint(ptrbdyref);
 			ptrtip->setRefPoint(ptrtipref);
 			ball->setRefPoint(ballref);
+			ptrtip->resizeUp();
+
 		}
 		if (rotated == 2) {
 			ptrbdyref = { RefPoint.x + (ptrtip->getheight() + Ptrbdy->getwidth()) / 2 , RefPoint.y };
 			ballref = { RefPoint.x - (ptrtip->getheight()) / 2 - ball->getradius(), RefPoint.y };
 			ptrtipref = RefPoint;
+			ptrtip->setnrefr(ptrtipref);
+
 			Ptrbdy->setRefPoint(ptrbdyref);
 			ptrtip->setRefPoint(ptrtipref);
 			ball->setRefPoint(ballref);
+			ptrtip->resizeUp();
+
 		}
 		if (rotated == 3) {
 			ptrbdyref = { RefPoint.x, RefPoint.y + (ptrtip->getheight() + Ptrbdy->getheight()) / 2 };
 			ballref = { RefPoint.x , RefPoint.y - (ptrtip->getheight()) / 2 - ball->getradius() };
 			ptrtipref = RefPoint;
+			ptrtip->setnrefr(ptrtipref);
+
 			Ptrbdy->setRefPoint(ptrbdyref);
 			ptrtip->setRefPoint(ptrtipref);
 			ball->setRefPoint(ballref);
+			ptrtip->resizeUp();
+
 		}
 		if (rotated == 0) {
 			ptrbdyref = { RefPoint.x - (ptrtip->getheight() + Ptrbdy->getwidth()) / 2,RefPoint.y };
 			ballref = { RefPoint.x + (ptrtip->getheight()) / 2 + ball->getradius() , RefPoint.y };
 			ptrtipref = RefPoint;
+			ptrtip->setnrefr(ptrtipref);
+
 			Ptrbdy->setRefPoint(ptrbdyref);
 			ptrtip->setRefPoint(ptrtipref);
 			ball->setRefPoint(ballref);
+			ptrtip->resizeUp();
+
 		}
 	}
 }
 void pointerToAball::resizeDown() {
 	if (resized > -2) {
 		Ptrbdy->resizeDown();
-		ptrtip->resizeDown();
 		ptrtip->hbah();
 		ball->resizeDown();
 		resized--;
@@ -569,33 +592,48 @@ void pointerToAball::resizeDown() {
 			ptrbdyref = { RefPoint.x, RefPoint.y - (ptrtip->getheight() + Ptrbdy->getheight()) / 2 };
 			ballref = { RefPoint.x , RefPoint.y + (ptrtip->getheight()) / 2 + ball->getradius() };
 			ptrtipref = RefPoint;
+			ptrtip->setnrefr(ptrtipref);
 			Ptrbdy->setRefPoint(ptrbdyref);
 			ptrtip->setRefPoint(ptrtipref);
 			ball->setRefPoint(ballref);
+			ptrtip->resizeDown();
+
 		}
 		if (rotated == 2) {
 			ptrbdyref = { RefPoint.x + (ptrtip->getheight() + Ptrbdy->getwidth()) / 2 , RefPoint.y };
 			ballref = { RefPoint.x - (ptrtip->getheight()) / 2 - ball->getradius(), RefPoint.y };
 			ptrtipref = RefPoint;
+			ptrtip->setnrefr(ptrtipref);
+
 			Ptrbdy->setRefPoint(ptrbdyref);
 			ptrtip->setRefPoint(ptrtipref);
 			ball->setRefPoint(ballref);
+			ptrtip->resizeDown();
+
 		}
 		if (rotated == 3) {
 			ptrbdyref = { RefPoint.x, RefPoint.y + (ptrtip->getheight() + Ptrbdy->getheight()) / 2 };
 			ballref = { RefPoint.x , RefPoint.y - (ptrtip->getheight()) / 2 - ball->getradius() };
 			ptrtipref = RefPoint;
+			ptrtip->setnrefr(ptrtipref);
+
 			Ptrbdy->setRefPoint(ptrbdyref);
 			ptrtip->setRefPoint(ptrtipref);
 			ball->setRefPoint(ballref);
+			ptrtip->resizeDown();
+
 		}
 		if (rotated == 0) {
 			ptrbdyref = { RefPoint.x - (ptrtip->getheight() + Ptrbdy->getwidth()) / 2,RefPoint.y };
 			ballref = { RefPoint.x + (ptrtip->getheight()) / 2 + ball->getradius() , RefPoint.y };
 			ptrtipref = RefPoint;
+			ptrtip->setnrefr(ptrtipref);
+
 			Ptrbdy->setRefPoint(ptrbdyref);
 			ptrtip->setRefPoint(ptrtipref);
 			ball->setRefPoint(ballref);
+			ptrtip->resizeDown();
+
 		}
 	}
 }
@@ -1211,6 +1249,10 @@ void strawman::move(char key) {
 			hand1ref.y += config.gridSpacing;
 			hand2ref.y += config.gridSpacing;
 			faceref.y += config.gridSpacing;
+			bodyref.y += config.gridSpacing;
+			leg1ref.y += config.gridSpacing;
+			leg2ref.y += config.gridSpacing;
+
 			Leg1->move(key);
 			Leg2->move(key);
 			body->move(key);
@@ -1224,6 +1266,9 @@ void strawman::move(char key) {
 			hand1ref.x -= config.gridSpacing;
 			hand2ref.x -= config.gridSpacing;
 			faceref.x -= config.gridSpacing;
+			bodyref.x -= config.gridSpacing;
+			leg1ref.x -= config.gridSpacing;
+			leg2ref.x -= config.gridSpacing;
 			Leg1->move(key);
 			Leg2->move(key);
 			body->move(key);
@@ -1237,6 +1282,9 @@ void strawman::move(char key) {
 			hand1ref.x += config.gridSpacing;
 			hand2ref.x += config.gridSpacing;
 			faceref.x += config.gridSpacing;
+			bodyref.x += config.gridSpacing;
+			leg1ref.x += config.gridSpacing;
+			leg2ref.x += config.gridSpacing;
 			Leg1->move(key);
 			Leg2->move(key);
 			body->move(key);
@@ -1249,6 +1297,9 @@ void strawman::move(char key) {
 			hand1ref.y -= config.gridSpacing;
 			hand2ref.y -= config.gridSpacing;
 			faceref.y -= config.gridSpacing;
+			bodyref.y -= config.gridSpacing;
+			leg1ref.y -= config.gridSpacing;
+			leg2ref.y -= config.gridSpacing;
 			Leg1->move(key);
 			Leg2->move(key);
 			body->move(key);
@@ -1259,7 +1310,7 @@ void strawman::move(char key) {
 }
 void strawman::resizeUp() {
 	if (resized < 1) {
-		body->resizeUp();
+		
 		body->dbah();
 		hand1->resizeUp();
 		hand2->resizeUp();
@@ -1333,16 +1384,19 @@ void strawman::resizeUp() {
 			Face->setRefPoint(faceref);
 			hand1->setRefPoint(hand1ref);
 			hand2->setRefPoint(hand2ref);
-			body->setRefPoint(bodyref);
 
 			Leg1->setnrefr(leg1ref);
 			Leg2->setnrefr(leg2ref);
+			body->setnrefr(bodyref);
+
 
 			Leg1->resizeUp();
 			Leg2->resizeUp();
+			body->resizeUp();
 
 			Leg1->setRefPoint(leg1ref);
 			Leg2->setRefPoint(leg2ref);
+			body->setRefPoint(bodyref);
 
 		}
 		else if (rotated == 2)
@@ -1364,16 +1418,20 @@ void strawman::resizeUp() {
 			Face->setRefPoint(faceref);
 			hand1->setRefPoint(hand1ref);
 			hand2->setRefPoint(hand2ref);
-			body->setRefPoint(bodyref);
 
 			Leg1->setnrefr(leg1ref);
 			Leg2->setnrefr(leg2ref);
+			body->setnrefr(bodyref);
+
 
 			Leg1->resizeUp();
 			Leg2->resizeUp();
+			body->resizeUp();
 
 			Leg1->setRefPoint(leg1ref);
 			Leg2->setRefPoint(leg2ref);
+			body->setRefPoint(bodyref);
+
 		}
 		else if (rotated == 3)
 		{
@@ -1395,16 +1453,20 @@ void strawman::resizeUp() {
 			Face->setRefPoint(faceref);
 			hand1->setRefPoint(hand1ref);
 			hand2->setRefPoint(hand2ref);
-			body->setRefPoint(bodyref);
 
 			Leg1->setnrefr(leg1ref);
 			Leg2->setnrefr(leg2ref);
+			body->setnrefr(bodyref);
+
 
 			Leg1->resizeUp();
 			Leg2->resizeUp();
+			body->resizeUp();
 
 			Leg1->setRefPoint(leg1ref);
 			Leg2->setRefPoint(leg2ref);
+			body->setRefPoint(bodyref);
+
 		}
 		else if (rotated == 0)
 		{
@@ -1424,22 +1486,25 @@ void strawman::resizeUp() {
 			Face->setRefPoint(faceref);
 			hand1->setRefPoint(hand1ref);
 			hand2->setRefPoint(hand2ref);
-			body->setRefPoint(bodyref);
 
 			Leg1->setnrefr(leg1ref);
 			Leg2->setnrefr(leg2ref);
+			body->setnrefr(bodyref);
+
 
 			Leg1->resizeUp();
 			Leg2->resizeUp();
+			body->resizeUp();
 
 			Leg1->setRefPoint(leg1ref);
 			Leg2->setRefPoint(leg2ref);
+			body->setRefPoint(bodyref);
+
 		}
 	}
 }
 void strawman::resizeDown() {
 	if (resized > -2) {
-		body->resizeDown();
 		body->hbah();
 		hand1->resizeDown();
 		hand2->resizeDown();
@@ -1466,16 +1531,19 @@ void strawman::resizeDown() {
 			Face->setRefPoint(faceref);
 			hand1->setRefPoint(hand1ref);
 			hand2->setRefPoint(hand2ref);
-			body->setRefPoint(bodyref);
 
+			body->setnrefr(bodyref);
 			Leg1->setnrefr(leg1ref);
 			Leg2->setnrefr(leg2ref);
 
 			Leg1->resizeDown();
 			Leg2->resizeDown();
+			body->resizeDown();
 
 			Leg1->setRefPoint(leg1ref);
 			Leg2->setRefPoint(leg2ref);
+			body->setRefPoint(bodyref);
+
 
 		}
 		else if (rotated == 2)
@@ -1492,14 +1560,20 @@ void strawman::resizeDown() {
 			hand2->setRefPoint(hand2ref);
 			body->setRefPoint(bodyref);
 
+			body->setnrefr(bodyref);
+
 			Leg1->setnrefr(leg1ref);
 			Leg2->setnrefr(leg2ref);
 
 			Leg1->resizeDown();
 			Leg2->resizeDown();
+			body->resizeDown();
+
 
 			Leg1->setRefPoint(leg1ref);
 			Leg2->setRefPoint(leg2ref);
+			body->setRefPoint(bodyref);
+
 
 		}
 		else if (rotated == 3)
@@ -1516,15 +1590,20 @@ void strawman::resizeDown() {
 			Face->setRefPoint(faceref);
 			hand1->setRefPoint(hand1ref);
 			hand2->setRefPoint(hand2ref);
-			body->setRefPoint(bodyref);
 
 			Leg1->setnrefr(leg1ref);
 			Leg2->setnrefr(leg2ref);
+			body->setnrefr(bodyref);
+
 
 			Leg1->resizeDown();
 			Leg2->resizeDown();
+			body->resizeDown();
+
 
 			Leg1->setRefPoint(leg1ref);
+			body->setRefPoint(bodyref);
+
 			Leg2->setRefPoint(leg2ref);
 
 		}
@@ -1540,16 +1619,21 @@ void strawman::resizeDown() {
 			Face->setRefPoint(faceref);
 			hand1->setRefPoint(hand1ref);
 			hand2->setRefPoint(hand2ref);
-			body->setRefPoint(bodyref);
 
 			Leg1->setnrefr(leg1ref);
 			Leg2->setnrefr(leg2ref);
+			body->setnrefr(bodyref);
+
 
 			Leg1->resizeDown();
 			Leg2->resizeDown();
+			body->resizeDown();
+
 
 			Leg1->setRefPoint(leg1ref);
 			Leg2->setRefPoint(leg2ref);
+			body->setRefPoint(bodyref);
+
 
 		}
 	}
@@ -1765,6 +1849,7 @@ void Gun::move(char key) {
 			bullet1ref.y += config.gridSpacing;
 			bullet2ref.y += config.gridSpacing;
 			hand->move(key);
+			handref.y += config.gridSpacing;
 		}
 		break;
 	case 4:                      //Left arrow
@@ -1775,6 +1860,7 @@ void Gun::move(char key) {
 			bullet1ref.x -= config.gridSpacing;
 			bullet2ref.x -= config.gridSpacing;
 			hand->move(key);
+			handref.x -= config.gridSpacing;
 		}
 		break;
 	case 6:                       //right arrow
@@ -1785,7 +1871,7 @@ void Gun::move(char key) {
 			bullet1ref.x += config.gridSpacing;
 			bullet2ref.x += config.gridSpacing;
 			hand->move(key);
-
+			handref.x += config.gridSpacing;
 		}
 		break;
 	case 8:                      //Up arrow
@@ -1796,6 +1882,7 @@ void Gun::move(char key) {
 			bullet1ref.y -= config.gridSpacing;
 			bullet2ref.y -= config.gridSpacing;
 			hand->move(key);
+			handref.y -= config.gridSpacing;
 		}
 		break;
 	}
@@ -2158,49 +2245,46 @@ void house::move(char key) {
 	switch (key) {
 	case 2:                      //Down arrow
 		newRef = { this->getRefPoint().x,this->getRefPoint().y + config.gridSpacing };
-		roofref.y += config.gridSpacing;
 		if (newRef.y + body->getheight() / 2 < (config.windHeight - config.statusBarHeight)) {
 			this->setRefPoint(newRef);
-
 			bodyref.y += config.gridSpacing;
-			RefPoint.y += config.gridSpacing;
 
 			roof->move(key);
+			roofref.y += config.gridSpacing;
+
 		}
 		break;
 	case 4:                      //Left arrow
 		newRef = { this->getRefPoint().x - config.gridSpacing,this->getRefPoint().y };
 		if (newRef.x - roof->getbase() / 2 > 0) {
 			this->setRefPoint(newRef);
-			bodyref.x -= config.gridSpacing;
-			RefPoint.x -= config.gridSpacing;
 			roofref.x -= config.gridSpacing;
+			bodyref.x-= config.gridSpacing;
 
 			roof->move(key);
+
 		}
 		break;
 	case 6:                       //right arrow
 		newRef = { this->getRefPoint().x + config.gridSpacing,this->getRefPoint().y };
 		if (newRef.x + roof->getbase() / 2 < config.windWidth) {
 			this->setRefPoint(newRef);
-			bodyref.x += config.gridSpacing;
-			RefPoint.x += config.gridSpacing;
 			roofref.x += config.gridSpacing;
-
+			bodyref.x += config.gridSpacing;
 
 			roof->move(key);
+
 		}
 		break;
 	case 8:                      //Up arrow
 		newRef = { this->getRefPoint().x ,this->getRefPoint().y - config.gridSpacing };
 		if (newRef.y - (body->getheight() + roof->getheight()) / 2 - 20 > config.toolBarHeight) {
 			this->setRefPoint(newRef);
-			bodyref.y -= config.gridSpacing;
-			RefPoint.y -= config.gridSpacing;
 			roofref.y -= config.gridSpacing;
-
+			bodyref.y -= config.gridSpacing;
 
 			roof->move(key);
+
 		}
 		break;
 	}
@@ -2385,6 +2469,10 @@ void house::load(ifstream& Infile)
 			this->Rotate();
 	}
 }
+
+
+
+
 balance::balance(game* r_pGame, point ref, color fillcolor) :shape(r_pGame, ref)
 {
 	circRef = { RefPoint.x , RefPoint.y - (config.balance.getRectWidth / 2 + config.balance.getradius) };
@@ -2542,6 +2630,7 @@ void balance::move(char key) {
 			this->setRefPoint(newRef);
 			circRef.y += config.gridSpacing;
 			tri->move(key);
+			triRef.y += config.gridSpacing;
 		}
 		break;
 	case 4:                      //Left arrow
@@ -2550,6 +2639,8 @@ void balance::move(char key) {
 			this->setRefPoint(newRef);
 			circRef.x -= config.gridSpacing;
 			tri->move(key);
+			triRef.x -= config.gridSpacing;
+
 		}
 		break;
 	case 6:                       //right arrow
@@ -2558,6 +2649,8 @@ void balance::move(char key) {
 			this->setRefPoint(newRef);
 			circRef.x += config.gridSpacing;
 			tri->move(key);
+			triRef.x += config.gridSpacing;
+
 		}
 		break;
 	case 8:                      //Up arrow
@@ -2566,6 +2659,8 @@ void balance::move(char key) {
 			this->setRefPoint(newRef);
 			circRef.y -= config.gridSpacing;
 			tri->move(key);
+			triRef.y -= config.gridSpacing;
+
 		}
 		break;
 	}

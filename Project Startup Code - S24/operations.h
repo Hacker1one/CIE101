@@ -1,4 +1,7 @@
 #pragma once
+#include <thread>
+#include <chrono>
+#include "shape.h"
 
 
 
@@ -10,8 +13,7 @@
 
 
 
-
-
+class shape;
 
 class game;
 
@@ -152,19 +154,23 @@ public:
 
 class operexit : public operation
 {
+	shape** shapelist;
 public:
 	operexit(game* r_pGame);
 	virtual void Act();
 };
 class operHint : public operation
 {
+	int begin;
+	shape** shapelist = nullptr;
 public:
-	operHint(game* r_pGame);
+	operHint(game* r_pGame, int begcount);
 	virtual void Act();
 };
 
 class operrefresh : public operation
 {
+	shape** shapelist = nullptr;
 public:
 	operrefresh(game* r_pGame);
 	virtual void Act();

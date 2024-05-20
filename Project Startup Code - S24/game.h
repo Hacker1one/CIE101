@@ -18,6 +18,11 @@ class game
 	grid* shapesGrid;
 	char pressedkey;
 	vector<operation*>operations;
+	int cnt;
+	int endhint;
+	shape* rand_shape;
+	bool canhint;
+	shape** shapelist;
 	int step;
 	long int givens = 0;
 
@@ -38,7 +43,7 @@ public:
 	int getsteps() const;
 	void givesteps();
 	void drawgivensteps()const;
-
+	void resethintcolor();
 	int getgivensteps() const;
 	vector<operation*> getvectoroperations() const;
 	window* getWind() const;		//returns a pointer to the graphics window
@@ -48,7 +53,8 @@ public:
 	void checktoload();
 	//creates an operation according to the toolbar item clicked
 	operation* createRequiredOperation(toolbarItem clickedItem);
-	
+	void setendhint(int, shape*);
+	void updatelevel();
 
 
 	void run();	//start the game
