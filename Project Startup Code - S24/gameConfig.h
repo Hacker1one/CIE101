@@ -121,16 +121,15 @@ enum toolbarItem //The items of the  toolbar (you should add more items)
 	ITM_LOAD,
 	ITM_REF,
 	ITM_LVL,
-	
-	
+
+
 	ITM_EXIT,
-		//Exit item
-	//TODO: Add more items names here
-	
+	//Exit item
+//TODO: Add more items names here
 	
 
-	ITM_CNT		//no. of toolbar items ==> This should be the last line in this enum
-
+	ITM_CNT	,	//no. of toolbar items ==> This should be the last line in this enum
+	ITM_NULL
 };
 
 

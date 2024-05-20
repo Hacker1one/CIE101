@@ -15,7 +15,7 @@ class game
 	toolbar* gameToolbar;
 	keytype kt;
 	window* pWind;	//Pointer to the CMU graphics window
-	grid* shapesGrid;
+	grid* shapesGrid = nullptr;
 	char pressedkey;
 	vector<operation*>operations;
 	int cnt;
@@ -24,6 +24,7 @@ class game
 	bool canhint;
 	shape** shapelist;
 	int step;
+	int scorestep;
 	long int givens = 0;
 
 public:

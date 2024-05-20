@@ -15,6 +15,7 @@ Sign::Sign(game* r_pGame, point ref, color fillcolor) :shape(r_pGame, ref)
 	top = new Rect(pGame, topRef, config.sighShape.topHeight, config.sighShape.topWdth, fillColor);
 	base = new Rect(pGame, baseRef, config.sighShape.baseHeight, config.sighShape.baseWdth, fillColor);
 	resized = 0;
+	saved = false;
 
 }
 void Sign::draw()
@@ -28,7 +29,7 @@ void Sign::draw()
 
 	base->draw();
 	top->draw();
-	cout << "Active " << RefPoint.x << "," << RefPoint.y << endl;
+	//cout << "Active " << RefPoint.x << "," << RefPoint.y << endl;
 
 
 }
@@ -273,9 +274,11 @@ void Sign::setyrange(int height) {
 void Sign::save(ofstream& OutFile)
 {
 	OutFile << SIGN << "\n" << topRef.x << "\n" << topRef.y << "\n" << fillColor.ucRed << "\n" << fillColor.ucGreen << "\n" << fillColor.ucBlue << "\n" << resized << "\n" << rotated << "\n";
+	saved = true;
 }
 void Sign::load(ifstream& Infile)
 {
+	
 	int rszd, rttd;
 	Infile >> rszd >> rttd;
 	if (rszd > 0)
@@ -309,6 +312,7 @@ pointerToAball::pointerToAball(game* r_pGame, point ref, color fillcolor) :shape
 	ball = new circle(pGame, ballref, config.ball.ballradius, fillColor);
 	ptrtip = new Triangle(pGame, ptrtipref, config.tip.tipwidth, config.tip.tipheight, fillColor);
 	resized = 0;
+	saved = false;
 	ptrtip->Rotate();
 }
 void pointerToAball::draw()
@@ -658,6 +662,7 @@ void pointerToAball::setyrange(int height) {
 void pointerToAball::save(ofstream& OutFile)
 {
 	OutFile << POINTER << "\n" << ptrtipref.x << "\n" << ptrtipref.y << "\n" << fillColor.ucRed << "\n" << fillColor.ucGreen << "\n" << fillColor.ucBlue << "\n" << resized << "\n" << rotated << "\n";
+	saved = true;
 }
 void pointerToAball::load(ifstream& Infile)
 {
@@ -694,6 +699,7 @@ standingball::standingball(game* r_pGame, point ref, color fillcolor) :shape(r_p
 	stand = new Rect(pGame, standref, config.stand.standwidth, config.stand.standlength, fillColor);
 	ball = new circle(pGame, ballref, config.ball.ballradius, fillColor);
 	resized = 0;
+	saved = false;
 
 }
 void  standingball::draw() {
@@ -965,6 +971,7 @@ void standingball::setyrange(int height) {
 void standingball::save(ofstream& OutFile)
 {
 	OutFile << STDBALL << "\n" << standref.x << "\n" << standref.y << "\n" << fillColor.ucRed << "\n" << fillColor.ucGreen << "\n" << fillColor.ucBlue << "\n" << resized << "\n" << rotated << "\n";
+	saved = true;
 }
 void standingball::load(ifstream& Infile)
 {
@@ -1007,6 +1014,7 @@ strawman::strawman(game* r_pGame, point ref, color fillcolor) :shape(r_pGame, re
 	Leg2 = new Triangle(pGame, leg2ref, config.strawman.legwidth, config.strawman.legheight, fillColor);
 	Face = new circle(pGame, faceref, config.strawman.faceradius, fillColor);
 	resized = 0;
+	saved = false;
 }
 void strawman::draw()
 {
@@ -1655,6 +1663,7 @@ void strawman::setyrange(int height) {
 void strawman::save(ofstream& OutFile)
 {
 	OutFile << MAN << "\n" << bodyref.x << "\n" << bodyref.y << "\n" << fillColor.ucRed << "\n" << fillColor.ucGreen << "\n" << fillColor.ucBlue << "\n" << resized << "\n" << rotated << "\n";
+	saved = true;
 }
 void strawman::load(ifstream& Infile)
 {
@@ -1694,6 +1703,7 @@ Gun::Gun(game* r_pGame, point ref, color fillcolor) :shape(r_pGame, ref)
 
 	hand = new Triangle(pGame, handref, config.Gun.GetBase, config.Gun.GetHeight, fillColor);
 	resized = 0;
+	saved = false;
 }
 void Gun::draw()
 {
@@ -2093,6 +2103,7 @@ void Gun::setyrange(int height) {
 void Gun::save(ofstream& OutFile)
 {
 	OutFile << GUN << "\n" << bodyref.x << "\n" << bodyref.y << "\n" << fillColor.ucRed << "\n" << fillColor.ucGreen << "\n" << fillColor.ucBlue << "\n" << resized << "\n" << rotated << "\n";
+	saved = true;
 }
 void Gun::load(ifstream& Infile)
 {
@@ -2125,6 +2136,7 @@ house::house(game* r_pGame, point ref, color fillcolor) :shape(r_pGame, ref)
 	body = new Rect(pGame, bodyref, config.house.bodyheight, config.house.bodyLength, fillColor);
 	roof = new Triangle(pGame, roofref, config.house.roofwidth, config.house.roofheight, fillColor);
 	resized = 0;
+	saved = false;
 }
 void house::draw()
 {
@@ -2448,6 +2460,7 @@ void house::setyrange(int height) {
 void house::save(ofstream& OutFile)
 {
 	OutFile << HOS << "\n" << bodyref.x << "\n" << bodyref.y << "\n" << fillColor.ucRed << "\n" << fillColor.ucGreen << "\n" << fillColor.ucBlue << "\n" << resized << "\n" << rotated << "\n";
+	saved = true;
 }
 void house::load(ifstream& Infile)
 {
@@ -2485,6 +2498,7 @@ balance::balance(game* r_pGame, point ref, color fillcolor) :shape(r_pGame, ref)
 	circRef = { RefPoint.x , RefPoint.y - (rec->getheight() / 2 + circ->getradius()) };
 	triRef = { RefPoint.x  , RefPoint.y + (tri->getheight() / 2 + rec->getheight() / 2) };
 	resized = 0;
+	saved = false;
 }
 void balance::draw()
 {
@@ -2830,8 +2844,8 @@ void balance::setyrange(int height) {
 }
 void balance::save(ofstream& OutFile)
 {
-	OutFile.open("progress.txt");
 	OutFile << BAL << "\n" << recRef.x << "\n" << recRef.y << "\n" << fillColor.ucRed << "\n" << fillColor.ucGreen << "\n" << fillColor.ucBlue << "\n" << resized << "\n" << rotated << "\n";
+	saved = true;
 }
 void balance::load(ifstream& Infile)
 {

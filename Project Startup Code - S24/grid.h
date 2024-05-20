@@ -38,5 +38,6 @@ public:
 	void setshapecount(int);
 	void SaveShapes(ofstream& OutFile);
 	void LoadShapes(ifstream& InFile);
+	bool checksaved();
 };
 

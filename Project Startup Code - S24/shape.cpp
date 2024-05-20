@@ -54,3 +54,7 @@ int shape::getrotated() const{
 int shape::getsize()const {
 	return size; 
 }
+bool shape::returnsaved()const {
+	return saved;
+}
+

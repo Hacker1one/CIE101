@@ -31,7 +31,10 @@ grid::grid(point r_uprleft, int wdth, int hght, game* pG)
 grid::~grid()
 {
 	for (int i = 0; i < shapeCount; i++)
+	{
 		delete shapelist[i];
+		shapelist[i] = nullptr;
+	}
 }
 
 void grid::draw() const
@@ -159,7 +162,7 @@ void grid::randomShapeGeneration()
 
 
 
-		/*switch (sizerand) {
+		switch (sizerand) {
 		case 1:
 			sh->resizeDown();
 			sh->resizeDown();
@@ -178,7 +181,7 @@ void grid::randomShapeGeneration()
 			sh->resizeUp();
 			break;
 		}
-	*/
+	
 		sh->setxrange(base);
 		sh->setyrange(height);
 		if (!addShape(sh))
@@ -344,4 +347,13 @@ shape** grid::getshapeList()const {
 }
 void grid::setshapecount(int c) {
 	shapeCount = c;
+}
+bool grid::checksaved()
+{
+	for (int i = 0; i < shapeCount; i++) {
+		if (!shapelist[i]->returnsaved())
+		{
+			return false;
+		}
+	}return true;
 }

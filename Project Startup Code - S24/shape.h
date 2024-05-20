@@ -42,6 +42,7 @@ protected:
 	int resized;
 	int size = 3;
 	int max_x;
+	bool saved;
 	int max_y;
 	int min_x;
 	int min_y;
@@ -71,6 +72,7 @@ public:
 	void setcolor(color);
 	int getsize()const;
 	int getrotated()const; 
+	bool returnsaved()const;
 	
 							  
 	//-- The following functions should be supported by the shape class

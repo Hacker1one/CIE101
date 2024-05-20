@@ -13,9 +13,9 @@
 game::game()
 {
 	step = 0;
+	scorestep = 0;
 	canhint = true;
 	shapelist = nullptr;
-	step = 0;
 	cnt = 1000;
 	//Create the main window
 	createWind(config.windWidth, config.windHeight, config.wx, config.wy);
@@ -136,7 +136,7 @@ void game::slevel()
 		pWind->SetPen(BLACK);
 
 		ktInput = pWind->GetKeyPress(cKeyData);
-
+		int score = gameToolbar->getscore();
 		if ((cKeyData>=48 && cKeyData < 58) || cKeyData == 84 || cKeyData == 116) {
 			if (cKeyData >= 48 && cKeyData < 58)
 			{
@@ -144,6 +144,23 @@ void game::slevel()
 				output << "You chose level '" << cKeyData << "'";
 				pWind->DrawString(5, 180, output.str()); // Adjust Y coordinate for clarity4
 				gameToolbar->setlevel(cKeyData - 48);
+				if (shapesGrid != nullptr)
+				{
+					for (int i = 0; i < shapesGrid->getshapecount(); i++)
+					{
+						delete shapelist[i];
+						shapelist[i] = nullptr;
+					}
+					if (shapesGrid->getActiveShape() != nullptr)
+					{
+						delete shapesGrid->getActiveShape();
+					}
+					delete shapesGrid;
+					shapesGrid = nullptr;
+					createGrid();
+					score = 0;
+					gameToolbar->setscore(score);
+				}
 				bQuit = true;
 			}
 			else
@@ -152,6 +169,23 @@ void game::slevel()
 				output << "You chose level '10'";
 				pWind->DrawString(5, 180, output.str()); // Adjust Y coordinate for clarity4
 				gameToolbar->setlevel(10);
+				if (shapesGrid != nullptr)
+				{
+					for (int i = 0; i < shapesGrid->getshapecount(); i++)
+					{
+						delete shapelist[i];
+						shapelist[i] = nullptr;
+					}
+					if (shapesGrid->getActiveShape() != nullptr)
+					{
+						delete shapesGrid->getActiveShape();
+					}
+					delete shapesGrid;
+					shapesGrid = nullptr;
+					createGrid();
+					score = 0;
+					gameToolbar->setscore(score);
+				}
 				bQuit = true;
 			}
 		}
@@ -166,6 +200,7 @@ void game::slevel()
 
 void game::givesteps()
 {
+	
 	int totalcompositeshapes = 0;
 	for (int i = gameToolbar->getlevel(); i < 11; i++)
 	{
@@ -201,6 +236,7 @@ void game::countsteps()
 void game::incrementsteps()
 {
 	step += 1;
+	scorestep += 1;
 	gameToolbar->dsteps();
 }
 
@@ -289,10 +325,16 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 		operations.push_back(op);
 		break;
 	case ITM_EXIT:
-		op = new operexit(this);
-		printMessage("You clicked on Exit");
-		//operations.push_back(op);
-		delete op;
+		if (shapesGrid->checksaved())
+		{
+			op = new operexit(this);
+			printMessage("You clicked on Exit");
+			delete op;
+		}
+		else
+		{
+			printMessage("You should save before EXIT!!!");
+		}
 		break;
 	case ITM_HINT:
 		if (canhint) {
@@ -437,9 +479,22 @@ void game::run()
 					score += 2;
 					printMessage("Mathcing !!");
 					gameToolbar->setscore(score);
+					if (scorestep - 30 < 0)
+					{
+						printMessage("Good Job!!! You matched the shape in less than 30 steps. One point bonus :)");
+						score += 1;
+						scorestep = 0;
+						gameToolbar->setscore(score);
+					}
+					else
+					{
+						printMessage("Oops!!! You matched the shape in more than 30 steps. No bonus :(");
+						scorestep = 0;
+						gameToolbar->setscore(score);
+					}
 
 					shapesGrid->deleteActiveShape();
-					shapesGrid->editShapeCount();
+					//shapesGrid->editShapeCount();
 				}
 				else {
 					score--;
@@ -465,28 +520,38 @@ void game::run()
 		}
 
 
-	} while (clickedItem != ITM_EXIT);
+	} while (clickedItem != ITM_NULL);
 }
 	
 
 
 bool game::IsMatching(shape* sh) {
 	shapelist = shapesGrid->getshapeList();
-
+	int shapecount = shapesGrid->getshapecount();
 	for (int i = 0; i < shapesGrid->getshapecount(); i++) {
 
 		if (shapelist[i]) {
-			if (shapelist[i]->getRefPoint().x == sh->getRefPoint().x && shapelist[i]->getRefPoint().y == sh->getRefPoint().y && shapelist[i]->getrotated() == sh->getrotated() && shapelist[i]->getsize() == sh->getsize() && shapelist[i]->getShapeType() == sh->getShapeType()) {
-
-				shape* temp = shapelist[shapesGrid->getshapecount() - 1];
-				shapelist[shapesGrid->getshapecount() - 1] = shapelist[i];
-				shapelist[i] = temp;
-				shapelist[shapesGrid->getshapecount() - 1] = nullptr;
-				shapesGrid->setshapecount((shapesGrid->getshapecount() - 1));
-				cout << endl << "The number of shapes is " << shapesGrid->getshapecount();
-				if ((shapesGrid->getshapecount() == 1)) {
+			if (shapelist[i]->getRefPoint().x == sh->getRefPoint().x 
+				&& shapelist[i]->getRefPoint().y == sh->getRefPoint().y 
+				&& shapelist[i]->getrotated() == sh->getrotated() 
+				&& shapelist[i]->getsize() == sh->getsize() 
+				&& shapelist[i]->getShapeType() == sh->getShapeType()) 
+			
+			{
+				std::swap(shapelist[i], shapelist[shapecount - 1]);
+				delete shapelist[shapecount - 1];
+				shapelist[shapecount - 1] = nullptr;
+				shapesGrid->setshapecount(shapecount-1);				
+				
+				if ((shapesGrid->getshapecount() == 0))
+				{
 					updatelevel();
+					givens -= step;
+					drawgivensteps();
+					step = 0;
+					gameToolbar->dsteps();
 				}
+				
 				return true;
 
 
@@ -496,6 +561,49 @@ bool game::IsMatching(shape* sh) {
 
 	return false;
 }
+//#include <iostream>
+//#include <algorithm> // For std::swap
+//
+//bool game::IsMatching(shape* sh) {
+//	shapelist = shapesGrid->getshapeList();
+//	int shapeCount = shapesGrid->getshapecount();
+//
+//	std::cout << "Initial number of shapes: " << shapeCount << std::endl;
+//
+//	for (int i = 0; i < shapeCount; ++i) {
+//		if (shapelist[i]) {
+//			if (shapelist[i]->getRefPoint().x == sh->getRefPoint().x &&
+//				shapelist[i]->getRefPoint().y == sh->getRefPoint().y &&
+//				shapelist[i]->getrotated() == sh->getrotated() &&
+//				shapelist[i]->getsize() == sh->getsize() &&
+//				shapelist[i]->getShapeType() == sh->getShapeType()) {
+//
+//				// Swapping shapes
+//				std::swap(shapelist[i], shapelist[shapeCount - 1]);
+//
+//				// Debugging output
+//				std::cout << "Swapped shape at index " << i << " with shape at index " << shapeCount - 1 << std::endl;
+//				// Deleting the last shape and setting it to nullptr
+//				delete shapelist[shapeCount - 1];
+//				shapelist[shapeCount - 1] = nullptr;
+//
+//				// Decrementing the shape count
+//				shapesGrid->setshapecount(shapeCount - 1);
+//				shapeCount = shapesGrid->getshapecount(); // Update local shapeCount
+//				std::cout << "Shape deleted. Number of shapes now: " << shapeCount << std::endl;
+//
+//				if (shapeCount == 0) {
+//					updatelevel();
+//				}
+//
+//				return true;
+//			}
+//		}
+//	}
+//
+//	std::cout << "No matching shape found." << std::endl;
+//	return false;
+//}
 
 vector<operation*> game::getvectoroperations() const
 {

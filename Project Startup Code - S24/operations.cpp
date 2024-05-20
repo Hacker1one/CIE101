@@ -340,27 +340,21 @@ void operexit::Act()
 	window* pw = pGame->getWind();
 	grid* pgrid = pGame->getGrid();
 	vector<operation*> oper = pGame->getvectoroperations();
-	shapelist = pgrid->getshapeList();
 	toolbar* tb = pGame->getToolbar();
-	for (int i = 0; pgrid->getshapecount(); i++)
-	{
-		delete shapelist[i];
-		shapelist[i] = nullptr;
-	}
 	pGame->getToolbar()->decrementlives();
 	if (pgrid->getActiveShape() != nullptr)
 	{
-		delete pgrid->getActiveShape();
+		pgrid->deleteActiveShape();
 	}
-
-	delete tb;
-	tb = nullptr;
-
 	for (int i = 0; i < oper.size(); i++)
 	{
 		delete oper[i];
 		oper[i] = nullptr;
 	}
+	delete tb;
+	tb = nullptr;
+	delete pgrid;
+
 	delete pGame;
 }
 
@@ -378,7 +372,7 @@ void operHint::Act() {
 	uniform_int_distribution<int> rrandshape(0, pgrid->getshapecount());
 	i = rrandshape(randshape);
 	shapelist[i]->setcolor(GREEN);
-	int endtime = begin + 5;
+	int endtime = begin - 5;
 	pGame->setendhint(endtime, shapelist[i]);
 
 }
@@ -389,13 +383,12 @@ operrefresh::operrefresh(game* r_pGame) : operation(r_pGame)
 void operrefresh::Act()
 {
 
-	int totalcompositeshapes = 2 * pGame->getToolbar()->getlevel() - 1;
 	grid* pgrid = pGame->getGrid();
 	shapelist = pgrid->getshapeList();
 	toolbar* tb = pGame->getToolbar();
 	if (tb->getlives() > 1)
 	{
-		for (int i = 0; i < totalcompositeshapes; i++)
+		for (int i = 0; i < pgrid->getshapecount(); i++)
 		{
 			delete shapelist[i];
 			shapelist[i] = nullptr;
@@ -450,3 +443,4 @@ void operLoad::Act()
 }
 
 
+ 
