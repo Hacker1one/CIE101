@@ -10,6 +10,7 @@ class Sign :public shape
 
 public:
 	Sign(game* r_pGame, point ref, color fillcolor);
+	~Sign();
 	virtual void draw() ;
 	virtual ShapeType getShapeType() const;
 	virtual void move(char);
@@ -37,6 +38,7 @@ class pointerToAball : public shape
 	point ptrbdyref, ballref, ptrtipref;
 public:
 	pointerToAball(game* r_game, point ref, color fillcolor);
+	~pointerToAball();
 	virtual void draw();
 	virtual ShapeType getShapeType() const;
 	virtual void move(char);
@@ -62,6 +64,7 @@ class Gun : public shape
 	point handref, bullet1ref, bullet2ref, bodyref;
 public:
 	Gun(game* r_game, point ref, color fillcolor);
+	~Gun();
 	virtual void draw();
 	
 	virtual ShapeType getShapeType() const;
@@ -87,6 +90,7 @@ class standingball : public shape
 	point standref, ballref;
 public:
 	standingball(game* r_game, point ref, color fillcolor);
+	~standingball();
 	virtual void draw();
 	virtual ShapeType getShapeType() const;
 	virtual void move(char);
@@ -114,6 +118,7 @@ class strawman : public shape
 	point bodyref, hand1ref, hand2ref, leg1ref, leg2ref, faceref;
 public:
 	strawman(game* r_game, point ref, color fillcolor);
+	~strawman();
 	virtual void draw();
 	virtual ShapeType getShapeType() const;
 	virtual void move(char);
@@ -139,6 +144,7 @@ class house : public shape
 
 public:
 	house(game* r_game, point ref, color fillcolor);
+	~house();
 	virtual void draw();
 	virtual ShapeType getShapeType() const;
 	virtual void move(char);
@@ -164,6 +170,7 @@ class balance : public shape
 	point triRef, recRef, circRef;
 public:
 	balance(game* r_game, point ref, color fillcolor);
+	~balance();
 	virtual void draw();
 	virtual ShapeType getShapeType() const;
 	virtual void move(char);

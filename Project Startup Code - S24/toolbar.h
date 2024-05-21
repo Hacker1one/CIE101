@@ -21,7 +21,7 @@ public:
 	void setscore(int);
 	void setlives(int);
 	void settime(int);
-	void IncreaseTime();
+	void UpdateTimer();
 	int getlevel() const;
 	int getscore() const;
 	int getlives() const;

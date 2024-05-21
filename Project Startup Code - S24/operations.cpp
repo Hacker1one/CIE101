@@ -8,7 +8,7 @@
 #include "random"
 #include "cmath"
 #include "sstream"
-#include<ctime>
+#include <ctime>
 
 using namespace std;
 
@@ -17,7 +17,6 @@ operation::operation(game* r_pGame)
 {
 	pGame = r_pGame;
 }
-
 
 /////////////////////////////////// class operAddSign  //////////////////
 
@@ -28,8 +27,7 @@ void operAddSign::Act()
 {
 	window* pw = pGame->getWind();
 
-	//TODO:
-	// Don't allow adding new shape if there is alreday an active shape
+
 
 	//align reference point to the nearest grid point
 	int xGrid = config.RefX - config.RefX % config.gridSpacing;
@@ -60,9 +58,6 @@ void operAddgun::Act()
 {
 	window* pw = pGame->getWind();
 
-	//TODO:
-	// Don't allow adding new shape if there is alreday an active shape
-
 	//align reference point to the nearest grid point
 	int xGrid = config.RefX - config.RefX % config.gridSpacing;
 	int yGrid = config.RefY - config.RefX % config.gridSpacing;
@@ -78,9 +73,6 @@ void operAddgun::Act()
 	pGrid->setActiveShape(psh);
 
 }
-
-
-
 
 
 operAddstandingball::operAddstandingball(game* r_pGame) :operation(r_pGame)
@@ -256,6 +248,9 @@ void operFlip::Act()
 	grid* pGrid = pGame->getGrid();
 	pGrid->setActiveShape(psh);
 }
+
+
+
 operRotate::operRotate(game* r_pGame) :operation(r_pGame)
 {
 }
@@ -298,7 +293,6 @@ void operDelete::Act()
 operResizeUp::operResizeUp(game* r_pGame) :operation(r_pGame)
 {
 }
-
 void operResizeUp::Act()
 {
 	window* pw = pGame->getWind();
@@ -308,10 +302,10 @@ void operResizeUp::Act()
 	shp->resizeUp();
 }
 
+
 operResizeDown::operResizeDown(game* r_pGame) :operation(r_pGame)
 {
 }
-
 void operResizeDown::Act()
 {
 	window* pw = pGame->getWind();
@@ -320,6 +314,8 @@ void operResizeDown::Act()
 	if (shp != nullptr)
 	shp->resizeDown();
 }
+
+
 
 operslevel::operslevel(game* r_pGame) : operation(r_pGame)
 {
@@ -330,10 +326,11 @@ void operslevel::Act()
 	pGame->slevel();
 }
 
+
+
 operexit::operexit(game* r_pGame) : operation(r_pGame)
 {
 }
-
 void operexit::Act()
 {
 
@@ -341,7 +338,7 @@ void operexit::Act()
 	grid* pgrid = pGame->getGrid();
 	vector<operation*> oper = pGame->getvectoroperations();
 	toolbar* tb = pGame->getToolbar();
-	pGame->getToolbar()->decrementlives();
+	
 	if (pgrid->getActiveShape() != nullptr)
 	{
 		pgrid->deleteActiveShape();
@@ -358,24 +355,29 @@ void operexit::Act()
 	delete pGame;
 }
 
+
+
 operHint::operHint(game* r_pGame, int begcount) : operation(r_pGame)
 {
 	begin = begcount;
 
 }
-
 void operHint::Act() {
 	int i = 0;
 	grid* pgrid = pGame->getGrid();
 	shapelist = pgrid->getshapeList();
+
 	random_device randshape;
 	uniform_int_distribution<int> rrandshape(0, pgrid->getshapecount());
 	i = rrandshape(randshape);
+
 	shapelist[i]->setcolor(GREEN);
 	int endtime = begin - 5;
 	pGame->setendhint(endtime, shapelist[i]);
 
 }
+
+
 
 operrefresh::operrefresh(game* r_pGame) : operation(r_pGame)
 {
@@ -408,6 +410,8 @@ void operrefresh::Act()
 	}
 }
 
+
+
 operSave::operSave(game* r_pGame) : operation(r_pGame)
 {
 }
@@ -422,6 +426,9 @@ void operSave::Act()
 	pGame->getGrid()->SaveShapes(outfile);
 	outfile.close();
 }
+
+
+
 operLoad::operLoad(game* r_pGame) : operation(r_pGame)
 {
 }

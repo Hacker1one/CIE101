@@ -11,7 +11,7 @@ using namespace std;
 
 grid::grid(point r_uprleft, int wdth, int hght, game* pG)
 {
-	maxshapes = 30;
+	maxshapes = 40;
 	uprLeft = r_uprleft;
 	grid_height = hght;
 	grid_width = wdth;
@@ -19,7 +19,7 @@ grid::grid(point r_uprleft, int wdth, int hght, game* pG)
 	rows = grid_height / config.gridSpacing;
 	cols = grid_width / config.gridSpacing;
 	shapeCount = 0;
-	shapelist = new shape * [40];
+	shapelist = new shape * [maxshapes];
 	
 	/*for (int i = 0; i < MaxShapeCount; i++)
 		shapeVector[i] = nullptr;*/
@@ -186,7 +186,7 @@ void grid::randomShapeGeneration()
 		sh->setyrange(height);
 		if (!addShape(sh))
 			num_iterations++;
-
+		cout << addShape(sh);
 	}
 
 
@@ -209,14 +209,19 @@ bool grid::addShape(shape* newShape)
 	if (level <= 2) {
 		for (int i = 0; i < shapeCount; i++) {
 			if (shapelist[i]->getrotated() % 2 == 0) {
-				if (newShape->getblockbase() + shapelist[i]->getblockbase() < (newShape->getRefPoint().x - shapelist[i]->getRefPoint().x) && newShape->getblockheight() + shapelist[i]->getblockheight() < (newShape->getRefPoint().y - shapelist[i]->getRefPoint().y)) {
+				if (abs(newShape->getblockbase() + shapelist[i]->getblockbase()) / 2 < abs((newShape->getRefPoint().x - shapelist[i]->getRefPoint().x))
+					&& abs(newShape->getblockheight() + shapelist[i]->getblockheight()) / 2 < abs((newShape->getRefPoint().y - shapelist[i]->getRefPoint().y))) {
 					return false;
 				}
+				
+					
 			}
 			else {
-				if (newShape->getblockheight() + shapelist[i]->getblockheight() < (newShape->getRefPoint().x - shapelist[i]->getRefPoint().x) && newShape->getblockbase() + shapelist[i]->getblockbase() < (newShape->getRefPoint().y - shapelist[i]->getRefPoint().y)) {
+				if (abs((newShape->getblockheight() + shapelist[i]->getblockheight()) / 2 < (newShape->getRefPoint().x - shapelist[i]->getRefPoint().x)
+					&& abs(newShape->getblockbase() + shapelist[i]->getblockbase()) / 2 < (newShape->getRefPoint().y - shapelist[i]->getRefPoint().y))) {
 					return false;
 				}
+				
 			}
 
 		}
@@ -225,19 +230,26 @@ bool grid::addShape(shape* newShape)
 
 		for (int i = 0; i < shapeCount; i++) {
 			if (shapelist[i]->getrotated() % 2 == 0) {
-				if ((newShape->getblockbase() + shapelist[i]->getblockbase()) / 2 > abs((newShape->getRefPoint().x - shapelist[i]->getRefPoint().x)) && ((newShape->getblockheight() + shapelist[i]->getblockheight()) / 2 > abs(newShape->getRefPoint().y - shapelist[i]->getRefPoint().y))) {
-					cout << 0;
+				if (abs(newShape->getblockbase() + shapelist[i]->getblockbase()) / 2 > abs((newShape->getRefPoint().x - shapelist[i]->getRefPoint().x))
+					&& (abs(newShape->getblockheight() + shapelist[i]->getblockheight()) / 2 > abs(newShape->getRefPoint().y - shapelist[i]->getRefPoint().y))) {
 					return false;
+
 				}
+				
+					
 			}
 			else {
-				if (((newShape->getblockheight() + shapelist[i]->getblockheight()) / 2 > abs((newShape->getRefPoint().x - shapelist[i]->getRefPoint().x))) && ((newShape->getblockbase() + shapelist[i]->getblockbase()) / 2 > abs(newShape->getRefPoint().y - shapelist[i]->getRefPoint().y))) {
+				if ((abs(newShape->getblockheight() + shapelist[i]->getblockheight()) / 2 > abs((newShape->getRefPoint().x - shapelist[i]->getRefPoint().x)))
+					&& (abs(newShape->getblockbase() + shapelist[i]->getblockbase()) / 2 > abs(newShape->getRefPoint().y - shapelist[i]->getRefPoint().y))) {
 					cout << 1;
 					return false;
 				}
+				
+					
 			}
 
 		}
+
 
 	}
 	if ((newShape->getRefPoint().x - base) < 0 || (newShape->getRefPoint().x + base) > config.windWidth || (newShape->getRefPoint().y - height) < config.toolBarHeight || (newShape->getRefPoint().y + height) > (config.windHeight - config.statusBarHeight)) {
@@ -299,6 +311,22 @@ void grid::SaveShapes(ofstream& OutFile)
 }
 void grid::LoadShapes(ifstream& InFile)
 {
+	if (shapeCount > 0) {
+		for (int i = shapeCount - 1; i >= 0; i--)
+		{
+			delete shapelist[i];
+			shapelist[i] = nullptr;
+		}
+		shapeCount= 0;
+	}
+	if (shapeCount > 0) {
+		for (int i = shapeCount - 1; i >= 0; i--)
+		{
+			delete shapelist[i];
+			shapelist[i] = nullptr;
+		}
+		shapeCount = 0;
+	}
 	int shpcnt;
 	InFile >> shpcnt;
 	for (int i = 0; i < shpcnt; i++)
@@ -333,7 +361,7 @@ void grid::LoadShapes(ifstream& InFile)
 			sh = new Sign(pGame, pnt, clr);
 			break;
 		case BAL:
-			sh = new Sign(pGame, pnt, clr);
+			sh = new balance(pGame, pnt, clr);
 		}
 		sh->load(InFile);
 		addShape(sh);

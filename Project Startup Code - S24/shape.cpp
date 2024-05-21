@@ -11,6 +11,7 @@ shape::shape(game* r_pGame, point ref)
 	flipped = false;
 	rotated = 0;
 }
+shape::~shape() {};
 
 void shape::setRefPoint(point p)
 {

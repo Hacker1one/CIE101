@@ -180,7 +180,7 @@ void toolbar::decrementlives()
 	drawlives();
 }
 
-void toolbar::IncreaseTime() {
+void toolbar::UpdateTimer() {
 	window* pWind = pGame->getWind();
 
 	pWind->SetPen(config.bkGrndColor, 1);

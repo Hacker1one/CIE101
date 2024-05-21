@@ -5,7 +5,8 @@
 #include "CMUgraphicsLib\auxil.h"	// where Pause is found
 #include<algorithm>
 #include <memory>
-#include<ctime>
+#include <ctime>
+#include <random>
 
 
 
@@ -16,25 +17,46 @@ game::game()
 	scorestep = 0;
 	canhint = true;
 	shapelist = nullptr;
-	cnt = 1000;
+	
+	
 	//Create the main window
 	createWind(config.windWidth, config.windHeight, config.wx, config.wy);
 
-	//Create and draw the toolbar
-	createToolBar();
+	double introtimer = clock(); 
+	while (clock() - introtimer < 5000) {
+		
+		pWind->DrawImage("images\\toolbarItems\\welcome.jpg", 0, 0, config.windWidth, config.windHeight );
+		
+	}
+	pWind->SetPen(config.bkGrndColor);
+	pWind->SetBrush(config.bkGrndColor);
+	pWind->DrawRectangle(0, 0, config.windWidth, config.windHeight);
 
-	//Create and draw the grid
+		//Create and draw the toolbar
+		createToolBar();
+
+		//Create and draw the grid
+
+
+
+		//Create and clear the status bar
+		clearStatusBar();
+
+		
+		stimed();
+		slevel();
+		createGrid();
+		shapesGrid->draw();//draw the grid and all shapes it contains.
+
 	
 	
-
-	//Create and clear the status bar
-	clearStatusBar();
-
-	slevel();
-	createGrid();
-	shapesGrid->draw();	//draw the grid and all shapes it contains.
+	
+	
+	
 	
 }
+
+
 
 game::~game()
 {
@@ -77,53 +99,14 @@ void game::createGrid()
 	shapesGrid->randomShapeGeneration();
 }
 
-void game::checktoload()
-{
-		bool bQuit = false;
-		keytype ktInput;
-		clicktype ctInput;
-		char cKeyData;
 
-		// Display initial message
-		printMessage("Do you want to load a previous file. Click (y) for Yes and (n) for No");
-
-		// Flush out the input queues before beginning
-		pWind->FlushMouseQueue();
-		pWind->FlushKeyQueue();
-
-		do
-		{
-			pWind->SetPen(BLACK);
-
-			ktInput = pWind->GetKeyPress(cKeyData);
-
-			if (cKeyData == 121 || cKeyData == 89 ) {
-				ostringstream output;
-				output << "You chose to load ";
-				pWind->DrawString(5, 180, output.str()); // Adjust Y coordinate for clarity4
-				operation* op = new operLoad(this);
-				bQuit = true;
-			}
-			else if (cKeyData == 79 || cKeyData == 110)
-			{
-				slevel();
-				bQuit = true;
-			}
-
-			// Pause for half a second
-			Pause(500);
-
-
-		} while (bQuit != true);
-		givesteps();
-}
 void game::slevel()
 {
 	bool bQuit = false;
 	keytype ktInput;
 	clicktype ctInput;
 	char cKeyData;
-
+	step = 0;
 	// Display initial message
 	printMessage("Select a level from 1 to 10 (Press T or t for 10)");
 
@@ -137,7 +120,7 @@ void game::slevel()
 
 		ktInput = pWind->GetKeyPress(cKeyData);
 		int score = gameToolbar->getscore();
-		if ((cKeyData>=48 && cKeyData < 58) || cKeyData == 84 || cKeyData == 116) {
+		if ((cKeyData >= 48 && cKeyData < 58) || cKeyData == 84 || cKeyData == 116) {
 			if (cKeyData >= 48 && cKeyData < 58)
 			{
 				ostringstream output;
@@ -146,20 +129,39 @@ void game::slevel()
 				gameToolbar->setlevel(cKeyData - 48);
 				if (shapesGrid != nullptr)
 				{
-					for (int i = 0; i < shapesGrid->getshapecount(); i++)
+					if (shapelist[0] != nullptr)
 					{
-						delete shapelist[i];
-						shapelist[i] = nullptr;
+						for (int i = 0; i < shapesGrid->getshapecount(); i++)
+						{
+							delete shapelist[i];
+							shapelist[i] = nullptr;
+						}
+						if (shapesGrid->getActiveShape() != nullptr)
+						{
+							delete shapesGrid->getActiveShape();
+							shapesGrid->setActiveShape(nullptr);
+
+						}
+						delete shapesGrid;
+						shapesGrid = nullptr;
+						createGrid();
+						score = 0;
+						gameToolbar->setscore(score);
 					}
-					if (shapesGrid->getActiveShape() != nullptr)
+					else
 					{
-						delete shapesGrid->getActiveShape();
+						if (shapesGrid->getActiveShape() != nullptr)
+						{
+							delete shapesGrid->getActiveShape();
+							shapesGrid->setActiveShape(nullptr);
+
+						}
+						delete shapesGrid;
+						shapesGrid = nullptr;
+						createGrid();
+						score = 0;
+						gameToolbar->setscore(score);
 					}
-					delete shapesGrid;
-					shapesGrid = nullptr;
-					createGrid();
-					score = 0;
-					gameToolbar->setscore(score);
 				}
 				bQuit = true;
 			}
@@ -171,20 +173,38 @@ void game::slevel()
 				gameToolbar->setlevel(10);
 				if (shapesGrid != nullptr)
 				{
-					for (int i = 0; i < shapesGrid->getshapecount(); i++)
+					if (shapelist[0] != nullptr)
 					{
-						delete shapelist[i];
-						shapelist[i] = nullptr;
+						for (int i = 0; i < shapesGrid->getshapecount(); i++)
+						{
+							delete shapelist[i];
+							shapelist[i] = nullptr;
+						}
+						if (shapesGrid->getActiveShape() != nullptr)
+						{
+							delete shapesGrid->getActiveShape();
+							shapesGrid->setActiveShape(nullptr);
+						}
+						delete shapesGrid;
+						shapesGrid = nullptr;
+						createGrid();
+						score = 0;
+						gameToolbar->setscore(score);
 					}
-					if (shapesGrid->getActiveShape() != nullptr)
+					else
 					{
-						delete shapesGrid->getActiveShape();
+						if (shapesGrid->getActiveShape() != nullptr)
+						{
+							delete shapesGrid->getActiveShape();
+							shapesGrid->setActiveShape(nullptr);
+
+						}
+						delete shapesGrid;
+						shapesGrid = nullptr;
+						createGrid();
+						score = 0;
+						gameToolbar->setscore(score);
 					}
-					delete shapesGrid;
-					shapesGrid = nullptr;
-					createGrid();
-					score = 0;
-					gameToolbar->setscore(score);
 				}
 				bQuit = true;
 			}
@@ -194,7 +214,7 @@ void game::slevel()
 		Pause(500);
 
 
-	} while (bQuit != true); 
+	} while (bQuit != true);
 	givesteps();
 }
 
@@ -227,12 +247,7 @@ void game::drawgivensteps() const
 	pWind->DrawInteger(1410, config.windHeight - (int)(0.85 * config.statusBarHeight), givens);
 }
 
-void game::countsteps()
-{
-	try {}
-	catch(string s)
-	{}
-}
+
 void game::incrementsteps()
 {
 	step += 1;
@@ -287,32 +302,42 @@ operation* game::createRequiredOperation(toolbarItem clickedItem)
 		operations.push_back(op);
 		break;
 	case ITM_INC:
-		op = new operResizeUp(this);
-		incrementsteps();
-		printMessage("you clicked on Resize Up");
-		operations.push_back(op);
+		if (shapesGrid->getActiveShape()) {
+			op = new operResizeUp(this);
+			incrementsteps();
+			printMessage("you clicked on Resize Up");
+			operations.push_back(op);
+		}
 		break;
 	case ITM_DEC:
-		op = new operResizeDown(this);
-		incrementsteps();
-		printMessage("you clicked on Resize Down");
-		operations.push_back(op);
+		if (shapesGrid->getActiveShape()) {
+			op = new operResizeDown(this);
+			incrementsteps();
+			printMessage("you clicked on Resize Down");
+			operations.push_back(op);
+		}
 		break;
 	case ITM_DEL:
-		op = new operDelete(this);
-		printMessage("you clicked on Delete");
-		operations.push_back(op);
+		if (shapesGrid->getActiveShape()) {
+			op = new operDelete(this);
+			printMessage("you clicked on Delete");
+			operations.push_back(op);
+		}
 		break;
 	case ITM_ROT:
-		op = new operRotate(this);
-		incrementsteps();
-		printMessage("you clicked on Rotate");
-		operations.push_back(op);
+		if (shapesGrid->getActiveShape()) {
+			op = new operRotate(this);
+			incrementsteps();
+			printMessage("you clicked on Rotate");
+			operations.push_back(op);
+		}
 		break;
 	case ITM_FLP:
-		op = new operFlip(this);
-		incrementsteps();
-		printMessage("you clicked on Flip");
+		if (shapesGrid->getActiveShape()) {
+			op = new operFlip(this);
+			incrementsteps();
+			printMessage("you clicked on Flip");
+		}
 		break;
 	case ITM_LVL:
 		op = new operslevel(this);
@@ -425,29 +450,53 @@ void game::run()
 
 	double timer = clock();
 
+	cnt = (2 * (gameToolbar->getlevel()) - 1) * maxtime;
 	do
 	{
-		if (shapesGrid->getshapecount() - 1) {
-			//up to the next level
-		}
+		
+		
+			if (clock() - timer > 1000) {
 
-
-		//printMessage("Ready...");
-		//1- Get user click 
-
-		if (clock() - timer > 1000) {
-
-			timer = clock();
-			cnt--;
-			gameToolbar->settime(cnt);
-			gameToolbar->IncreaseTime(); // increase time by 1 second
-
-		}
+				timer = clock();
+				actiontime++;
+				cnt--;
+				if (timed) {
+					gameToolbar->settime(cnt);
+					gameToolbar->UpdateTimer(); 
+				}
+				if (cnt == 0) {
+					gameToolbar->decrementlives();
+					cout << "zerooooo";
+					cnt = (2 * (gameToolbar->getlevel()) - 1) * maxtime;
+				}
+			}
+		
+		
 
 		if (cnt == endhint) {
 			resethintcolor();
 			canhint = true;
 		}
+
+
+		
+
+
+		if (gameToolbar->getlives() == 0) {
+			
+			double timer = clock();
+			char Key;
+			keytype ktype;
+			while (clock() - timer < 3000) {
+				pWind->DrawImage("images\\toolbarItems\\gameover.jpg", 300, config.toolBarHeight + 100, 1000, config.windHeight - 250);
+				
+			}
+			return;
+			
+			
+			
+		}
+		
 		//printMessage("Ready...");
 		//1- Get user click
 		pWind->GetMouseClick(x, y);	//Get the coordinates of the user click
@@ -485,44 +534,106 @@ void game::run()
 						score += 1;
 						scorestep = 0;
 						gameToolbar->setscore(score);
+					    if (actiontime <= 7)
+					    {
+						powerup();
+						if (rectangleCaptured == true)
+						{
+							ShapeType minimum = MAN;
+							shape* ptr;
+							for (int i = 0; i < shapesGrid->getshapecount(); i++)
+							{
+								if (shapelist[i]->getShapeType() < minimum)
+								{
+									minimum = shapelist[i]->getShapeType();
+									ptr = shapelist[i];
+								}
+							}
+							int shapecount = shapesGrid->getshapecount();
+							swap(ptr, shapelist[shapecount - 1]);
+							delete ptr;
+							ptr = nullptr;
+							shapesGrid->setshapecount(shapecount - 1);
+							if ((shapesGrid->getshapecount() == 0))
+							{
+								updatelevel();
+								givens -= step;
+								drawgivensteps();
+								step = 0;
+								gameToolbar->dsteps();
+							}
+						   }
+						actiontime = 0;
 					}
-					else
-					{
-						printMessage("Oops!!! You matched the shape in more than 30 steps. No bonus :(");
-						scorestep = 0;
-						gameToolbar->setscore(score);
-					}
-
-					shapesGrid->deleteActiveShape();
-					//shapesGrid->editShapeCount();
 				}
-				else {
-					score--;
-					printMessage("Wrong Mathcing !!");
+				else
+				{
+					printMessage("Oops!!! You matched the shape in more than 30 steps. No bonus :(");
+					scorestep = 0;
 					gameToolbar->setscore(score);
-
+					if (actiontime <= 7 && gameToolbar->getlevel() > 3)
+					{
+						powerup();
+						if (rectangleCaptured == true)
+						{
+							ShapeType minimum = MAN;
+							shape* ptr;
+							for (int i = 0; i < shapesGrid->getshapecount(); i++)
+							{
+								if (shapelist[i]->getShapeType() < minimum)
+								{
+									minimum = shapelist[i]->getShapeType();
+									ptr = shapelist[i];
+								}
+							}
+							int shapecount = shapesGrid->getshapecount();
+							swap(ptr, shapelist[shapecount - 1]);
+							delete ptr;
+							ptr = nullptr;
+							shapesGrid->setshapecount(shapecount - 1);
+							if ((shapesGrid->getshapecount() == 0))
+							{
+								updatelevel();
+								givens -= step;
+								drawgivensteps();
+								step = 0;
+								gameToolbar->dsteps();
+							}
+						}
+						actiontime = 0;
+					}
+					actiontime = 0;
 				}
-				shapesGrid->draw();
 
+				shapesGrid->deleteActiveShape();
+				//shapesGrid->editShapeCount();
+			}
+			else {
+				score--;
+				printMessage("Wrong Mathcing !!");
+				gameToolbar->setscore(score);
 
 			}
+			shapesGrid->draw();
+
+
 		}
+	}
 
-		if (kt == ARROW && shapesGrid->getActiveShape()) {
-			printMessage("you clicked on arrow");
-			operation* op2 = nullptr;
-			op2 = new operMove(pressedkey, this);
-			operations.push_back(op2);
-			if (op2) {
-				op2->Act();
-				shapesGrid->draw();
-			}
+	if (kt == ARROW && shapesGrid->getActiveShape()) {
+		printMessage("you clicked on arrow");
+		operation* op2 = nullptr;
+		op2 = new operMove(pressedkey, this);
+		operations.push_back(op2);
+		if (op2) {
+			op2->Act();
+			shapesGrid->draw();
 		}
+	}
 
 
-	} while (clickedItem != ITM_NULL);
+} while (clickedItem != ITM_NULL);
 }
-	
 
 
 bool game::IsMatching(shape* sh) {
@@ -550,6 +661,7 @@ bool game::IsMatching(shape* sh) {
 					drawgivensteps();
 					step = 0;
 					gameToolbar->dsteps();
+					cnt = (2 * (gameToolbar->getlevel()) - 1) * maxtime;
 				}
 				
 				return true;
@@ -561,49 +673,7 @@ bool game::IsMatching(shape* sh) {
 
 	return false;
 }
-//#include <iostream>
-//#include <algorithm> // For std::swap
-//
-//bool game::IsMatching(shape* sh) {
-//	shapelist = shapesGrid->getshapeList();
-//	int shapeCount = shapesGrid->getshapecount();
-//
-//	std::cout << "Initial number of shapes: " << shapeCount << std::endl;
-//
-//	for (int i = 0; i < shapeCount; ++i) {
-//		if (shapelist[i]) {
-//			if (shapelist[i]->getRefPoint().x == sh->getRefPoint().x &&
-//				shapelist[i]->getRefPoint().y == sh->getRefPoint().y &&
-//				shapelist[i]->getrotated() == sh->getrotated() &&
-//				shapelist[i]->getsize() == sh->getsize() &&
-//				shapelist[i]->getShapeType() == sh->getShapeType()) {
-//
-//				// Swapping shapes
-//				std::swap(shapelist[i], shapelist[shapeCount - 1]);
-//
-//				// Debugging output
-//				std::cout << "Swapped shape at index " << i << " with shape at index " << shapeCount - 1 << std::endl;
-//				// Deleting the last shape and setting it to nullptr
-//				delete shapelist[shapeCount - 1];
-//				shapelist[shapeCount - 1] = nullptr;
-//
-//				// Decrementing the shape count
-//				shapesGrid->setshapecount(shapeCount - 1);
-//				shapeCount = shapesGrid->getshapecount(); // Update local shapeCount
-//				std::cout << "Shape deleted. Number of shapes now: " << shapeCount << std::endl;
-//
-//				if (shapeCount == 0) {
-//					updatelevel();
-//				}
-//
-//				return true;
-//			}
-//		}
-//	}
-//
-//	std::cout << "No matching shape found." << std::endl;
-//	return false;
-//}
+
 
 vector<operation*> game::getvectoroperations() const
 {
@@ -625,3 +695,117 @@ void game::updatelevel() {
 	this->createGrid();
 
 }
+void game::stimed() {
+	while (true) {
+		printMessage("Choose Game mode => F for free time game or T for timed game ");
+		pWind->WaitKeyPress(pressedkey);
+
+
+
+		if (pressedkey == 102) {
+			timed = false;
+			break;
+		}
+		else if (pressedkey == 116) {
+			timed = true;
+			break;
+		}
+		
+
+	}
+
+	
+ }
+
+
+void game::powerup() {
+	int score = gameToolbar->getscore();
+	int level = gameToolbar->getlevel();
+	int lives = gameToolbar->getlives();
+	delete gameToolbar;
+	gameToolbar = nullptr;
+	double start_time = static_cast<double>(clock()) / CLOCKS_PER_SEC;
+
+	random_device randDevice;
+	uniform_int_distribution<int> distX(0, config.windWidth);
+	uniform_int_distribution<int> distY(config.toolBarHeight, static_cast<int>(0.75 * config.windHeight));
+
+	point randRef;
+	randRef.x = distX(randDevice) - (distX(randDevice) % config.gridSpacing);
+	randRef.y = distY(randDevice) - (distY(randDevice) % config.gridSpacing);
+
+	Rect* power1 = new Rect(this, randRef, 50, 100, BLACK);
+	pWind->SetBuffering(true);
+
+	while (!rectangleCaptured && ((static_cast<double>(clock()) / CLOCKS_PER_SEC) - start_time < 5)) {
+		pWind->SetPen(config.bkGrndColor, 2);
+		pWind->SetBrush(config.bkGrndColor);
+		point upperLeft = { randRef.x - 50, randRef.y - 25 };
+		point lowerRight = { randRef.x + 50, randRef.y + 25 };
+		pWind->DrawRectangle(upperLeft.x, upperLeft.y, lowerRight.x, lowerRight.y, FILLED);
+
+		int mouseX, mouseY;
+		if (pWind->GetButtonState(LEFT_BUTTON, mouseX, mouseY) == BUTTON_DOWN) {
+			if (IsRectangleCaptured(mouseX, mouseY, upperLeft.x, upperLeft.y, 200, 50)) {
+				rectangleCaptured = true;
+			}
+		}
+
+		switch (getRandomNumber()) {
+		case 2:
+			power1->move(4);
+			break;
+		case 4:
+			power1->move(8);
+			break;
+		case 6:
+			power1->move(2);
+			break;
+		case 8:
+			power1->move(6);
+			break;
+		}
+
+		power1->move(getRandomNumber());
+		randRef = power1->getRefPoint();
+		power1->draw();
+
+		pWind->SetPen(WHITE, 25);
+		pWind->SetFont(24, BOLD, BY_NAME, "Arial");
+		pWind->DrawString(randRef.x - 50, randRef.y, "Power UP");
+
+		pWind->UpdateBuffer();
+		std::this_thread::sleep_for(chrono::milliseconds(25));
+	}
+
+	pWind->SetBuffering(false);
+	delete power1;
+	power1 = nullptr;
+	pWind->SetBrush(config.bkGrndColor);
+	pWind->SetPen(config.bkGrndColor);
+	pWind->DrawRectangle(0, 0, config.windWidth, config.gridHeight);
+	clearStatusBar();
+	createToolBar();
+	gameToolbar->setlevel(level);
+	gameToolbar->setscore(score);
+	gameToolbar->setlives(lives);
+	gameToolbar->dscorelevel();
+	gameToolbar->drawlives();
+}
+
+int game::getRandomNumber() {
+	int numbers[] = { 2, 4, 6, 8 };
+
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, 3);
+
+	return numbers[dis(gen)];
+}
+
+bool game::IsRectangleCaptured(int mouseX, int mouseY, int rectULX, int rectULY, int rectWidth, int rectHeight) {
+	return ((mouseX > rectULX) && (mouseX < (rectULX + rectWidth)) &&
+		(mouseY > rectULY) && (mouseY < (rectULY + rectHeight)));
+}
+
+

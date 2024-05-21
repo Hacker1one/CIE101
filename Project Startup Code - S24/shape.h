@@ -49,6 +49,7 @@ protected:
 	int axis;
 public:
 	shape(game* r_pGame, point ref);
+	virtual ~shape()= 0;
     virtual void draw() =0;//for a shape to draw itself on the screen
 	void setRefPoint(point p);
 	point getRefPoint();
@@ -74,10 +75,7 @@ public:
 	int getrotated()const; 
 	bool returnsaved()const;
 	
-							  
-	//-- The following functions should be supported by the shape class
-	//-- It should be overridden by each inherited shape
-	//-- Decide the parameters that you should pass to each function	
+
 };
 
 

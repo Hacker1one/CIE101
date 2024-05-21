@@ -13,6 +13,7 @@ Rect::Rect(game* r_pGame, point ref, int r_hght, int r_wdth, color fillcolor) :s
 	borderColor = fillcolor;
 
 }
+Rect::~Rect() {};
 void Rect::draw() 
 {
 	window* pW = pGame->getWind();	//get interface window
@@ -124,6 +125,7 @@ circle::circle(game* r_pGame, point ref, int r, color fillcolor) :shape(r_pGame,
 	this->fillColor = fillcolor;
 	borderColor = fillcolor;
 }
+circle::~circle() {};
 int circle::getradius()
 {
 	return rad;
@@ -221,6 +223,7 @@ Triangle::Triangle(game* r_pGame, point ref, int r_base, int r_height, color fil
 	borderColor = fillcolor;
 
 }
+Triangle::~Triangle() {};
 void Triangle::draw()
 {
 	window* pW = pGame->getWind(); //get interface window
@@ -289,7 +292,6 @@ int Triangle::getblockbase() {
 int Triangle::getblockheight() {
 	return height;
 }
-
 ShapeType Triangle::getShapeType() const
 {
 	return TRI;
@@ -338,13 +340,11 @@ void Triangle::dbah()
 	base = base * 2;
 	height = height * 2;
 }
-
 void Triangle::hbah()
 {
 	base = base * 0.5;
 	height = height * 0.5;
 }
-
 void Triangle::resizeUp()
 {
 

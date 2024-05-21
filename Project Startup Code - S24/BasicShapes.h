@@ -24,6 +24,7 @@ public:
 	virtual int getblockbase()override;
 	virtual void save(ofstream& OutFile) override;
 	virtual void load(ifstream& Infile) override;
+	~Rect();
 };
 
 
@@ -49,6 +50,7 @@ public:
 	virtual int getblockbase()override;
 	virtual void save(ofstream& OutFile) override;
 	virtual void load(ifstream& Infile) override;
+	~circle();
 };
 
 
@@ -78,4 +80,5 @@ public:
 	virtual int getblockbase()override;
 	virtual void save(ofstream& OutFile) override;
 	virtual void load(ifstream& Infile) override;
+	~Triangle();
 };

@@ -25,7 +25,11 @@ class game
 	shape** shapelist;
 	int step;
 	int scorestep;
+	int maxtime = 10;
 	long int givens = 0;
+	bool timed;
+	int actiontime = 0;
+	bool rectangleCaptured = false;
 
 public:
 	game();
@@ -37,7 +41,6 @@ public:
 	void printMessage(string msg) const;	//Print a message on Status bar
 	void createToolBar();		//creates the toolbar
 	void createGrid();		//creates the shapes grid
-	
 	void slevel();
 	void countsteps();
 	void incrementsteps();
@@ -56,9 +59,11 @@ public:
 	operation* createRequiredOperation(toolbarItem clickedItem);
 	void setendhint(int, shape*);
 	void updatelevel();
-
-
+	void stimed();
 	void run();	//start the game
+	void powerup();
+	int getRandomNumber();
+	bool IsRectangleCaptured(int, int, int, int, int, int);
 
 };
 

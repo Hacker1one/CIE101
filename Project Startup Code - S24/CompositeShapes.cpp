@@ -18,6 +18,12 @@ Sign::Sign(game* r_pGame, point ref, color fillcolor) :shape(r_pGame, ref)
 	saved = false;
 
 }
+Sign::~Sign() {
+	delete top;
+	delete base;
+	top = nullptr;
+	base = nullptr;
+}
 void Sign::draw()
 {
 
@@ -33,11 +39,6 @@ void Sign::draw()
 
 
 }
-//void Sign::save(ofstream& OutFile)
-//{
-//	OutFile.open("progress.txt");
-//	OutFile << SIGN << "\n" << topRef.x << "\n" << topRef.y << "\n" << fillColor.ucRed << "\n" << fillColor.ucGreen << "\n" << fillColor.ucBlue << "\n" << resized << "\n" << rotated << "\n";
-//}
 void Sign::Flip() {
 	if (!flipped) {
 		axis = RefPoint.x - top->getwidth() / 2;
@@ -315,6 +316,14 @@ pointerToAball::pointerToAball(game* r_pGame, point ref, color fillcolor) :shape
 	saved = false;
 	ptrtip->Rotate();
 }
+pointerToAball::~pointerToAball() {
+	delete Ptrbdy;
+	delete ptrtip;
+	delete ball;
+	ball = nullptr;
+	ptrtip = nullptr;
+	Ptrbdy = nullptr;
+}
 void pointerToAball::draw()
 {
 	Ptrbdy->setRefPoint(ptrbdyref);
@@ -329,10 +338,6 @@ void pointerToAball::draw()
 
 	ptrtip->draw();
 }
-//void pointerToAball::save(ofstream& OutFile)
-//{
-//	OutFile << POINTER << "\n" << ptrtipref.x << "\n" << ptrtipref.y << "\n" << fillColor.ucRed << "\n" << fillColor.ucGreen << "\n" << fillColor.ucBlue << "\n" << resized << "\n" << rotated << "\n";
-//}
 void pointerToAball::Flip() {
 	if (!flipped) {
 		axis = RefPoint.x - (Ptrbdy->getwidth() + ptrtip->getheight() / 2);
@@ -641,7 +646,6 @@ void pointerToAball::resizeDown() {
 		}
 	}
 }
-
 int pointerToAball::getblockbase() {
 	return ptrtip->getheight() + ball->getradius() * 2 + Ptrbdy->getwidth();
 }
@@ -702,6 +706,12 @@ standingball::standingball(game* r_pGame, point ref, color fillcolor) :shape(r_p
 	saved = false;
 
 }
+standingball::~standingball() {
+	delete stand;
+	delete ball;
+	ball = nullptr;
+	stand = nullptr;
+}
 void  standingball::draw() {
 	stand->setRefPoint(standref);
 	ball->setRefPoint(ballref);
@@ -713,11 +723,6 @@ void  standingball::draw() {
 
 
 }
-//void standingball::save(ofstream& OutFile)
-//{
-//	OutFile << STDBALL << "\n" << standref.x << "\n" << standref.y << "\n" << fillColor.ucRed << "\n" << fillColor.ucGreen << "\n" << fillColor.ucBlue << "\n" << resized << "\n" << rotated << "\n";
-//}
-
 void standingball::Flip() {
 	if (!flipped) {
 		axis = RefPoint.x - stand->getwidth() / 2;
@@ -1016,6 +1021,20 @@ strawman::strawman(game* r_pGame, point ref, color fillcolor) :shape(r_pGame, re
 	resized = 0;
 	saved = false;
 }
+strawman::~strawman() {
+	delete hand1;
+	delete hand2;
+	delete Face;
+	delete body;
+	delete Leg2;
+	delete Leg1;
+	hand1 = nullptr;
+	hand2 = nullptr;
+	Leg1 = nullptr;
+	Leg2 = nullptr;
+	Face = nullptr;
+	body = nullptr;
+}
 void strawman::draw()
 {
 
@@ -1039,10 +1058,6 @@ void strawman::draw()
 	Leg1->setcolor(fillColor);
 	Leg2->setcolor(fillColor);
 }
-//void strawman::save(ofstream& OutFile)
-//{
-//	OutFile << MAN << "\n" << bodyref.x << "\n" << bodyref.y << "\n" << fillColor.ucRed << "\n" << fillColor.ucGreen << "\n" << fillColor.ucBlue << "\n" << resized << "\n" << rotated << "\n";
-//}
 void strawman::Flip() {
 	if (!flipped) {
 		axis = RefPoint.x - hand1->getwidth();
@@ -1705,6 +1720,16 @@ Gun::Gun(game* r_pGame, point ref, color fillcolor) :shape(r_pGame, ref)
 	resized = 0;
 	saved = false;
 }
+Gun::~Gun() {
+	delete bullet1;
+	delete bullet2;
+	delete body;
+	delete hand;
+	hand = nullptr;
+	body = nullptr;
+	bullet1 = nullptr;
+	bullet2 = nullptr;
+}
 void Gun::draw()
 {
 	body->setRefPoint(bodyref);
@@ -2138,6 +2163,12 @@ house::house(game* r_pGame, point ref, color fillcolor) :shape(r_pGame, ref)
 	resized = 0;
 	saved = false;
 }
+house::~house() {
+	delete roof;
+	delete body;
+	body = nullptr;
+	roof = nullptr;
+}
 void house::draw()
 {
 
@@ -2500,6 +2531,14 @@ balance::balance(game* r_pGame, point ref, color fillcolor) :shape(r_pGame, ref)
 	resized = 0;
 	saved = false;
 }
+balance::~balance() {
+	delete circ;
+	delete rec;
+	delete tri;
+	circ = nullptr;
+	tri = nullptr;
+	rec = nullptr;
+}
 void balance::draw()
 {
 
@@ -2827,7 +2866,6 @@ void balance::resizeDown()
 		}
 	}
 }
-
 int balance::getblockbase() {
 	return  rec->getwidth();
 }
